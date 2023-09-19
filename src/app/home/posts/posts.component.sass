@@ -1,0 +1,60 @@
+
+@import "../../sass/variables"
+
+.desing-bar
+  margin: $spaces-betwen-windows
+
+
+.border-radius
+  border-radius: 14px
+
+  box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+  -webkit-box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+  -moz-box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+
+  padding: $spaces-betwen-windows
+
+.button-switcher-l
+  color: black
+  background-color: $secondary-color
+  padding: $button-padding
+  border-radius: 14px 0 0 14px
+  border: unset
+
+.button-switcher-r
+  color: black
+  background-color: $secondary-color
+  padding: $button-padding
+  border-radius: 0 14px 14px 0
+  border: unset
+
+
+
+.button-switcher-l:active
+  color: black
+  background-color: black
+
+  transition: 0.2s
+
+.button-switcher-l:hover
+  color: white
+  background-color: $main-color
+
+  transition: 0.3s
+
+.button-switcher-r:active
+  color: black
+  background-color: black
+
+  transition: 0.2s
+
+.button-switcher-r:hover
+  color: white
+  background-color: $main-color
+
+  transition: 0.3s
+
+.button-switcher-l, .button-switcher-r > .active
+  color: black
+  background-color: $main-color
+

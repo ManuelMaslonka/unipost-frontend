@@ -1,0 +1,43 @@
+<div class="nav-bar-design">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary border-radius">
+    <div class="container-fluid">
+
+      <a class="navbar-brand"
+         href="#"><img alt="logo"
+                       ngSrc="./assets/images/ExportLogoPng512-02.png"
+                       priority="false"
+                       height="50"
+                       width="50"></a>
+
+      <div class="d-flex justify-content-around">
+
+        {{ pageHome }}
+
+      </div>
+
+
+      <div ngbDropdown class="dropdown">
+        <button ngbDropdownToggle
+          class="dropdown-toggle reset"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+        >
+          Hi, {{ userName }}
+          <img ngSrc="{{ imageSrc }}"
+               height="48"
+               width="48"
+               alt="profile picture"
+               style="border-radius: 100%"
+          >
+        </button>
+        <ul ngbDropdownMenu class="dropdown-menu">
+          <li><a ngbDropdownItem class="dropdown-item"
+                 href="#">Log out</a></li>
+        </ul>
+      </div>
+
+
+    </div>
+  </nav>
+</div>

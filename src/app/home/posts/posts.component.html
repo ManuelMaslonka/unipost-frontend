@@ -1,0 +1,17 @@
+<div class="desing-bar">
+  <div class="border-radius">
+
+    <div class="d-flex justify-content-center" style="margin-top: 1em">
+      <button class="btn btn-primary button-switcher-l active">
+        Followed
+      </button>
+
+      <button class="btn btn-primary button-switcher-r">
+        All
+      </button>
+    </div>
+
+    <app-post *ngFor="let postElement of posts; index as i" [postId]="i" [post]="postElement"></app-post>
+
+  </div>
+</div>
