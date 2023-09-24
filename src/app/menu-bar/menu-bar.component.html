@@ -1,11 +1,41 @@
+<div class="desing-bar">
+  <div class="border-radius">
 
-    <div class="desing-bar">
-      <div class="border-radius">
+    <ul class="list-group">
+      <a
+        [routerLink]="['home']"
+        class="list-group-item list-group-item-action"
+        aria-current="true"
+        routerLinkActive="active"
+      >
+        Home
+      </a>
+      <a
+        [routerLink]="['settings']"
+        class="list-group-item list-group-item-action"
+        aria-current="true"
+        routerLinkActive="active"
+      >
+        Settings
+      </a>
+      <a
+        [routerLink]="['profile']"
+        class="list-group-item list-group-item-action"
+        aria-current="true"
+        routerLinkActive="active"
+      >
+        Profile
+      </a>
+      <a
+        [routerLink]="['search']"
+        class="list-group-item list-group-item-action"
+        aria-current="true"
+        routerLinkActive="active"
+      >
+        Search
+      </a>
+    </ul>
 
-        <ul class="list-group">
-          <app-menu-item *ngFor="let itemElement of menubarItem" [item]="itemElement"></app-menu-item>
-        </ul>
-
-      </div>
-    </div>
+  </div>
+</div>
 

@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {
+  ActivatedRoute,
+  Data
+}                  from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
@@ -6,8 +10,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.sass']
 })
 export class NavbarComponent {
-  userName: string= "Manuel";
+  userName: string = "Manuel";
   imageSrc: string = "assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg";
-  pageHome: string = "Home";
+
+
+  constructor(private route: ActivatedRoute) {
+
+  }
 
 }

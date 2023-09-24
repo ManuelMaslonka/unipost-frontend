@@ -8,9 +8,4 @@ import {MenuItem}    from "./menu-item.model";
 })
 export class MenuBarComponent {
 
-  menubarItem: MenuItem[]= [
-    new MenuItem("Home"),
-    new MenuItem("Setting"),
-    new MenuItem("Profile")
-  ];
 }
