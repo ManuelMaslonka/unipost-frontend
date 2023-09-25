@@ -1,7 +1,8 @@
 import {
   Component,
+  inject,
   Input
-}                     from '@angular/core';
+} from '@angular/core';
 import {Comment}      from "./comment.model";
 import {PostsService} from "../../posts.service";
 
@@ -25,8 +26,7 @@ export class CommentComponent {
   isDisliked: boolean = false;
   isClicked: boolean = false
 
-  constructor(private postsService: PostsService) {
-  }
+  postsService: PostsService = inject(PostsService)
 
   onSwitchLike(like: string) {
 

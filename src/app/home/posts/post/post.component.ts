@@ -1,7 +1,8 @@
 import {
   Component,
+  inject,
   Input
-}                     from '@angular/core';
+} from '@angular/core';
 import {Post}         from "./post.model";
 import {PostsService} from "../posts.service";
 
@@ -23,8 +24,7 @@ export class PostComponent {
   @Input()
   postId!: number;
 
-  constructor(private postsService: PostsService) {
-  }
+  postsService: PostsService = inject(PostsService)
 
   onSwitchLike(like: string) {
 
