@@ -3,12 +3,13 @@
 
     <ul class="list-group">
       <a
-        [routerLink]="['home']"
+        [routerLink]="['posts']"
         class="list-group-item list-group-item-action"
         aria-current="true"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
       >
-        Home
+        Posts
       </a>
       <a
         [routerLink]="['settings']"

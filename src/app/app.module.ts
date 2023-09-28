@@ -21,6 +21,8 @@ import {CreateCommentComponent} from './home/posts/post/create-comment/create-co
 import { SettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SearchComponent } from './search/search.component';
+import { AuthComponent } from './auth/auth.component';
+import {ReactiveFormsModule}    from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -38,12 +40,14 @@ import { SearchComponent } from './search/search.component';
     SettingsComponent,
     ProfileComponent,
     SearchComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgOptimizedImage,
     NgbModule,
+    ReactiveFormsModule,
     NgbCollapseModule
   ],
   providers: [],
