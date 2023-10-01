@@ -10,11 +10,20 @@ import {SearchComponent}   from "./search/search.component";
 import {authGuard}         from "./auth/auth-guard";
 import {AuthComponent}     from "./auth/auth.component";
 import {PostsComponent}    from "./home/posts/posts.component";
+import {LoginComponent}    from "./auth/login/login.component";
+import {RegisterComponent} from "./auth/register/register.component";
 
 const routes: Routes = [
-  {path: 'auth', component: AuthComponent},
   {
-    path: '', component: HomeComponent, canActivate: [],children: [
+    path: 'auth',
+    component: AuthComponent,
+    children: [
+      {path: 'login', component: LoginComponent},
+      {path: 'registration', component: RegisterComponent}
+    ]
+  },
+  {
+    path: '', component: HomeComponent, canActivate: [authGuard], children: [
       {path: 'posts', component: PostsComponent},
       {path: 'settings', component: SettingsComponent},
       {path: 'profile', component: ProfileComponent},

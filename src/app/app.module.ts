@@ -23,6 +23,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { SearchComponent } from './search/search.component';
 import { AuthComponent } from './auth/auth.component';
 import {ReactiveFormsModule}    from "@angular/forms";
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import {ReactiveFormsModule}    from "@angular/forms";
     ProfileComponent,
     SearchComponent,
     AuthComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
