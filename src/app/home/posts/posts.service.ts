@@ -1,8 +1,5 @@
-import {
-    EventEmitter,
-    Injectable
-}                from "@angular/core";
-import {Post}    from "./post/post.model";
+import {Injectable} from "@angular/core";
+import {Post} from "./post/post.model";
 import {Comment} from "./post/comment/comment.model";
 import {Subject} from "rxjs";
 

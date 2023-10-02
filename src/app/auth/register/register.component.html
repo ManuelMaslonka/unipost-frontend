@@ -1,15 +1,36 @@
-<form>
+<form [formGroup]="form" (ngSubmit)="onRegister()">
   <label
-    for="username"
-    class="form-label">UserName</label>
+    for="nickName"
+    class="form-label">Nick Name</label>
   <input
-    id="username"
-    name="username"
+    id="nickName"
+    name="nickName"
     type="text"
-    formControlName="username"
+    formControlName="nickName"
     class="form-control">
+<span class="form-text d-block" *ngIf="nickName?.invalid && nickName?.touched">This name need to be valid</span>
   <label
-    for="username"
+    for="firstName"
+    class="form-label">First Name</label>
+  <input
+    id="firstName"
+    name="firstName"
+    type="text"
+    formControlName="firstName"
+    class="form-control">
+  <span class="form-text d-block" *ngIf="firstName?.invalid && firstName?.touched">This first Name need to be valid</span>
+  <label
+    for="lastName"
+    class="form-label">Last Name</label>
+  <input
+    id="lastName"
+    name="lastName"
+    type="text"
+    formControlName="lastName"
+    class="form-control">
+  <span class="form-text d-block" *ngIf="lastName?.invalid && lastName?.touched">This LastName need to be valid</span>
+  <label
+    for="password"
     class="form-label">Password</label>
   <input
     id="password"
@@ -17,5 +38,49 @@
     type="password"
     formControlName="password"
     class="form-control">
-  <button class="btn btn-success mt-3" type="submit">Log in</button>
+  <span class="form-text d-block" *ngIf="password?.invalid && password?.touched">This password need to be valid</span>
+  <label
+    for="email"
+    class="form-label">Email</label>
+  <input
+    id="email"
+    name="email"
+    type="email"
+    formControlName="email"
+    class="form-control">
+  <span class="form-text d-block" *ngIf="email?.invalid && email?.touched">This email need to be valid</span>
+  <label
+    for="country"
+    class="form-label">Country</label>
+  <input
+    id="country"
+    name="country"
+    type="text"
+    formControlName="country"
+    class="form-control">
+  <span class="form-text d-block" *ngIf="country?.invalid && country?.touched">This country need to be valid</span>
+  <label
+    for="faculty"
+    class="form-label">Faculty</label>
+  <select class="form-control" id="faculty">
+    <option value="FEIT">FEIT</option>
+    <option value="FBI">FBI</option>
+    <option value="FRI">FRI</option>
+  </select>
+  <span class="form-text d-block" *ngIf="faculty?.invalid && faculty?.touched">This Faculty need to be valid</span>
+  <label class="form-label">Gender</label>
+  <div
+    class="form-control"
+    *ngFor="let gender of genders">
+    <label>
+      <input
+        type="radio"
+        formControlName="gender"
+        [value]="gender">{{gender}}
+    </label>
+  </div>
+  <span class="form-text d-block" *ngIf="gender?.invalid && gender?.touched">This LastName need to be valid</span>
+
+
+  <button class="btn btn-success mt-3" type="submit">Register</button>
 </form>
