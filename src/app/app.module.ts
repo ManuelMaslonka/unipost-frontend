@@ -25,6 +25,7 @@ import { AuthComponent } from './auth/auth.component';
 import {ReactiveFormsModule}    from "@angular/forms";
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { RegisterComponent } from './auth/register/register.component';
     NgOptimizedImage,
     NgbModule,
     ReactiveFormsModule,
-    NgbCollapseModule
+    NgbCollapseModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

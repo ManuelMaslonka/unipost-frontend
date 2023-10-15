@@ -1,19 +1,19 @@
 <form [formGroup]="LogInFrom" (ngSubmit)="onSubmit()">
   <label
-    for="username"
-    class="form-label">UserName</label>
+    for="email"
+    class="form-label">Email</label>
   <input
-    id="username"
-    name="username"
-    type="text"
-    formControlName="username"
+    id="email"
+    name="email"
+    type="email"
+    formControlName="email"
     class="form-control">
   <label
-    for="username"
+    for="password"
     class="form-label">Password</label>
   <input
     id="password"
-    name="username"
+    name="password"
     type="password"
     formControlName="password"
     class="form-control">
@@ -21,3 +21,5 @@
 </form>
   <button class="btn btn-primary mt-3 text-end" type="button" (click)="onRegister()"> Register </button>
     <a [routerLink]="['/auth/registration']" > Register</a>
+
+
