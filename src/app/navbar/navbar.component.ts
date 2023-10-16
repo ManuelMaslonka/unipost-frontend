@@ -1,21 +1,40 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {
-  ActivatedRoute,
-  Data
-}                  from "@angular/router";
+    ActivatedRoute,
+    Data
+} from "@angular/router";
+import {AuthService} from "../auth/auth.service";
+import {User} from "../shared/user.model";
+import {Subscription} from "rxjs";
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.sass']
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.sass']
 })
-export class NavbarComponent {
-  userName: string = "Manuel";
-  imageSrc: string = "assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg";
+export class NavbarComponent implements OnInit, OnDestroy{
+
+    userSubscription: Subscription = new Subscription();
+    user?: User;
+    // todo image source create
+    imageSrc: string = "assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg";
 
 
-  constructor(private route: ActivatedRoute) {
+    constructor(private route: ActivatedRoute,
+                private authService: AuthService) {
+    }
 
-  }
+    ngOnInit() {
+        this.userSubscription = this.authService.user.subscribe(
+            (user: User) => {
+                this.user = user;
+            }
+        )
+        console.log(this.user);
+    }
+
+    ngOnDestroy(): void {
+        this.userSubscription.unsubscribe();
+    }
 
 }

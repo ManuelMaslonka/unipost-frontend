@@ -6,25 +6,22 @@
         <img ngSrc="./assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg"
              width="34"
              height="34"
-             alt="{{comment?.author}}_profile_picture"
+             alt="{{comment.author.firstName + comment.author.lastName | uppercase}}_profile_picture"
              class="profile-picture-post-comment"
         >
 
-        <p class="profile-name-post-comment">{{comment?.author}}</p>
+        <p class="profile-name-post-comment">{{comment.author.firstName + comment.author.lastName}}</p>
         <p class="post-edit">...</p>
       </div>
 
       <p class="text-size">
-        {{comment?.content}}
+        {{comment.description}}
       </p>
 
       <div class="d-flex justify-content-end align-items-end likes">
         <button class="btn btn-like"
-                (click)="onSwitchLike('Like')"
-                [ngClass]="{'active-like':isLiked}">{{ comment?.likesUp }}</button>
-        <button class="btn btn-dislike"
-                (click)="onSwitchLike('Dislike')"
-                [ngClass]="{'active-dislike': isDisliked}">{{comment?.likesDown }}</button>
+                (click)="onLikeUp()"
+                [ngClass]="{'active-like':isLiked}">{{ comment.likeCount }}</button>
       </div>
 
 

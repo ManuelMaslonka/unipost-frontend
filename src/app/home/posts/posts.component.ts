@@ -20,6 +20,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   postsService: PostsService = inject(PostsService)
 
+
   ngOnInit() {
     this.posts = this.postsService.getPosts();
     this.subscription = this.postsService.postsChanged.subscribe(
@@ -27,6 +28,7 @@ export class PostsComponent implements OnInit, OnDestroy {
         this.posts = posts;
       }
     )
+    this.postsService.getPostByHttp();
   }
 
   ngOnDestroy() {

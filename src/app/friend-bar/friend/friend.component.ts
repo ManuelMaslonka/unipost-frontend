@@ -1,8 +1,5 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
-import {Friend}      from "../friend.model";
+import {Component, Input} from '@angular/core';
+import {User} from "../../shared/user.model";
 
 @Component({
   selector: 'app-friend',
@@ -11,6 +8,6 @@ import {Friend}      from "../friend.model";
 })
 export class FriendComponent {
 
-  @Input() friend!: Friend;
+  @Input() friend!: User;
 
 }

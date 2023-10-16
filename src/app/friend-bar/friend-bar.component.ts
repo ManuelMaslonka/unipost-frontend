@@ -1,12 +1,8 @@
-import {
-  Component,
-  inject,
-  OnDestroy,
-  OnInit
-}                       from '@angular/core';
-import {Friend}         from "./friend.model";
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FriendsService} from "./friends.service";
-import {Subscription}   from "rxjs";
+import {Subscription} from "rxjs";
+import {AuthService} from "../auth/auth.service";
+import {User} from "../shared/user.model";
 
 @Component({
   selector: 'app-friend-bar',
@@ -14,10 +10,11 @@ import {Subscription}   from "rxjs";
   styleUrls: ['./friend-bar.component.sass']
 })
 export class FriendBarComponent implements OnInit, OnDestroy {
-  friends: Friend[] = []
+  friends: User[] = []
   subscription: Subscription = new Subscription();
 
   friendsService: FriendsService = inject(FriendsService)
+  authService: AuthService = inject(AuthService)
 
   ngOnInit() {
     this.friends = this.friendsService.getFriends();
@@ -25,6 +22,11 @@ export class FriendBarComponent implements OnInit, OnDestroy {
       (friends) => {
         this.friends = friends;
       }
+    )
+    this.authService.user.subscribe(
+        user => {
+          this.friendsService.getFriendsByHttp(user.userId)
+        }
     )
   }
 

@@ -1,50 +1,43 @@
 import {
   Component,
   inject,
-  Input
+  Input, OnInit
 } from '@angular/core';
 import {Post}         from "./post.model";
 import {PostsService} from "../posts.service";
+import {AuthService} from "../../../auth/auth.service";
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.sass']
 })
-export class PostComponent {
+export class PostComponent implements OnInit{
 
   @Input()
   post?: Post;
 
   isLiked: boolean = false;
-  isDisliked: boolean = false;
-  isClicked: boolean = false
   isCollapsed: boolean = true;
 
   @Input()
   postId!: number;
 
-  postsService: PostsService = inject(PostsService)
+  constructor(private postsService: PostsService,
+            ) {
+  }
+  ngOnInit(): void {
+  }
 
-  onSwitchLike(like: string) {
+  onLikeUp() {
+    this.isLiked = !this.isLiked;
 
-    let direction: boolean = like === 'Like'
-
-    if (this.postsService.postsList[this.postId].liked && this.postsService.postsList[this.postId].direction === like) {
+    if (!this.isLiked) {
+      this.postsService.likeDown(this.postId);
       return
-    }
-
-    this.postsService.liked(direction, this.postId)
-    if (like === 'Like') {
-      this.isClicked = true;
-      this.isLiked = true;
-      this.isDisliked = false;
-    } else if (like === 'Dislike') {
-      this.isClicked = true;
-      this.isLiked = false;
-      this.isDisliked = true;
     } else {
-      this.isClicked = false;
+      this.postsService.likeUp(this.postId);
     }
   }
+
 }

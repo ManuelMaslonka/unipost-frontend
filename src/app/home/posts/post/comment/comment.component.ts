@@ -1,53 +1,43 @@
 import {
-  Component,
-  inject,
-  Input
+    Component,
+    inject,
+    Input, OnInit
 } from '@angular/core';
-import {Comment}      from "./comment.model";
+import {Comment} from "./comment.model";
 import {PostsService} from "../../posts.service";
 
 @Component({
-  selector: 'app-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.sass']
+    selector: 'app-comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.sass']
 })
-export class CommentComponent {
+export class CommentComponent implements OnInit {
 
-  @Input()
-  comment?: Comment;
+    @Input()
+    comment!: Comment;
 
-  @Input()
-  commentId!: number;
+    @Input()
+    commentId!: number;
 
-  @Input()
-  postId!: number;
+    @Input()
+    postId!: number;
 
-  isLiked: boolean = false;
-  isDisliked: boolean = false;
-  isClicked: boolean = false
+    isLiked: boolean = false;
+    isClicked: boolean = false
 
-  postsService: PostsService = inject(PostsService)
+    postsService: PostsService = inject(PostsService)
 
-  onSwitchLike(like: string) {
-
-    let direction: boolean = like === 'Like'
-
-    if (this.postsService.postsList[this.postId].comment[this.commentId].liked && this.postsService.postsList[this.postId].comment[this.commentId].direction === like) {
-      return
+    ngOnInit(): void {
     }
 
-    this.postsService.likedComment(direction, this.postId, this.commentId)
-    if (like === 'Like') {
-      this.isClicked = true;
-      this.isLiked = true;
-      this.isDisliked = false;
-    } else if (like === 'Dislike') {
-      this.isClicked = true;
-      this.isLiked = false;
-      this.isDisliked = true;
-    } else {
-      this.isClicked = false;
-    }
-  }
 
+    onLikeUp() {
+        if (!this.isLiked) {
+            this.isLiked = true
+            this.postsService.commentLikeUp(this.postId, this.commentId);
+        } else {
+            this.postsService.commentLikeDown(this.postId, this.commentId);
+            this.isLiked = false
+        }
+    }
 }

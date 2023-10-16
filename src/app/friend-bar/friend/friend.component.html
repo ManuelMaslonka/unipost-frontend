@@ -3,12 +3,12 @@
    aria-current="true">
   <div class="d-lex justify-content-center">
 
-    <img ngSrc="{{ friend.imagePath}}"
+    <img ngSrc="{{ friend.imageUrl}}"
          alt="picture Of friend"
          width="42"
          height="42"
          class="images-for-friends">
 
-    {{friend.name}}
+    {{friend.firstName + " " + friend.lastName}}
   </div>
 </a>

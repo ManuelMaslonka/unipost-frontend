@@ -1,27 +1,53 @@
-import {Injectable} from "@angular/core";
-import {Friend}     from "./friend.model";
-import {Subject}    from "rxjs";
-import {Post}       from "../home/posts/post/post.model";
+import {Injectable, OnInit} from "@angular/core";
+import {Subject} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {AuthService} from "../auth/auth.service";
+import {User} from "../shared/user.model";
 
 @Injectable({
     providedIn: 'root'
 })
-export class FriendsService {
-    friendsChanged: Subject<Friend[]> = new Subject<Friend[]>();
+export class FriendsService implements OnInit{
 
-    friends: Friend[] = [
-        new Friend("./assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg", "Manuel Mašlonka"),
-        new Friend("./assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg", "Manuel Mašlonka"),
-        new Friend("./assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg", "Manuel Mašlonka"),
-        new Friend("./assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg", "Manuel Mašlonka"),
-        new Friend("./assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg", "Manuel Mašlonka")
-    ]
+    private baseUrl: string = 'http://localhost:8080';
+
+    user!: User;
+    friends: User[] = [];
+    friendsChanged: Subject<User[]> = new Subject<User[]>();
+
+
+    constructor(private http: HttpClient,
+                private authService: AuthService) {
+    }
+
+    ngOnInit(): void {
+        this.authService.user.subscribe(
+            (user) => {
+                this.user = user
+                console.log(user)
+            }
+        )
+    }
+
+
+
+    getFriendsByHttp(userId: number) {
+
+        this.http.post<User[]>(
+            this.baseUrl + "/users/friends/" + userId, {}
+        ).subscribe(resData => {
+            this.friends = resData;
+            this.updatedFriends()
+        })
+    }
 
     updatedFriends(): void {
         this.friendsChanged.next(this.friends.slice());
     }
 
-    getFriends(): Friend[] {
+    getFriends(): User[] {
         return this.friends
     }
+
+
 }

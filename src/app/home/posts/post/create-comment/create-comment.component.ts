@@ -1,32 +1,45 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  ViewChild
-}                     from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PostsService} from "../../posts.service";
-import {Comment}      from "../comment/comment.model";
+import {Comment} from "../comment/comment.model";
+import {User} from "../../../../shared/user.model";
+import {Subscription} from "rxjs";
+import {AuthService} from "../../../../auth/auth.service";
 
 @Component({
-  selector: 'app-create-comment',
-  templateUrl: './create-comment.component.html',
-  styleUrls: ['./create-comment.component.sass']
+    selector: 'app-create-comment',
+    templateUrl: './create-comment.component.html',
+    styleUrls: ['./create-comment.component.sass']
 })
-export class CreateCommentComponent {
+export class CreateCommentComponent implements OnInit {
 
-  @ViewChild('content')
-  content!: ElementRef;
+    @ViewChild('content')
+    commentContent!: ElementRef;
 
-  @Input()
-  postId: number = 0;
+    user!: User;
+    @Input()
+    postId: number = 0;
 
-  constructor(private postsService: PostsService) {
-  }
+    constructor(private postsService: PostsService,
+                private authService: AuthService) {
+    }
 
-  addCommentToPost(content: string): void {
-    this.content.nativeElement.value = '';
-    let comment: Comment = new Comment(content, "Manuel Maslonka", 0 , 0, false, '')
-    this.postsService.addComment(this.postId, comment)
-  }
+    ngOnInit(): void {
+        this.authService.getUserByToken().subscribe(
+            user => {
+                this.user = user;
+            }
+        )
+    }
+
+    addCommentToPost(commentContent: string) {
+
+        let comment = new Comment(12, commentContent, this.postsService.getPostById(this.postId), new Date(), this.user, 1, [], this.postId, this.user.userId)
+        this.postsService.addComment(this.postId, comment);
+        this.commentContent.nativeElement.value = '';
+    }
+
 
 }
+
+
+
