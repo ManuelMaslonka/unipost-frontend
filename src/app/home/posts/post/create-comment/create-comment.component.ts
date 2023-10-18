@@ -1,8 +1,7 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {PostsService} from "../../posts.service";
 import {Comment} from "../comment/comment.model";
 import {User} from "../../../../shared/user.model";
-import {Subscription} from "rxjs";
 import {AuthService} from "../../../../auth/auth.service";
 
 @Component({
@@ -24,10 +23,12 @@ export class CreateCommentComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.authService.getUserByToken().subscribe(
-            user => {
-                this.user = user;
+        this.authService.user.subscribe(
+          user => {
+            if (user) {
+              this.user = user;
             }
+          }
         )
     }
 

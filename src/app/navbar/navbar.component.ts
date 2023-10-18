@@ -1,8 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {
-    ActivatedRoute,
-    Data
-} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../auth/auth.service";
 import {User} from "../shared/user.model";
 import {Subscription} from "rxjs";
@@ -26,11 +23,16 @@ export class NavbarComponent implements OnInit, OnDestroy{
 
     ngOnInit() {
         this.userSubscription = this.authService.user.subscribe(
-            (user: User) => {
+            user => {
+              if (user != null) {
                 this.user = user;
+              }
             }
         )
-        console.log(this.user);
+    }
+
+    onLogout() {
+      this.authService.logout();
     }
 
     ngOnDestroy(): void {

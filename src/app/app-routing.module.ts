@@ -8,8 +8,13 @@ import {AuthComponent} from "./auth/auth.component";
 import {PostsComponent} from "./home/posts/posts.component";
 import {LoginComponent} from "./auth/login/login.component";
 import {RegisterComponent} from "./auth/register/register.component";
+import {authGuard} from "./auth/auth-guard";
 
 const routes: Routes = [
+  {
+    path: 'auth',
+    redirectTo: 'auth/login'
+  },
   {
     path: 'auth',
     component: AuthComponent,
@@ -19,7 +24,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: '', component: HomeComponent, canActivate: [], children: [
+    path: '', component: HomeComponent, canActivate: [authGuard], children: [
       {path: 'posts', component: PostsComponent},
       {path: 'settings', component: SettingsComponent},
       {path: 'profile', component: ProfileComponent},

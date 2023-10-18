@@ -23,8 +23,10 @@ export class FriendsService implements OnInit{
     ngOnInit(): void {
         this.authService.user.subscribe(
             (user) => {
+              if (user) {
                 this.user = user
                 console.log(user)
+              }
             }
         )
     }

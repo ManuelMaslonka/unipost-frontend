@@ -24,9 +24,11 @@ export class FriendBarComponent implements OnInit, OnDestroy {
       }
     )
     this.authService.user.subscribe(
-        user => {
+      user => {
+        if (user) {
           this.friendsService.getFriendsByHttp(user.userId)
         }
+      }
     )
   }
 

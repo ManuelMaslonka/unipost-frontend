@@ -17,9 +17,12 @@ export class User {
     public imageUrl: string,
     public comments: Comment[],
     public follower: unknown,
-    public role: String
+    public role: String,
+    public _token: string,
+    public _refreshToken: string,
+    public _tokenExpirationTime: string,
+    public _refreshTokenExpirationTime: string
   ) {
   }
-
 
 }
