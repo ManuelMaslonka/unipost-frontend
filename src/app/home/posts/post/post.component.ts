@@ -24,9 +24,15 @@ export class PostComponent implements OnInit{
   postId!: number;
 
   constructor(private postsService: PostsService,
+              private authService: AuthService
             ) {
   }
   ngOnInit(): void {
+    this.postsService.isLiked(this.postId).subscribe(
+      isLiked => {
+        this.isLiked = isLiked
+      }
+    )
   }
 
   onLikeUp() {

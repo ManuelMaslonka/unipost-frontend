@@ -18,16 +18,16 @@ export class FriendBarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.friends = this.friendsService.getFriends();
-    this.subscription = this.friendsService.friendsChanged.subscribe(
-      (friends) => {
-        this.friends = friends;
-      }
-    )
     this.authService.user.subscribe(
       user => {
         if (user) {
           this.friendsService.getFriendsByHttp(user.userId)
         }
+      }
+    )
+    this.subscription = this.friendsService.friendsChanged.subscribe(
+      (friends) => {
+        this.friends = friends;
       }
     )
   }

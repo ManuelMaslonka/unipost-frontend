@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, catchError, tap, throwError} from "rxjs";
 import {User} from "../shared/user.model";
 import {Router} from "@angular/router";
@@ -9,12 +9,13 @@ interface AuthenticationResponse {
   refresh_token: string
   expiration_time: string,
   expiration_refresh_time: string,
+  user: User
 }
 
 @Injectable({providedIn: "root"})
 export class AuthService {
 
-  private baseUrl: string = 'http://localhost:8080/';
+  private baseUrl: string = 'http://localhost:8080/api/';
 
   isAuthenticate: boolean = false;
   access_token: string = '';
@@ -23,6 +24,7 @@ export class AuthService {
   tokenExpirationTimer: any;
   refreshTokenExpirationTimer: any;
   user = new BehaviorSubject<User | null>(null);
+  userVariable: User | null  = null;
 
   constructor(private http: HttpClient,
               private router: Router) {
@@ -49,6 +51,7 @@ export class AuthService {
         return throwError(() => err)
       }),
       tap(resData => {
+        console.log(resData);
         this.handleAuthentication(resData)
       })
     )
@@ -60,7 +63,7 @@ export class AuthService {
     this.tokenExpirationTime = data.expiration_time;
     this.refreshTokenExpirationTimer = data.expiration_refresh_time;
     this.autoLogoOut(((new Date(data.expiration_time).getTime() - new Date().getTime()) / 1000))
-    this.getUserByToken();
+    this.saveTokenToUser(data.user)
     this.setTrueAuthenticate();
     this.router.navigate(['/posts'])
   }
@@ -93,27 +96,22 @@ export class AuthService {
         user._refreshToken,
         user._tokenExpirationTime,
         user._refreshTokenExpirationTime);
-      if (loadedUser._token) {
+      if (loadedUser._tokenExpirationTime) {
         this.user.next(loadedUser);
         this.isAuthenticate = true;
-        this.autoLogoOut((new Date().getTime() - new Date(loadedUser._tokenExpirationTime).getTime()) / 1000);
+        this.autoLogoOut((new Date(loadedUser._tokenExpirationTime).getTime() - new Date().getTime()) / 1000);
       }
     }
   }
 
-  getUserByToken() {
-    this.http.post<User>(
-      this.baseUrl + "users/token", {
-        token: this.access_token
-      }
-    ).subscribe(resData => {
-      resData._token = this.access_token;
-      resData._refreshToken = this.refresh_token;
-      resData._tokenExpirationTime = this.tokenExpirationTime;
-      resData._refreshTokenExpirationTime = this.refreshTokenExpirationTimer;
-      this.setToLocalStorageUser(resData);
-      this.user.next(resData);
-    })
+  saveTokenToUser(data: User) {
+    console.log(this.access_token)
+    data._token = this.access_token;
+    data._refreshToken = this.refresh_token;
+    data._tokenExpirationTime = this.tokenExpirationTime;
+    data._refreshTokenExpirationTime = this.refreshTokenExpirationTimer;
+    this.setToLocalStorageUser(data)
+    this.user.next(data)
   }
 
   logout() {
@@ -149,4 +147,5 @@ export class AuthService {
     console.log(user)
     localStorage.setItem('userData', JSON.stringify(user));
   }
+
 }

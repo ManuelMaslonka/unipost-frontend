@@ -34,7 +34,7 @@ export class CreateCommentComponent implements OnInit {
 
     addCommentToPost(commentContent: string) {
 
-        let comment = new Comment(12, commentContent, this.postsService.getPostById(this.postId), new Date(), this.user, 1, [], this.postId, this.user.userId)
+        let comment = new Comment(12, commentContent, this.postsService.getPostById(this.postId), new Date(), this.user.firstName + " " + this.user.lastName, 1, [], this.postId, this.user.userId)
         this.postsService.addComment(this.postId, comment);
         this.commentContent.nativeElement.value = '';
     }

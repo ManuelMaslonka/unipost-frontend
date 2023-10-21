@@ -8,7 +8,7 @@ export class Comment {
       public description: string,
       public post: Post,
       public createdDate: Date,
-      public author: User,
+      public author: string,
       public likeCount: number,
       public like: any[],
       public postId?: number,

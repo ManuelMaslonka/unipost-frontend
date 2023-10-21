@@ -1,6 +1,6 @@
 import {Injectable, OnInit} from "@angular/core";
 import {Subject} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthService} from "../auth/auth.service";
 import {User} from "../shared/user.model";
 
@@ -9,7 +9,7 @@ import {User} from "../shared/user.model";
 })
 export class FriendsService implements OnInit{
 
-    private baseUrl: string = 'http://localhost:8080';
+    private baseUrl: string = 'http://localhost:8080/api/';
 
     user!: User;
     friends: User[] = [];
@@ -23,9 +23,10 @@ export class FriendsService implements OnInit{
     ngOnInit(): void {
         this.authService.user.subscribe(
             (user) => {
+              console.log("Friends Service")
               if (user) {
-                this.user = user
                 console.log(user)
+                this.user = user
               }
             }
         )
@@ -34,9 +35,8 @@ export class FriendsService implements OnInit{
 
 
     getFriendsByHttp(userId: number) {
-
-        this.http.post<User[]>(
-            this.baseUrl + "/users/friends/" + userId, {}
+        this.http.get<any>(
+            this.baseUrl + "users/friends/2"
         ).subscribe(resData => {
             this.friends = resData;
             this.updatedFriends()
