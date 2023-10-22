@@ -13,7 +13,9 @@
     </div>
 
     <div class="d-flex justify-content-end w-95">
-      <button class="btn btn-primary submit-button" (click)="onSavePostSend(postContent.value)">
+      <label>private</label>
+      <input type="checkbox" value="true" #isPrivate>
+      <button class="btn btn-primary submit-button" (click)="onSavePostSend(postContent.value, isPrivate.value)">
         Post
       </button>
 

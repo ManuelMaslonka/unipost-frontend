@@ -34,10 +34,9 @@ export class CreatePostComponent implements OnInit {
         )
     }
 
-    onSavePostSend(content: string) {
-        console.log(this.user.firstName)
+    onSavePostSend(content: string, isPrivate: string) {
+        // todo create imagePath
+        this.postsService.addPost(content, isPrivate, "123/123");
         this.postContent.nativeElement.value = '';
-        const post: Post = new Post(3, "test", "test", 1, new Date(), "asdasd/asdsa", [], [], false, this.user?.firstName + this.user?.lastName);
-        this.postsService.addPost(post);
     }
 }

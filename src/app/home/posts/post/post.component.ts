@@ -37,8 +37,8 @@ export class PostComponent implements OnInit{
 
   onLikeUp() {
     this.isLiked = !this.isLiked;
-
     if (!this.isLiked) {
+      console.log(this.post)
       this.postsService.likeDown(this.postId);
       return
     } else {
