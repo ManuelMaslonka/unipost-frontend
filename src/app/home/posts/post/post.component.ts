@@ -15,7 +15,7 @@ import {AuthService} from "../../../auth/auth.service";
 export class PostComponent implements OnInit{
 
   @Input()
-  post?: Post;
+  post!: Post;
 
   isLiked: boolean = false;
   isCollapsed: boolean = true;
@@ -28,7 +28,7 @@ export class PostComponent implements OnInit{
             ) {
   }
   ngOnInit(): void {
-    this.postsService.isLiked(this.postId).subscribe(
+    this.postsService.isLiked(this.post.postId, this.post).subscribe(
       isLiked => {
         this.isLiked = isLiked
       }
@@ -39,10 +39,10 @@ export class PostComponent implements OnInit{
     this.isLiked = !this.isLiked;
     if (!this.isLiked) {
       console.log(this.post)
-      this.postsService.likeDown(this.postId);
+      this.postsService.likeDown(this.post.postId, this.post);
       return
     } else {
-      this.postsService.likeUp(this.postId);
+      this.postsService.likeUp(this.post.postId, this.post);
     }
   }
 

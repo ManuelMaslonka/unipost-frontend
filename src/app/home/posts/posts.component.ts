@@ -3,8 +3,8 @@ import {
   inject,
   OnDestroy,
   OnInit
-}                     from '@angular/core';
-import {Post}         from "./post/post.model";
+} from '@angular/core';
+import {Post} from "./post/post.model";
 import {PostsService} from "./posts.service";
 import {Subscription} from "rxjs";
 
@@ -17,21 +17,36 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   posts: Post[] = [];
 
-  subscription: Subscription = new Subscription();
-  postsService: PostsService = inject(PostsService)
+  postSubs: Subscription = new Subscription();
+  pageSubs: Subscription = new Subscription();
+  postsService: PostsService = inject(PostsService);
+  page: number = 0;
+  pageMax: number = 0;
 
 
   ngOnInit() {
-    this.posts = this.postsService.getPosts();
-    this.subscription = this.postsService.postsChanged.subscribe(
+    this.postsService.getPostByHttpPagination(0);
+    this.postSubs = this.postsService.postsChanged.subscribe(
       (posts: Post[]) => {
         this.posts = posts;
       }
     )
-    this.postsService.getPostByHttp();
+    this.pageSubs = this.postsService.pageMax.subscribe(
+      pageMax => {
+        this.pageMax = pageMax;
+      }
+    )
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe()
+    this.postSubs.unsubscribe();
+    this.pageSubs.unsubscribe();
   }
+
+  addPosts() {
+    this.page++;
+    this.postsService.getPostByHttpPagination(this.page);
+  }
+
+
 }

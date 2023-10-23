@@ -62,7 +62,7 @@ export class AuthService {
     this.refresh_token = data.refresh_token
     this.tokenExpirationTime = data.expiration_time;
     this.refreshTokenExpirationTimer = data.expiration_refresh_time;
-    this.autoLogoOut(((new Date(data.expiration_time).getTime() - new Date().getTime()) / 1000))
+    this.autoLogoOut(((new Date(data.expiration_time).getTime() - new Date().getTime())))
     this.saveTokenToUser(data.user)
     this.setTrueAuthenticate();
     this.router.navigate(['/posts'])
@@ -99,7 +99,7 @@ export class AuthService {
       if (loadedUser._tokenExpirationTime) {
         this.user.next(loadedUser);
         this.isAuthenticate = true;
-        this.autoLogoOut((new Date(loadedUser._tokenExpirationTime).getTime() - new Date().getTime()) / 1000);
+        this.autoLogoOut((new Date(loadedUser._tokenExpirationTime).getTime() - new Date().getTime()));
       }
     }
   }
@@ -128,7 +128,7 @@ export class AuthService {
   autoLogoOut(expirationDuration: number) {
     this.tokenExpirationTimer = setTimeout(() => {
       this.logout();
-    }, expirationDuration)
+    }, expirationDuration * 1000)
   }
 
   setAccessToken(access_token: string) {

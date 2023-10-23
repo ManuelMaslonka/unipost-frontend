@@ -1,10 +1,11 @@
 import {Injectable, OnDestroy, OnInit} from "@angular/core";
 import {Post} from "./post/post.model";
 import {Comment} from "./post/comment/comment.model";
-import {map, Subject} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {BehaviorSubject, map, Subject} from "rxjs";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {AuthService} from "../../auth/auth.service";
 import {User} from "../../shared/user.model";
+import {PostPagination} from "../../shared/postPagination.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,8 @@ export class PostsService implements OnInit, OnDestroy {
   private baseUrl: string = 'http://localhost:8080/api/';
   user!: User;
   postsChanged: Subject<Post[]> = new Subject<Post[]>();
-
-  postsList: Post[] = [
-    // new Post(12, "sadasd", "asdsa", 12, new Date(), "asda/asddsa", [], [], false, "Manuel Maslonka")
-  ];
+  postsList: Post[] = []
+  pageMax = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient,
               private authService: AuthService) {
@@ -65,9 +64,31 @@ export class PostsService implements OnInit, OnDestroy {
     })
   }
 
-  likeUp(postId: number) {
-    this.postsList[postId].likeCount++;
-    postId += 1;
+  getPostByHttpPagination(page: number = 0, size: number = 5) {
+    let paramsHttp = new HttpParams();
+    paramsHttp.append("page", page);
+    paramsHttp.append("size", size);
+    console.log(paramsHttp)
+    this.http.get<PostPagination>(
+      this.baseUrl + "posts", {
+        params: new HttpParams().set("page", page).set("size", size)
+      }
+    ).subscribe(resData => {
+        console.log(resData)
+      if (page == 0) {
+        this.postsList = resData.post;
+      } else {
+        this.postsList.push(...resData.post)
+      }
+      this.pageMax.next(resData.totalPages);
+      this.updatePosts();
+    })
+  }
+
+  likeUp(postId: number, post: Post) {
+    console.log(postId)
+    console.log(post)
+    this.postsList[this.postsList.indexOf(post)].likeCount++;
     this.authService.user.subscribe(
       user => {
         if (user) {
@@ -85,9 +106,10 @@ export class PostsService implements OnInit, OnDestroy {
     )
   }
 
-  likeDown(postId: number) {
-    this.postsList[postId].likeCount--;
-    postId += 1;
+  likeDown(postId: number, post: Post) {
+
+    this.postsList[this.postsList.indexOf(post)].likeCount--;
+
     this.authService.user.subscribe(
       user => {
         if (user) {
@@ -120,11 +142,12 @@ export class PostsService implements OnInit, OnDestroy {
     this.updatePosts();
   }
 
-  isLiked(postId: number) {
+  isLiked(postId: number, post: Post) {
+    let indexOfPost = this.postsList.indexOf(post)
     return this.authService.user.pipe(map(user => {
       if (user != null) {
-        for (let i = 0; i < this.postsList[postId].likes.length; i++) {
-          if (this.postsList[postId].likes[i].userId != null && this.postsList[postId].likes[i].userId === user.userId) {
+        for (let i = 0; i < this.postsList[indexOfPost].likes.length; i++) {
+          if (this.postsList[indexOfPost].likes[i].userId === user.userId) {
             return true
           }
         }
