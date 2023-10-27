@@ -1,0 +1,51 @@
+<div class="col-lg-12">
+  <div class="desing-bar">
+    <div class="border-radius">
+
+
+      <div class="d-flex justify-content-start align-items-center flex-flow">
+        <img ngSrc="./assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg"
+             width="42"
+             height="42"
+             alt="{{post.author}}_profile_picture"
+             class="profile-picture-post"
+        >
+
+        <p class="profile-name-post">{{post.author}}</p>
+        <p class="post-edit">...</p>
+      </div>
+
+      <p class="text-size">
+        {{post.description}}
+      </p>
+
+      <div class="d-flex justify-content-end align-items-end likes">
+        <button class="btn btn-like"
+                (click)="onLikeUp()"
+                [ngClass]="{'active-like':isLiked}"
+        >{{ post.likeCount }}</button>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          class="btn-comment"
+          (click)="collapse.toggle()"
+          [attr.aria-expanded]="!isCollapsed"
+          aria-controls="collapseExample"
+        >
+          Show comments {{post.comments.length}}
+        </button>
+        <div #collapse="ngbCollapse"
+             [(ngbCollapse)]="isCollapsed">
+          <app-users-create-comments [postId]="post.postId"></app-users-create-comments>
+          <app-comment *ngFor="let commentEl of post.comments; index as i"
+                       [comment]="commentEl"
+                       [index]="i"
+                       [postId]="post.postId"></app-comment>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
