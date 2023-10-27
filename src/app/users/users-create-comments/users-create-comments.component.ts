@@ -34,6 +34,7 @@ export class UsersCreateCommentsComponent {
     }
 
     addCommentToPost(commentContent: string) {
+
         console.log('addCommentToPost')
         console.log('addCommentToPost')
         let comment = new Comment(0,
