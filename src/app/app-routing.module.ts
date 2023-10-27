@@ -9,6 +9,7 @@ import {PostsComponent} from "./home/posts/posts.component";
 import {LoginComponent} from "./auth/login/login.component";
 import {RegisterComponent} from "./auth/register/register.component";
 import {authGuard} from "./auth/auth-guard";
+import {UsersComponent} from "./users/users.component";
 
 const routes: Routes = [
   {
@@ -28,7 +29,8 @@ const routes: Routes = [
       {path: 'posts', component: PostsComponent},
       {path: 'settings', component: SettingsComponent},
       {path: 'profile', component: ProfileComponent},
-      {path: "search", component: SearchComponent}
+      {path: "search", component: SearchComponent},
+      {path: "users/:id", component: UsersComponent},
     ]
   },
 ];

@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, catchError, tap, throwError} from "rxjs";
 import {User} from "../shared/user.model";
 import {Router} from "@angular/router";
+import {Followers} from "../shared/followers.model";
 
 interface AuthenticationResponse {
   access_token: string,
@@ -90,7 +91,7 @@ export class AuthService {
         user.like,
         user.imageUrl,
         user.comments,
-        user.follower,
+        user.followers,
         user.role,
         user._token,
         user._refreshToken,
@@ -148,4 +149,9 @@ export class AuthService {
     localStorage.setItem('userData', JSON.stringify(user));
   }
 
+  getFollowingByHttp(userId: number) {
+    return this.http.get<Followers[]>(
+      this.baseUrl + 'followers/' + userId
+    )
+  }
 }

@@ -27,6 +27,11 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptorService} from "./auth/auth-interceptor.service";
+import { ProfilePostsComponent } from './profile/profile-posts/profile-posts.component';
+import { UsersComponent } from './users/users.component';
+import { UsersPostsComponent } from './users/users-posts/users-posts.component';
+import { ProfileCreateCommentComponent } from './profile/profile-create-comment/profile-create-comment.component';
+import { UsersCreateCommentsComponent } from './users/users-create-comments/users-create-comments.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +52,11 @@ import {AuthInterceptorService} from "./auth/auth-interceptor.service";
     AuthComponent,
     LoginComponent,
     RegisterComponent,
+    ProfilePostsComponent,
+    UsersComponent,
+    UsersPostsComponent,
+    ProfileCreateCommentComponent,
+    UsersCreateCommentsComponent,
   ],
   imports: [
     BrowserModule,
