@@ -62,25 +62,25 @@
   <label
     for="faculty"
     class="form-label">Faculty</label>
-  <select class="form-control" id="faculty">
+  <select class="form-select" id="faculty" formControlName="faculty" name="faculty">
     <option value="FEIT">FEIT</option>
     <option value="FBI">FBI</option>
     <option value="FRI">FRI</option>
   </select>
   <span class="form-text d-block" *ngIf="faculty?.invalid && faculty?.touched">This Faculty need to be valid</span>
   <label class="form-label">Gender</label>
-  <div
-    class="form-control"
-    *ngFor="let gender of genders">
-    <label>
-      <input
-        type="radio"
-        formControlName="gender"
-        [value]="gender">{{gender}}
-    </label>
+  <div>
+    <select name="gender"
+            class="form-select"
+            id="gender"
+    formControlName="gender"
+    >
+      <option selected value="" disabled>Select Option</option>
+      <option *ngFor="let gender of genders" [value]="gender">{{gender}}</option>
+    </select>
   </div>
   <span class="form-text d-block" *ngIf="gender?.invalid && gender?.touched">This LastName need to be valid</span>
 
 
-  <button class="btn btn-success mt-3" type="submit">Register</button>
+  <button class="btn btn-success mt-3" type="submit" [disabled]="gender?.invalid">Register</button>
 </form>
