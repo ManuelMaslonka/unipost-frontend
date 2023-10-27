@@ -38,11 +38,11 @@
         </button>
         <div #collapse="ngbCollapse"
              [(ngbCollapse)]="isCollapsed">
-          <app-create-comment [postId]="postId"></app-create-comment>
+          <app-create-comment [postId]="post.postId"></app-create-comment>
           <app-comment *ngFor="let commentEl of post.comments; index as i"
                        [comment]="commentEl"
-                       [commentId]="i"
-                       [postId]="postId">
+                      [index]="i"
+          [postId]="post.postId">
 
           </app-comment>
         </div>
