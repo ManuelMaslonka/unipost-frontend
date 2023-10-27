@@ -1,1 +1,43 @@
-<p>profile works!</p>
+<div class="container">
+  <div class="row">
+    <div class="desing-bar">
+      <div class="border-radius d-flex p-4">
+        <div class="d-flex w-50 flex-column">
+          <h4>Profile</h4>
+          <div>
+            <h3>{{user.firstName }} {{ user.lastName}}</h3>
+            Country
+            <h4>{{user.country}}</h4>
+
+            <div class="d-flex flex-row">
+
+              <div>
+                Followers
+                <h4>{{user.followers.length}}</h4>
+              </div>
+
+              <div>
+                Following
+                <h4>{{following}}</h4>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="w-50 text-end">
+          <img ngSrc="{{ imageSrc }}"
+               height="192"
+               width="192"
+               alt="profile picture"
+               style="border-radius: 100%"
+          >
+        </div>
+      </div>
+      <div class="border-radius" style="margin-top: 1rem">
+        <app-profile-posts *ngFor="let postElement of posts; index as i"
+                  [postId]="i"
+                  [post]="postElement"></app-profile-posts>
+      </div>
+    </div>
+  </div>
+</div>
