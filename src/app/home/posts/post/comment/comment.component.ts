@@ -17,27 +17,13 @@ export class CommentComponent implements OnInit {
     comment!: Comment;
 
     @Input()
-    commentId!: number;
+    index!: number;
 
     @Input()
     postId!: number;
 
-    isLiked: boolean = false;
-    isClicked: boolean = false
-
-    postsService: PostsService = inject(PostsService)
-
     ngOnInit(): void {
+
     }
 
-
-    onLikeUp() {
-        if (!this.isLiked) {
-            this.isLiked = true
-            this.postsService.commentLikeUp(this.postId, this.commentId);
-        } else {
-            this.postsService.commentLikeDown(this.postId, this.commentId);
-            this.isLiked = false
-        }
-    }
 }

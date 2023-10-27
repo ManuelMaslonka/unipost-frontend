@@ -33,10 +33,13 @@ export class CreateCommentComponent implements OnInit {
     }
 
     addCommentToPost(commentContent: string) {
-
-        let comment = new Comment(12, commentContent, this.postsService.getPostById(this.postId), new Date(), this.user.firstName + " " + this.user.lastName, 1, [], this.postId, this.user.userId)
-        this.postsService.addComment(this.postId, comment);
-        this.commentContent.nativeElement.value = '';
+      let post = this.postsService.getPostById(this.postId)
+      if (post != undefined) {
+         let comment = new Comment(0, commentContent , new Date(), this.user.firstName + " " + this.user.lastName, 0, [], this.postId, this.user.userId)
+         this.postsService.addComment(this.postId, comment);
+         this.commentContent.nativeElement.value = '';
+       }
+      this.postsService.sendCommentToBackend(commentContent, this.postId, this.user.userId).subscribe();
     }
 
 
