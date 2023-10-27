@@ -1,5 +1,6 @@
 import {Post} from "../home/posts/post/post.model";
 import {Comment} from "../home/posts/post/comment/comment.model";
+import {Followers} from "./followers.model";
 
 export class User {
 
@@ -16,7 +17,7 @@ export class User {
     public like: [],
     public imageUrl: string,
     public comments: Comment[],
-    public follower: unknown,
+    public followers: Followers[],
     public role: String,
     public _token: string,
     public _refreshToken: string,

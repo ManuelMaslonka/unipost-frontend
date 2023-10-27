@@ -15,8 +15,8 @@ export class RegisterComponent implements OnInit{
     nickName: ['', [Validators.required]],
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    password: ['', [Validators.required]],
-    email: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.min(8)]],
+    email: ['', [Validators.required, Validators.email]],
     country: ['', [Validators.required]],
     faculty: ['', [Validators.required]],
     gender: ['', [Validators.required]]
@@ -61,6 +61,11 @@ export class RegisterComponent implements OnInit{
 
 
   onRegister() {
-    console.log(this.form)
+    console.log(this.form.value)
   }
+
+  onReset() {
+    this.form.reset();
+  }
+
 }
