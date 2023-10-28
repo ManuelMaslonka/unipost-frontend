@@ -1,5 +1,5 @@
-import {Injectable, OnInit} from "@angular/core";
-import {Subject} from "rxjs";
+import {Injectable, OnDestroy, OnInit} from "@angular/core";
+import {Subject, Subscription} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthService} from "../auth/auth.service";
 import {User} from "../shared/user.model";
@@ -7,7 +7,7 @@ import {User} from "../shared/user.model";
 @Injectable({
   providedIn: 'root'
 })
-export class FriendsService implements OnInit {
+export class FriendsService implements OnInit, OnDestroy {
 
   private baseUrl: string = 'http://localhost:8080/api/';
 
@@ -15,13 +15,14 @@ export class FriendsService implements OnInit {
   friends: User[] = [];
   friendsChanged: Subject<User[]> = new Subject<User[]>();
 
+  userSubs: Subscription = new Subscription();
 
   constructor(private http: HttpClient,
               private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    this.authService.user.subscribe(
+    this.userSubs = this.authService.user.subscribe(
       (user) => {
         console.log("Friends Service")
         if (user) {
@@ -37,9 +38,8 @@ export class FriendsService implements OnInit {
     this.http.get<any>(
       this.baseUrl + "users/friends/" + userId,
     ).subscribe(resData => {
-      console.log(resData);
       this.friends = resData;
-      this.updatedFriends()
+      this.friendsChanged.next(this.friends.slice());
     })
   }
 
@@ -49,6 +49,10 @@ export class FriendsService implements OnInit {
 
   getFriends(): User[] {
     return this.friends
+  }
+
+  ngOnDestroy(): void {
+    this.userSubs.unsubscribe();
   }
 
 

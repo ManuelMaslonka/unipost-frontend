@@ -1,21 +1,25 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.sass']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
     LogInFrom: FormGroup = new FormGroup('');
     authService: AuthService = inject(AuthService)
     router: Router = inject(Router)
     fb: FormBuilder = inject(FormBuilder)
     http: HttpClient = inject(HttpClient)
+
+  // Subscription here
+    loginSub: Subscription = new Subscription();
 
     ngOnInit(): void {
         this.LogInFrom = this.fb.group({
@@ -28,10 +32,15 @@ export class LoginComponent implements OnInit {
         let email = this.LogInFrom.value.email;
         let password = this.LogInFrom.value.password;
 
-        this.authService.logIn(email, password).subscribe()
+        this.loginSub = this.authService.logIn(email, password).subscribe();
     }
 
     onRegister() {
         this.router.navigate(['./registration'])
+    }
+
+
+    ngOnDestroy() {
+        this.loginSub.unsubscribe();
     }
 }

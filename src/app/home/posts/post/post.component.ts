@@ -1,24 +1,27 @@
 import {
   Component,
   inject,
-  Input, OnInit
+  Input, OnDestroy, OnInit
 } from '@angular/core';
 import {Post}         from "./post.model";
 import {PostsService} from "../posts.service";
 import {AuthService} from "../../../auth/auth.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.sass']
 })
-export class PostComponent implements OnInit{
+export class PostComponent implements OnInit, OnDestroy{
 
   @Input()
   post!: Post;
 
   isLiked: boolean = false;
   isCollapsed: boolean = true;
+
+  isLikedSub = new Subscription();
 
   @Input()
   postId!: number;
@@ -28,7 +31,7 @@ export class PostComponent implements OnInit{
             ) {
   }
   ngOnInit(): void {
-    this.postsService.isLiked(this.post.postId, this.post).subscribe(
+    this.isLikedSub  = this.postsService.isLiked(this.post.postId, this.post).subscribe(
       isLiked => {
         this.isLiked = isLiked
       }
@@ -44,6 +47,10 @@ export class PostComponent implements OnInit{
     } else {
       this.postsService.likeUp(this.post.postId, this.post);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.isLikedSub.unsubscribe();
   }
 
 }
