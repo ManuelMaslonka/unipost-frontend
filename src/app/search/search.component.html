@@ -1,1 +1,52 @@
-<p>search works!</p>
+<div class="desing-bar">
+  <div class="border-radius">
+
+    <h3>Search User</h3>
+
+    <div class="d-flex justify-content-center margin-top w-95">
+      <form [formGroup]="searchForm"
+            (ngSubmit)="onSubmit(searchContent.value)"
+            class="w-100 d-flex"
+      >
+        <input type="text"
+               class="form-control w-75"
+               formControlName="search"
+               #searchContent>
+        <button type="submit"
+                class="btn btn-primary w-25"
+                [disabled]="search?.invalid">Search
+        </button>
+      </form>
+    </div>
+    <span class="form-text d-block"
+          *ngIf="search?.invalid && search?.touched">Minimal 3 characters</span>
+
+
+  </div>
+</div>
+
+<div class="col-lg-12 mt-3" *ngIf="isSearched">
+  <div class="desing-bar">
+    <div class="border-radius">
+
+      <div *ngFor="let user of searchedUsers"
+           class="border-radius">
+        <a [routerLink]="['../users/', user.userId]">
+
+
+          <a class="navbar-brand"
+             href="#"><img
+                           ngSrc="./assets/images/ExportLogoPng512-02.png"
+                           priority="false"
+                           height="50"
+                           width="50"></a>
+
+
+          {{user.firstName + ' ' + user.lastName}}
+
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
