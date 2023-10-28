@@ -13,6 +13,7 @@ export class User {
     public createdDated: Date,
     public country: string,
     public gender: string,
+    public faculty: string,
     public posts: Post[],
     public like: [],
     public imageUrl: string,

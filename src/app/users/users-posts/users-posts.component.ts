@@ -1,20 +1,22 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnDestroy} from '@angular/core';
 import {Post} from "../../home/posts/post/post.model";
 import {ProfileService} from "../../profile/profile.service";
 import {AuthService} from "../../auth/auth.service";
 import {UsersService} from "../users.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-users-posts',
   templateUrl: './users-posts.component.html',
   styleUrls: ['./users-posts.component.sass']
 })
-export class UsersPostsComponent {
+export class UsersPostsComponent implements OnDestroy{
   @Input()
   post!: Post;
 
   isLiked: boolean = false;
   isCollapsed: boolean = true;
+  likedSub = new Subscription();
 
   @Input()
   postId!: number;
@@ -25,7 +27,7 @@ export class UsersPostsComponent {
   }
   ngOnInit(): void {
     console.log(this.post.postId, this.postId)
-    this.usersService.isLiked(this.post.postId, this.post).subscribe(
+    this.likedSub = this.usersService.isLiked(this.post.postId, this.post).subscribe(
       isLiked => {
         this.isLiked = isLiked
       }
@@ -41,6 +43,10 @@ export class UsersPostsComponent {
     } else {
       this.usersService.likeUp(this.post.postId, this.post);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.likedSub.unsubscribe();
   }
 
 }

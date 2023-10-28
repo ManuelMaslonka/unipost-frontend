@@ -1,12 +1,12 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../shared/user.model";
-import {UsersProfile} from "./usersProfile.model";
 import {Followers} from "../shared/followers.model";
 import {Post} from "../home/posts/post/post.model";
 import {map, Subject, tap} from "rxjs";
 import {AuthService} from "../auth/auth.service";
 import {Comment} from "../home/posts/post/comment/comment.model";
+import {FriendsService} from "../friend-bar/friends.service";
 
 
 @Injectable({providedIn: 'root'})
@@ -16,7 +16,8 @@ export class UsersService {
   postsChanged: Subject<Post[]> = new Subject<Post[]>();
 
   constructor(private http: HttpClient,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private friendService: FriendsService) {
   }
 
   getUserByIdHttp(id: number) {
@@ -164,5 +165,37 @@ export class UsersService {
   setPosts(posts: Post[]) {
     this.postsList = posts;
     this.updatePosts();
+  }
+
+  unFollow(followerId: number) {
+    this.authService.user.subscribe(
+      user => {
+        if (user) {
+          this.http.post<any>(
+            this.BASE_URL + "followers/remove/" + user.userId + "/" + followerId, {}
+          ).subscribe(
+            resData => {
+              this.friendService.getFriendsByHttp(user.userId);
+            }
+          )
+        }
+      }
+    )
+  }
+
+  followUser(userId: number) {
+    this.authService.user.subscribe(
+      user => {
+        if (user) {
+          this.http.post<any>(
+            this.BASE_URL + "followers/add/" + user.userId + "/" + userId, {}
+          ).subscribe(
+            resData => {
+              this.friendService.getFriendsByHttp(user.userId);
+            }
+          )
+        }
+      }
+    )
   }
 }

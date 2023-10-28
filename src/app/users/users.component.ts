@@ -1,16 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../shared/user.model";
 import {ActivatedRoute} from "@angular/router";
 import {UsersService} from "./users.service";
 import {AuthService} from "../auth/auth.service";
 import {Post} from "../home/posts/post/post.model";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.sass']
 })
-export class UsersComponent implements OnInit{
+export class UsersComponent implements OnInit, OnDestroy {
 
   user!: User;
   posts: Post[] = [];
@@ -18,12 +19,16 @@ export class UsersComponent implements OnInit{
   following: number = 0;
   isFollowing: boolean = false;
 
+  routeSub = new Subscription();
+  postSub = new Subscription();
+
   constructor(private route: ActivatedRoute,
               private usersService: UsersService,
               private authService: AuthService) {
   }
+
   ngOnInit(): void {
-    this.route.params.subscribe(
+    this.routeSub = this.route.params.subscribe(
       params => {
         this.usersService.getUserByIdHttp(params['id']).subscribe(
           user => {
@@ -35,9 +40,9 @@ export class UsersComponent implements OnInit{
               }
             )
             this.authService.user.subscribe(
-              loginUser  => {
+              loginUser => {
                 if (loginUser) {
-                  this.usersService.getIsFollowingByHttp(loginUser.userId ,user.userId).subscribe(
+                  this.usersService.getIsFollowingByHttp(loginUser.userId, user.userId).subscribe(
                     isFollowing => {
                       this.isFollowing = isFollowing;
                     }
@@ -49,14 +54,27 @@ export class UsersComponent implements OnInit{
         )
       }
     )
-      this.usersService.postsChanged.subscribe(
-          posts => {
-              this.posts = posts;
-          }
-      )
+    this.postSub = this.usersService.postsChanged.subscribe(
+      posts => {
+        this.posts = posts;
+      }
+    )
   }
 
   switchFollow() {
+    if (this.isFollowing) {
+      this.usersService.unFollow(this.user.userId);
+      this.isFollowing = false;
+    } else {
+      this.usersService.followUser(this.user.userId);
+      this.isFollowing = true;
+    }
 
   }
+
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
+    this.postSub.unsubscribe();
+  }
+
 }

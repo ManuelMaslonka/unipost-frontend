@@ -1,16 +1,16 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
 import {User} from "../../shared/user.model";
-import {ProfileService} from "../../profile/profile.service";
 import {AuthService} from "../../auth/auth.service";
 import {Comment} from "../../home/posts/post/comment/comment.model";
 import {UsersService} from "../users.service";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-users-create-comments',
     templateUrl: './users-create-comments.component.html',
     styleUrls: ['./users-create-comments.component.sass']
 })
-export class UsersCreateCommentsComponent {
+export class UsersCreateCommentsComponent implements OnDestroy{
 
     @ViewChild('content')
     commentContent!: ElementRef;
@@ -19,12 +19,14 @@ export class UsersCreateCommentsComponent {
     @Input()
     postId: number = 0;
 
+    userSub = new Subscription();
+
     constructor(private usersService: UsersService,
                 private authService: AuthService) {
     }
 
     ngOnInit(): void {
-        this.authService.user.subscribe(
+        this.userSub =this.authService.user.subscribe(
             user => {
                 if (user) {
                     this.user = user;
@@ -48,5 +50,10 @@ export class UsersCreateCommentsComponent {
         this.usersService.addComment(comment, this.postId);
         this.commentContent.nativeElement.value = '';
 
+    }
+
+
+    ngOnDestroy(): void {
+        this.userSub.unsubscribe();
     }
 }
