@@ -87,6 +87,7 @@ export class AuthService {
         user.createdDated,
         user.country,
         user.gender,
+        user.faculty,
         user.posts,
         user.like,
         user.imageUrl,
