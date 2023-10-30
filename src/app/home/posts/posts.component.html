@@ -12,7 +12,7 @@
       </button>
     </div>
 
-    <app-post *ngFor="let postElement of posts; index as i" [postId]="i" [post]="postElement"></app-post>
+    <app-post *ngFor="let postElement of posts$ | async; index as i" [postId]="i" [post]="postElement"></app-post>
 
   </div>
 </div>

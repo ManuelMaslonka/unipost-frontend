@@ -1,11 +1,11 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, map, Subject, Subscription, tap} from "rxjs";
 import {Post} from "../home/posts/post/post.model";
 import {User} from "../shared/user.model";
 import {AuthService} from "../auth/auth.service";
 import {Comment} from "../home/posts/post/comment/comment.model";
-import {PostPagination} from "../shared/postPagination.model";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 @Injectable({providedIn: "root"})
 export class ProfileService {
@@ -22,7 +22,8 @@ export class ProfileService {
 
 
   constructor(private http: HttpClient,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -163,5 +164,26 @@ export class ProfileService {
         }
       }
     )
+  }
+
+  getImageFromBackend(imagesId: number[]) {
+    let images: Blob[] = [];
+    if (imagesId == null) {
+      return
+    }
+    imagesId.forEach(
+      id => {
+        this.http.get<Blob>(
+          this.BASE_URL + "images/" + id, {
+            responseType: 'blob' as 'json'
+          }
+        ).subscribe(
+          blob => {
+            images.push(blob);
+          }
+        )
+      }
+    )
+    return images;
   }
 }

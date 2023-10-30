@@ -3,7 +3,8 @@ import {Post} from "../../home/posts/post/post.model";
 import {ProfileService} from "../../profile/profile.service";
 import {AuthService} from "../../auth/auth.service";
 import {UsersService} from "../users.service";
-import {Subscription} from "rxjs";
+import {Observable, of, Subscription} from "rxjs";
+import {SafeUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-users-posts',
@@ -14,12 +15,12 @@ export class UsersPostsComponent implements OnDestroy{
   @Input()
   post!: Post;
 
-  isLiked: boolean = false;
+  isLiked$ = new Observable<boolean>();
   isCollapsed: boolean = true;
-  likedSub = new Subscription();
 
   @Input()
   postId!: number;
+  images: SafeUrl[] = [];
 
   constructor(private usersService: UsersService,
               private authService: AuthService
@@ -27,16 +28,16 @@ export class UsersPostsComponent implements OnDestroy{
   }
   ngOnInit(): void {
     console.log(this.post.postId, this.postId)
-    this.likedSub = this.usersService.isLiked(this.post.postId, this.post).subscribe(
-      isLiked => {
-        this.isLiked = isLiked
-      }
-    )
+    this.isLiked$ = this.usersService.isLiked(this.post.postId, this.post)
+    let images = this.usersService.getImageFromBackend(this.post.imagesId);
+    if (images != undefined) {
+      this.images = images;
+    }
   }
 
   onLikeUp() {
-    this.isLiked = !this.isLiked;
-    if (!this.isLiked) {
+    this.isLiked$ = of(!this.isLiked$);
+    if (!this.isLiked$) {
       console.log(this.post)
       this.usersService.likeDown(this.post.postId, this.post);
       return
@@ -46,7 +47,6 @@ export class UsersPostsComponent implements OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.likedSub.unsubscribe();
   }
 
 }

@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy, OnInit} from "@angular/core";
-import {Subject, Subscription} from "rxjs";
+import {BehaviorSubject, Subject, Subscription} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthService} from "../auth/auth.service";
 import {User} from "../shared/user.model";
@@ -12,8 +12,7 @@ export class FriendsService implements OnInit, OnDestroy {
   private baseUrl: string = 'http://localhost:8080/api/';
 
   user!: User;
-  friends: User[] = [];
-  friendsChanged: Subject<User[]> = new Subject<User[]>();
+  friendsChanged: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
 
   userSubs: Subscription = new Subscription();
 
@@ -35,21 +34,13 @@ export class FriendsService implements OnInit, OnDestroy {
 
 
   getFriendsByHttp(userId: number) {
-    this.http.get<any>(
+    return this.http.get<any>(
       this.baseUrl + "users/friends/" + userId,
     ).subscribe(resData => {
-      this.friends = resData;
-      this.friendsChanged.next(this.friends.slice());
+      this.friendsChanged.next(resData);
     })
   }
 
-  updatedFriends(): void {
-    this.friendsChanged.next(this.friends.slice());
-  }
-
-  getFriends(): User[] {
-    return this.friends
-  }
 
   ngOnDestroy(): void {
     this.userSubs.unsubscribe();

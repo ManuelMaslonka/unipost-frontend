@@ -13,9 +13,8 @@
     </div>
 
     <div class="d-flex justify-content-end w-95">
-      <label>private</label>
-      <input type="checkbox" value="true" #isPrivate>
-      <button class="btn btn-primary submit-button" (click)="onSavePostSend(postContent.value, isPrivate.value)">
+      <input type="file" class="file-upload" multiple (change)="onFileSelected($event)" >
+      <button class="btn btn-primary submit-button" (click)="onUpload(postContent.value)">
         Post
       </button>
 

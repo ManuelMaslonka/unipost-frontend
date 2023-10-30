@@ -6,7 +6,9 @@ import {
 import {Post}         from "./post.model";
 import {PostsService} from "../posts.service";
 import {AuthService} from "../../../auth/auth.service";
-import {Subscription} from "rxjs";
+import {first, interval, observable, Observable, of, Subscription} from "rxjs";
+import {SafeUrl} from "@angular/platform-browser";
+import {ModalDismissReasons, NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-post',
@@ -17,26 +19,34 @@ export class PostComponent implements OnInit, OnDestroy{
 
   @Input()
   post!: Post;
-
   isLiked: boolean = false;
   isCollapsed: boolean = true;
-
-  isLikedSub = new Subscription();
+  images!: SafeUrl[];
+  selectedImage!: SafeUrl;
 
   @Input()
   postId!: number;
 
+
   constructor(private postsService: PostsService,
-              private authService: AuthService
+              private modalService: NgbModal
             ) {
   }
+
+
   ngOnInit(): void {
-    this.isLikedSub  = this.postsService.isLiked(this.post.postId, this.post).subscribe(
-      isLiked => {
-        this.isLiked = isLiked
+    this.postsService.isLiked(this.post.postId, this.post).subscribe(
+      (isLiked) => {
+        this.isLiked = isLiked;
       }
-    )
+    );
+    let images = this.postsService.getImageFromBackend(this.post.imagesId);
+    if (images != undefined) {
+      this.images = images;
+      console.log(this.images)
+    }
   }
+
 
   onLikeUp() {
     this.isLiked = !this.isLiked;
@@ -50,7 +60,14 @@ export class PostComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.isLikedSub.unsubscribe();
+  }
+
+  open(content: any) {
+    this.modalService.open(content);
+  }
+
+  selectImage(image: SafeUrl) {
+    this.selectedImage = image;
   }
 
 }

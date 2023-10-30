@@ -7,6 +7,7 @@ import {map, Subject, tap} from "rxjs";
 import {AuthService} from "../auth/auth.service";
 import {Comment} from "../home/posts/post/comment/comment.model";
 import {FriendsService} from "../friend-bar/friends.service";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 
 @Injectable({providedIn: 'root'})
@@ -17,7 +18,8 @@ export class UsersService {
 
   constructor(private http: HttpClient,
               private authService: AuthService,
-              private friendService: FriendsService) {
+              private friendService: FriendsService,
+              private sanitizer: DomSanitizer) {
   }
 
   getUserByIdHttp(id: number) {
@@ -197,5 +199,28 @@ export class UsersService {
         }
       }
     )
+  }
+
+  getImageFromBackend(imagesId: number[]) {
+    let images: SafeUrl[] = [];
+    if (imagesId == null) {
+      return
+    }
+    imagesId.forEach(
+      id => {
+        this.http.get<Blob>(
+          this.BASE_URL + "images/" + id, {
+            responseType: 'blob' as 'json'
+          }
+        ).subscribe(
+          blob => {
+            let objectURL = URL.createObjectURL(blob);
+            let image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+            images.push(image);
+          }
+        )
+      }
+    )
+    return images;
   }
 }

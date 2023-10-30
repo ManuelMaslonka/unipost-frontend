@@ -8,7 +8,7 @@ export class Post {
       public description: string,
       public likeCount: number,
       public createdDate: Date,
-      public postImageUrl: string,
+      public imagesId: number[],
       public likes: Like[],
       public comments: Comment[],
       public isPrivate: boolean,

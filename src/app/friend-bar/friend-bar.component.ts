@@ -1,6 +1,6 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FriendsService} from "./friends.service";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {AuthService} from "../auth/auth.service";
 import {User} from "../shared/user.model";
 
@@ -10,14 +10,13 @@ import {User} from "../shared/user.model";
   styleUrls: ['./friend-bar.component.sass']
 })
 export class FriendBarComponent implements OnInit, OnDestroy {
-  friends: User[] = []
+  friends: Observable<User[]> = new Observable<User[]>();
   subscription: Subscription = new Subscription();
 
   friendsService: FriendsService = inject(FriendsService)
   authService: AuthService = inject(AuthService)
 
   ngOnInit() {
-    this.friends = this.friendsService.getFriends();
     this.authService.user.subscribe(
       user => {
         if (user) {
@@ -25,11 +24,8 @@ export class FriendBarComponent implements OnInit, OnDestroy {
         }
       }
     )
-    this.subscription = this.friendsService.friendsChanged.subscribe(
-      (friends) => {
-        this.friends = friends;
-      }
-    )
+    this.friends = this.friendsService.friendsChanged;
+
   }
 
   ngOnDestroy() {

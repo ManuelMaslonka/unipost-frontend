@@ -2,10 +2,11 @@ import {Injectable, OnDestroy, OnInit} from "@angular/core";
 import {Post} from "./post/post.model";
 import {Comment} from "./post/comment/comment.model";
 import {BehaviorSubject, map, Subject, Subscription, tap} from "rxjs";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {AuthService} from "../../auth/auth.service";
 import {User} from "../../shared/user.model";
 import {PostPagination} from "../../shared/postPagination.model";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,8 @@ export class PostsService implements OnInit, OnDestroy {
   private httpSub = new Subscription();
 
   constructor(private http: HttpClient,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -37,11 +39,11 @@ export class PostsService implements OnInit, OnDestroy {
     )
   }
 
-  addPost(content: string, isPrivate: string, imagePath: string) {
+  addPost(content: string, formData: FormData) {
     this.userSub = this.authService.user.subscribe(
       user => {
         if (user != null) {
-          this.sendPostToBackend(content, isPrivate, imagePath, user.userId);
+          this.sendPostToBackend(content, formData, user.userId);
         }
       }
     )
@@ -68,6 +70,7 @@ export class PostsService implements OnInit, OnDestroy {
       this.baseUrl + "posts",
     ).subscribe(resData => {
       this.postsList = resData;
+      console.log(this.postsList);
       this.updatePosts();
     })
   }
@@ -162,14 +165,13 @@ export class PostsService implements OnInit, OnDestroy {
     }))
   }
 
-  private sendPostToBackend(content: string, isPrivate: string, imagePath: string,
-                            userId: number) {
+  private sendPostToBackend(content: string, formdata: FormData, userId: number) {
+
+    formdata.append('content', content);
 
     this.httpSub = this.http.post<boolean>(
-      this.baseUrl + "posts/create/" + userId, {
-        content: content,
-        isPrivate: isPrivate,
-        imagePath: imagePath
+      this.baseUrl + "posts/create/" + userId, formdata, {
+        headers: new HttpHeaders("Content-Type: multipart/form-data")
       }
     ).subscribe(resData => {
       this.getPostByHttp()
@@ -195,5 +197,29 @@ export class PostsService implements OnInit, OnDestroy {
         }
       )
     )
+  }
+
+  getImageFromBackend(imagesId: number[]) {
+    let images: SafeUrl[] = [];
+    let imagesAndCounter: [SafeUrl, number][] = [];
+    if (imagesId == null) {
+      return
+    }
+    imagesId.forEach(
+      id => {
+        this.http.get<Blob>(
+          this.baseUrl + "images/" + id, {
+            responseType: 'blob' as 'json'
+          }
+        ).subscribe(
+          blob => {
+            let objectURL = URL.createObjectURL(blob);
+            let image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+            images.push(image);
+          }
+        )
+      }
+    )
+    return images;
   }
 }

@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import {Post} from "./post/post.model";
 import {PostsService} from "./posts.service";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-posts',
@@ -15,7 +15,7 @@ import {Subscription} from "rxjs";
 })
 export class PostsComponent implements OnInit, OnDestroy {
 
-  posts: Post[] = [];
+  posts$: Observable<Post[]> = new Observable<Post[]>();
 
   postSubs: Subscription = new Subscription();
   pageSubs: Subscription = new Subscription();
@@ -26,11 +26,7 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.postsService.getPostByHttpPagination(0);
-    this.postSubs = this.postsService.postsChanged.subscribe(
-      (posts: Post[]) => {
-        this.posts = posts;
-      }
-    )
+    this.posts$ = this.postsService.postsChanged;
     this.pageSubs = this.postsService.pageMax.subscribe(
       pageMax => {
         this.pageMax = pageMax;
