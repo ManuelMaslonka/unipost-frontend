@@ -16,10 +16,10 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   @ViewChild('content')
   commentContent!: ElementRef;
 
-  user!: User;
   @Input()
   postId: number = 0;
 
+  user!: User;
   userSub = new Subscription();
   postSub = new Subscription();
 
@@ -51,7 +51,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
       this.postsService.addComment(this.postId, comment);
       this.commentContent.nativeElement.value = '';
     }
-    this.postSub = this.postsService.sendCommentToBackend(commentContent, this.postId, this.user.userId).subscribe();
+    this.postSub = this.postsService.sendCommentToBackend(commentContent, this.postId).subscribe();
   }
 
   ngOnDestroy(): void {

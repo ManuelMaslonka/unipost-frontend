@@ -152,7 +152,7 @@ export class AuthService {
 
   getFollowingByHttp(userId: number) {
     return this.http.get<Followers[]>(
-      this.baseUrl + 'followers/' + userId
+      this.baseUrl + 'followers'
     )
   }
 }

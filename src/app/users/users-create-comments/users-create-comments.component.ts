@@ -36,9 +36,6 @@ export class UsersCreateCommentsComponent implements OnDestroy{
     }
 
     addCommentToPost(commentContent: string) {
-
-        console.log('addCommentToPost')
-        console.log('addCommentToPost')
         let comment = new Comment(0,
             commentContent,
             new Date(),

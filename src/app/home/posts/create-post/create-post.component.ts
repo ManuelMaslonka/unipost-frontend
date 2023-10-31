@@ -48,8 +48,6 @@ export class CreatePostComponent implements OnInit {
   }
 
   onUpload(content: string) {
-
-    console.log(content);
     if (this.selectedFiles != null) {
       const formData = new FormData();
       Array.from(this.selectedFiles).forEach(
@@ -57,7 +55,11 @@ export class CreatePostComponent implements OnInit {
           formData.append('files', file);
         });
       this.postsService.addPost(content, formData);
-    }
+    } else {
 
+      this.postsService.addPost(content, new FormData());
+    }
+    this.postContent.nativeElement.value = '';
+    this.selectedFiles = null;
   }
 }

@@ -63,7 +63,7 @@ export class PostComponent implements OnInit, OnDestroy{
   }
 
   open(content: any) {
-    this.modalService.open(content);
+    this.modalService.open(content, {size: 'xl', scrollable: true});
   }
 
   selectImage(image: SafeUrl) {

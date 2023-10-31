@@ -40,13 +40,7 @@ export class PostsService implements OnInit, OnDestroy {
   }
 
   addPost(content: string, formData: FormData) {
-    this.userSub = this.authService.user.subscribe(
-      user => {
-        if (user != null) {
-          this.sendPostToBackend(content, formData, user.userId);
-        }
-      }
-    )
+    this.sendPostToBackend(content, formData);
     this.getPostByHttp();
   }
 
@@ -103,7 +97,7 @@ export class PostsService implements OnInit, OnDestroy {
         if (user) {
           console.log('Starting likeUp ')
           this.http.post<boolean>(
-            this.baseUrl + "likes/add/" + user.userId + "/" + postId, {}
+            this.baseUrl + "likes/add/" + postId, {}
           ).subscribe(
             resData => {
               console.log(resData + " this is add likes")
@@ -124,7 +118,7 @@ export class PostsService implements OnInit, OnDestroy {
         if (user) {
           console.log('Starting likeUp ')
           this.http.post<boolean>(
-            this.baseUrl + "likes/remove/" + user.userId + "/" + postId, {}
+            this.baseUrl + "likes/remove/" + postId, {}
           ).subscribe(
             resData => {
               console.log(resData + " this is add likes")
@@ -165,12 +159,12 @@ export class PostsService implements OnInit, OnDestroy {
     }))
   }
 
-  private sendPostToBackend(content: string, formdata: FormData, userId: number) {
+  private sendPostToBackend(content: string, formdata: FormData) {
 
     formdata.append('content', content);
 
     this.httpSub = this.http.post<boolean>(
-      this.baseUrl + "posts/create/" + userId, formdata, {
+      this.baseUrl + "posts/create", formdata, {
         headers: new HttpHeaders("Content-Type: multipart/form-data")
       }
     ).subscribe(resData => {
@@ -186,22 +180,16 @@ export class PostsService implements OnInit, OnDestroy {
     this.httpSub.unsubscribe();
   }
 
-  sendCommentToBackend(commentContent: string, postId: number, userId: number) {
+  sendCommentToBackend(commentContent: string, postId: number) {
     return this.http.post<any>(
-      this.baseUrl + "comments/create/" + userId + "/" + postId, {
+      this.baseUrl + "comments/create/" + postId, {
         'content': commentContent
       }
-    ).pipe(
-      tap(resData => {
-
-        }
-      )
     )
   }
 
   getImageFromBackend(imagesId: number[]) {
     let images: SafeUrl[] = [];
-    let imagesAndCounter: [SafeUrl, number][] = [];
     if (imagesId == null) {
       return
     }

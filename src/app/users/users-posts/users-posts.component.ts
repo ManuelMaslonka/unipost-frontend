@@ -5,30 +5,35 @@ import {AuthService} from "../../auth/auth.service";
 import {UsersService} from "../users.service";
 import {Observable, of, Subscription} from "rxjs";
 import {SafeUrl} from "@angular/platform-browser";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-users-posts',
   templateUrl: './users-posts.component.html',
   styleUrls: ['./users-posts.component.sass']
 })
-export class UsersPostsComponent implements OnDestroy{
+export class UsersPostsComponent implements OnDestroy {
   @Input()
   post!: Post;
 
-  isLiked$ = new Observable<boolean>();
+  isLiked: boolean = false;
   isCollapsed: boolean = true;
 
   @Input()
   postId!: number;
   images: SafeUrl[] = [];
+  selectedImage!: SafeUrl;
+  isLikedSub = new Subscription();
 
   constructor(private usersService: UsersService,
-              private authService: AuthService
+              private authService: AuthService,
+              private modalService: NgbModal
   ) {
   }
+
   ngOnInit(): void {
-    console.log(this.post.postId, this.postId)
-    this.isLiked$ = this.usersService.isLiked(this.post.postId, this.post)
+    this.isLikedSub =
+      this.usersService.isLiked(this.post.postId, this.post).subscribe(isLiked => this.isLiked = isLiked)
     let images = this.usersService.getImageFromBackend(this.post.imagesId);
     if (images != undefined) {
       this.images = images;
@@ -36,8 +41,8 @@ export class UsersPostsComponent implements OnDestroy{
   }
 
   onLikeUp() {
-    this.isLiked$ = of(!this.isLiked$);
-    if (!this.isLiked$) {
+    this.isLiked = !this.isLiked;
+    if (!this.isLiked) {
       console.log(this.post)
       this.usersService.likeDown(this.post.postId, this.post);
       return
@@ -46,7 +51,17 @@ export class UsersPostsComponent implements OnDestroy{
     }
   }
 
+  open(content: any) {
+    this.modalService.open(content, {size: 'xl', scrollable: true});
+  }
+
+  selectImage(image: SafeUrl) {
+    this.selectedImage = image;
+  }
+
+
   ngOnDestroy(): void {
+    this.isLikedSub.unsubscribe();
   }
 
 }

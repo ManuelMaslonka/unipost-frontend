@@ -18,7 +18,7 @@ export class ProfileService {
   private userSub: Subscription = new Subscription();
   private userSub1: Subscription = new Subscription();
   private userSub2: Subscription = new Subscription();
-  private userSub3: Subscription = new Subscription();
+  private postSub: Subscription = new Subscription();
 
 
   constructor(private http: HttpClient,
@@ -36,9 +36,9 @@ export class ProfileService {
     )
   }
 
-  getUserPostByHttp(userId: number) {
+  getUserPostByHttp() {
     return this.http.get<Post[]>(
-      this.BASE_URL + 'posts/user/' + userId
+      this.BASE_URL + 'posts/user'
     ).pipe(
       tap(
         resData => {
@@ -64,43 +64,31 @@ export class ProfileService {
     console.log(postId)
     console.log(post)
     this.postsList[this.postsList.indexOf(post)].likeCount++;
-    this.userSub1 = this.authService.user.subscribe(
-      user => {
-        if (user) {
-          console.log('Starting likeUp ')
-          this.http.post<boolean>(
-            this.BASE_URL + "likes/add/" + user.userId + "/" + postId, {}
-          ).subscribe(
-            resData => {
-              console.log(resData + " this is add likes")
-            }
-          )
-
-        }
+    this.userSub1 = this.http.post<boolean>(
+      this.BASE_URL + "likes/add/" + postId, {}
+    ).subscribe(
+      resData => {
+        console.log(resData + " this is add likes")
       }
     )
+
   }
+
 
   likeDown(postId: number, post: Post) {
 
     this.postsList[this.postsList.indexOf(post)].likeCount--;
 
-    this.userSub2 = this.authService.user.subscribe(
-      user => {
-        if (user) {
-          console.log('Starting likeUp ')
-          this.http.post<boolean>(
-            this.BASE_URL + "likes/remove/" + user.userId + "/" + postId, {}
-          ).subscribe(
-            resData => {
-              console.log(resData + " this is add likes")
-            }
-          )
-
-        }
+    this.userSub2 = this.http.post<boolean>(
+      this.BASE_URL + "likes/remove/" + postId, {}
+    ).subscribe(
+      resData => {
+        console.log(resData + " this is add likes")
       }
     )
+
   }
+
 
   getPostById(postId: number) {
     return this.postsList[postId];
@@ -144,30 +132,24 @@ export class ProfileService {
     this.userSub.unsubscribe();
     this.userSub1.unsubscribe();
     this.userSub2.unsubscribe();
-    this.userSub3.unsubscribe();
+    this.postSub.unsubscribe();
   }
 
 
   sendCommentToServer(content: string, postId: number) {
-    this.userSub3 = this.authService.user.subscribe(
-      user => {
-        if (user) {
-          console.log(user.userId)
-          this.http.post<any>(
-            this.BASE_URL + "comments/create/" + user.userId + "/" + postId, {
-              'content': content
-            }
-          ).subscribe(resData => {
-            console.log(resData)
-          })
-
-        }
+    this.postSub = this.http.post<any>(
+      this.BASE_URL + "comments/create/" + postId, {
+        'content': content
       }
-    )
+    ).subscribe(resData => {
+      console.log(resData)
+    })
+
   }
 
+
   getImageFromBackend(imagesId: number[]) {
-    let images: Blob[] = [];
+    let images: SafeUrl[] = [];
     if (imagesId == null) {
       return
     }
@@ -179,7 +161,9 @@ export class ProfileService {
           }
         ).subscribe(
           blob => {
-            images.push(blob);
+            let objectURL = URL.createObjectURL(blob);
+            let image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+            images.push(image);
           }
         )
       }

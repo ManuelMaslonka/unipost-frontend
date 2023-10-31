@@ -21,10 +21,11 @@ export class FriendBarComponent implements OnInit, OnDestroy {
       user => {
         if (user) {
           this.friendsService.getFriendsByHttp(user.userId)
+          this.friends = this.friendsService.friendsChanged;
         }
       }
     )
-    this.friends = this.friendsService.friendsChanged;
+
 
   }
 

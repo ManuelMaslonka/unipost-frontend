@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../shared/user.model";
 import {Followers} from "../shared/followers.model";
 import {Post} from "../home/posts/post/post.model";
-import {map, Subject, tap} from "rxjs";
+import {map, Subject, Subscription, tap} from "rxjs";
 import {AuthService} from "../auth/auth.service";
 import {Comment} from "../home/posts/post/comment/comment.model";
 import {FriendsService} from "../friend-bar/friends.service";
@@ -15,6 +15,10 @@ export class UsersService {
   private BASE_URL: string = 'http://localhost:8080/api/';
   postsList: Post[] = []
   postsChanged: Subject<Post[]> = new Subject<Post[]>();
+  postSub = new Subscription();
+  postSub1 = new Subscription();
+  postSub2 = new Subscription();
+  userSub = new Subscription();
 
   constructor(private http: HttpClient,
               private authService: AuthService,
@@ -62,40 +66,26 @@ export class UsersService {
     console.log(postId)
     console.log(post)
     this.postsList[this.postsList.indexOf(post)].likeCount++;
-    this.authService.user.subscribe(
-      user => {
-        if (user) {
-          console.log('Starting likeUp ')
-          this.http.post<boolean>(
-            this.BASE_URL + "likes/add/" + user.userId + "/" + postId, {}
-          ).subscribe(
-            resData => {
-              console.log(resData + " this is add likes")
-            }
-          )
 
-        }
+    this.postSub1 = this.http.post<boolean>(
+      this.BASE_URL + "likes/add/" + postId, {}
+    ).subscribe(
+      resData => {
+        console.log(resData + " this is add likes")
       }
     )
+
   }
+
 
   likeDown(postId: number, post: Post) {
 
     this.postsList[this.postsList.indexOf(post)].likeCount--;
-
-    this.authService.user.subscribe(
-      user => {
-        if (user) {
-          console.log('Starting likeUp ')
-          this.http.post<boolean>(
-            this.BASE_URL + "likes/remove/" + user.userId + "/" + postId, {}
-          ).subscribe(
-            resData => {
-              console.log(resData + " this is add likes")
-            }
-          )
-
-        }
+    this.postSub2 = this.http.post<boolean>(
+      this.BASE_URL + "likes/remove/" + postId, {}
+    ).subscribe(
+      resData => {
+        console.log(resData + " this is add likes")
       }
     )
   }
@@ -130,37 +120,35 @@ export class UsersService {
   }
 
   addComment(comment: Comment, postId: number) {
-  console.log(this.postsList)
+    console.log(this.postsList)
 
     for (let i = 0; i < this.postsList.length; i++) {
-        if (this.postsList[i].postId === postId) {
-            this.postsList[i].comments.unshift(comment);
-            console.log('comment added');
-        }
+      if (this.postsList[i].postId === postId) {
+        this.postsList[i].comments.unshift(comment);
+        console.log('comment added');
+      }
     }
     this.updatePosts();
     this.sendCommentToServer(comment.description, postId);
   }
 
   sendCommentToServer(content: string, postId: number) {
-    this.authService.user.subscribe(
-        user => {
-          if (user) {
-            console.log(user.userId)
-            this.http.post<any>(
-                this.BASE_URL + "comments/create/" + user.userId + "/" + postId, {
-                  'content': content
-                }
-            ).subscribe(resData => {
-              console.log(resData)
-            })
-
-          }
-        }
-    )
+    this.postSub = this.http.post<any>(
+      this.BASE_URL + "comments/create/" + postId, {
+        'content': content
+      }
+    ).subscribe(resData => {
+      console.log(resData)
+    })
   }
 
+
   ngOnDestroy() {
+
+    this.postSub.unsubscribe();
+    this.postSub1.unsubscribe();
+    this.postSub2.unsubscribe();
+    this.userSub.unsubscribe();
   }
 
 
@@ -174,7 +162,7 @@ export class UsersService {
       user => {
         if (user) {
           this.http.post<any>(
-            this.BASE_URL + "followers/remove/" + user.userId + "/" + followerId, {}
+            this.BASE_URL + "followers/remove/" + followerId, {}
           ).subscribe(
             resData => {
               this.friendService.getFriendsByHttp(user.userId);
@@ -186,11 +174,11 @@ export class UsersService {
   }
 
   followUser(userId: number) {
-    this.authService.user.subscribe(
+    this.userSub = this.authService.user.subscribe(
       user => {
         if (user) {
           this.http.post<any>(
-            this.BASE_URL + "followers/add/" + user.userId + "/" + userId, {}
+            this.BASE_URL + "followers/add/" + userId, {}
           ).subscribe(
             resData => {
               this.friendService.getFriendsByHttp(user.userId);

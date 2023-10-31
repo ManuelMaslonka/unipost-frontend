@@ -34,11 +34,13 @@ export class FriendsService implements OnInit, OnDestroy {
 
 
   getFriendsByHttp(userId: number) {
-    return this.http.get<any>(
+    this.http.get<User[]>(
       this.baseUrl + "users/friends/" + userId,
-    ).subscribe(resData => {
-      this.friendsChanged.next(resData);
-    })
+    ).subscribe(
+      (friends: User[]) => {
+        this.friendsChanged.next(friends);
+      }
+    )
   }
 
 

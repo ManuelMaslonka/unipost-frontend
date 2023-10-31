@@ -19,14 +19,27 @@
         {{post.description}}
       </p>
 
-      <div *ngFor="let image of images">
-        <img [src]="image" alt="i">
+      <div *ngFor="let url of images">
+        <button style="border: unset"
+                class="ratio ratio-1x1 bg-white"
+                (click)="selectImage(url); open(content)">
+          <img [src]="url"
+               alt="{{url}}">
+        </button>
       </div>
+
+      <ng-template #content
+                   let-modal>
+        <div class="modal-body ratio ratio-1x1">
+          <img [src]="selectedImage"
+               alt="Selected Image">
+        </div>
+      </ng-template>
 
       <div class="d-flex justify-content-end align-items-end likes">
         <button class="btn btn-like"
                 (click)="onLikeUp()"
-                [ngClass]="{'active-like':isLiked$ | async}"
+                [ngClass]="{'active-like':isLiked}"
         >{{ post.likeCount }}</button>
       </div>
 

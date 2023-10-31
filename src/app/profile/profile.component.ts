@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       user => {
         if (user && user.userId != null) {
           this.user = user;
-          this.profileService.getUserPostByHttp(user.userId).subscribe()
+          this.profileService.getUserPostByHttp().subscribe()
           this.authService.getFollowingByHttp(user.userId).subscribe(
             following => {
               this.following = following.length;

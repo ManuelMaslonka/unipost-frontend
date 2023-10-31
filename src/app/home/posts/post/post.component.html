@@ -21,24 +21,15 @@
 
 
 
-      <div class="container">
         <div *ngFor="let url of images">
-          <button style="border: unset" class="ratio ratio-1x1" (click)="selectImage(url); open(content)">
+          <button style="border: unset" class="ratio ratio-1x1 bg-white" (click)="selectImage(url); open(content)">
             <img [src]="url" alt="{{url}}" >
           </button>
         </div>
-      </div>
 
       <ng-template #content let-modal>
-        <div class="modal-header">
-          <h4 class="modal-title">Selected Image</h4>
-          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-        </div>
         <div class="modal-body ratio ratio-1x1">
           <img [src]="selectedImage" alt="Selected Image">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
         </div>
       </ng-template>
 

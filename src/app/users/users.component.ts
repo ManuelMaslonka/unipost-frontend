@@ -33,7 +33,11 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.usersService.getUserByIdHttp(params['id']).subscribe(
           user => {
             this.user = user;
-            this.usersService.getUserPostByHttp(user.userId).subscribe()
+            this.usersService.getUserPostByHttp(user.userId).subscribe(
+              posts => {
+                this.posts = posts;
+              }
+            )
             this.usersService.getFollowingByHttp(user.userId).subscribe(
               following => {
                 this.following = following.length;

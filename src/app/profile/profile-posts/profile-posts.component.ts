@@ -4,6 +4,7 @@ import {ProfileService} from "../profile.service";
 import {AuthService} from "../../auth/auth.service";
 import {Observable, of, Subscription} from "rxjs";
 import {SafeUrl} from "@angular/platform-browser";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-profile-posts',
@@ -18,26 +19,35 @@ export class ProfilePostsComponent implements OnDestroy{
   isLiked: boolean = false;
   isCollapsed: boolean = true;
   profSub = new Subscription();
-  isLiked$: Observable<boolean> = new Observable<boolean>();
+  isLikedSub = new Subscription();
 
   @Input()
   postId!: number;
   images: SafeUrl[] = [];
+  selectedImage!: SafeUrl;
 
   constructor(private profileService: ProfileService,
-              private authService: AuthService
+              private modalService: NgbModal
   ) {
   }
   ngOnInit(): void {
-    this.isLiked$ = this.profileService.isLiked(this.post.postId, this.post);
+    this.isLikedSub = this.profileService.isLiked(this.post.postId, this.post).subscribe( isLiked => this. isLiked= isLiked);
     let images = this.profileService.getImageFromBackend(this.post.imagesId);
     if (images != undefined) {
       this.images = images;
     }
   }
 
+  open(content: any) {
+    this.modalService.open(content, {size: 'xl', scrollable: true});
+  }
+
+  selectImage(image: SafeUrl) {
+    this.selectedImage = image;
+  }
+
   onLikeUp() {
-    this.isLiked$ = of(!this.isLiked$);
+    this.isLiked = !this.isLiked;
     if (!this.isLiked) {
       console.log(this.post)
       this.profileService.likeDown(this.post.postId, this.post);
@@ -49,6 +59,7 @@ export class ProfilePostsComponent implements OnDestroy{
 
   ngOnDestroy(): void {
     this.profSub.unsubscribe();
+    this.isLikedSub.unsubscribe();
   }
 
 

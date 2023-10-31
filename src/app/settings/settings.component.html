@@ -1,1 +1,104 @@
-<p>settings works!</p>
+<div class="container">
+  <div class="row">
+    <div class="desing-bar">
+      <div class="border-radius p-4">
+
+        <h4>Profile Settings</h4>
+
+        <form class="d-flex flex-column form-control"
+              [formGroup]="settingFrom"
+              (ngSubmit)="onSaveSettings()">
+
+          <label class="form-label">First Name</label>
+          <input
+            formControlName="firstName"
+            class="form-control">
+
+          <label class="form-label">Last Name</label>
+          <input [value]="user.lastName"
+                 formControlName="lastName"
+                 class="form-control">
+
+          <label class="form-label">Nick Name</label>
+          <input [value]="user.nickName"
+                 formControlName="nickName"
+                 class="form-control">
+
+          <label class="form-label">Email</label>
+          <input [value]="user.email"
+                 formControlName="email"
+                 class="form-control">
+
+          <label
+            for="faculty"
+            class="form-label">Faculty</label>
+          <select class="form-select"
+                  id="faculty"
+                  name="faculty"
+                  formControlName="faculty"
+          >
+            <option *ngFor='let element of category'
+                    [value]="element"
+            >
+              {{element}}
+            </option>
+          </select>
+
+          <label
+            class="form-label">old Password</label>
+          <span class="text-danger">*required for save credentials</span>
+          <input type="password"
+                 class="form-control"
+                 name="password"
+                 formControlName="password"
+          >
+
+
+          <button class="btn btn-primary mt-4"
+                  type="submit"
+                  [disabled]="!settingFrom.valid">Save Credentials
+          </button>
+        </form>
+
+        <h4 class="mt-4">New Password</h4>
+
+
+        <form [formGroup]="passwordForm"
+              class="form-control mt-4"
+              (ngSubmit)="onSavePassword()">
+
+
+          <label
+            class="form-label">old Password</label>
+          <span class="text-danger">*required for save credentials</span>
+          <input type="password"
+                 class="form-control"
+                 name="oldPassword"
+                 formControlName="oldPassword">
+
+          <label
+            class="form-label">New Password</label>
+          <input type="password"
+                 class="form-control"
+                 name="newPassword"
+                 formControlName="newPassword">
+
+          <label
+            class="form-label">Repeated Password</label>
+          <input type="password"
+                 class="form-control"
+                 name="repeatedPassword"
+                 formControlName="newPasswordRepeated">
+
+
+          <button class="btn btn-primary mt-4"
+                  type="submit"
+                  [disabled]="passwordForm.invalid">Save
+                                                    Password
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

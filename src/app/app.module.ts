@@ -22,7 +22,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SearchComponent } from './search/search.component';
 import { AuthComponent } from './auth/auth.component';
-import {ReactiveFormsModule}    from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
@@ -66,7 +66,8 @@ import { UsersCreateCommentsComponent } from './users/users-create-comments/user
     NgbModule,
     ReactiveFormsModule,
     NgbCollapseModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
