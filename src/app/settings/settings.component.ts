@@ -1,8 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {AuthService} from "../auth/auth.service";
-import {Observable} from "rxjs";
 import {User} from "../shared/user.model";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {matchPasswordValidator} from "../shared/matchpassword.validator";
 
 @Component({

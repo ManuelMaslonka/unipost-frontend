@@ -1,9 +1,8 @@
 import {Component, Input, OnDestroy} from '@angular/core';
 import {Post} from "../../home/posts/post/post.model";
-import {ProfileService} from "../../profile/profile.service";
 import {AuthService} from "../../auth/auth.service";
 import {UsersService} from "../users.service";
-import {Observable, of, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {SafeUrl} from "@angular/platform-browser";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 

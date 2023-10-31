@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy, OnInit} from "@angular/core";
-import {BehaviorSubject, Subject, Subscription} from "rxjs";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {BehaviorSubject, Subscription} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 import {AuthService} from "../auth/auth.service";
 import {User} from "../shared/user.model";
 

@@ -1,14 +1,8 @@
-import {
-  Component,
-  inject,
-  Input, OnDestroy, OnInit
-} from '@angular/core';
-import {Post}         from "./post.model";
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Post} from "./post.model";
 import {PostsService} from "../posts.service";
-import {AuthService} from "../../../auth/auth.service";
-import {first, interval, observable, Observable, of, Subscription} from "rxjs";
 import {SafeUrl} from "@angular/platform-browser";
-import {ModalDismissReasons, NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-post',

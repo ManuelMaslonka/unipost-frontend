@@ -1,7 +1,7 @@
 import {Injectable, OnDestroy, OnInit} from "@angular/core";
 import {Post} from "./post/post.model";
 import {Comment} from "./post/comment/comment.model";
-import {BehaviorSubject, map, Subject, Subscription, tap} from "rxjs";
+import {BehaviorSubject, map, Subject, Subscription} from "rxjs";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {AuthService} from "../../auth/auth.service";
 import {User} from "../../shared/user.model";
@@ -132,17 +132,6 @@ export class PostsService implements OnInit, OnDestroy {
 
   getPostById(postId: number) {
     return this.postsList.find(post => post.postId === postId)
-  }
-
-
-  commentLikeUp(postId: number, commentId: number) {
-    console.log(commentId);
-    console.log(postId);
-  }
-
-  commentLikeDown(postId: number, comment: number) {
-    // this.postsList[postId].comments[commentId].likeCount--
-    // this.updatePosts();
   }
 
   isLiked(postId: number, post: Post) {

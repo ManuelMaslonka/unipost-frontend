@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild
-} from '@angular/core';
-import {Post} from "../post/post.model";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {PostsService} from "../posts.service";
 import {AuthService} from "../../../auth/auth.service";
 import {User} from "../../../shared/user.model";
