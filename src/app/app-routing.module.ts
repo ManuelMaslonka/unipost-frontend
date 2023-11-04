@@ -10,6 +10,7 @@ import {LoginComponent} from "./auth/login/login.component";
 import {RegisterComponent} from "./auth/register/register.component";
 import {authGuard} from "./auth/auth-guard";
 import {UsersComponent} from "./users/users.component";
+import {AdminComponent} from "./admin/admin.component";
 
 const routes: Routes = [
   {
@@ -25,7 +26,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: '', component: HomeComponent, canActivate: [authGuard], children: [
+    path: '', component: HomeComponent, canActivate: [authGuard],children: [
       {path: 'posts', component: PostsComponent},
       {path: 'settings', component: SettingsComponent},
       {path: 'profile', component: ProfileComponent},
@@ -33,6 +34,9 @@ const routes: Routes = [
       {path: "users/:id", component: UsersComponent},
     ]
   },
+  {
+    path: 'admin', component: AdminComponent
+  }
 ];
 
 @NgModule({

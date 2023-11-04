@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     router: Router = inject(Router)
     fb: FormBuilder = inject(FormBuilder)
     http: HttpClient = inject(HttpClient)
+    isError: boolean = false;
+    errorMessages: string = '';
 
   // Subscription here
     loginSub: Subscription = new Subscription();
@@ -32,10 +34,20 @@ export class LoginComponent implements OnInit, OnDestroy {
         let email = this.LogInFrom.value.email;
         let password = this.LogInFrom.value.password;
 
-        this.loginSub = this.authService.logIn(email, password).subscribe();
+        this.loginSub = this.authService.logIn(email, password).subscribe({
+          next: () => {},
+          error: (err) => {
+            this.isError = true;
+           this.errorMessages = err;
+          }
+        });
     }
 
     ngOnDestroy() {
         this.loginSub.unsubscribe();
     }
+
+  onClose() {
+    this.isError = false;
+  }
 }

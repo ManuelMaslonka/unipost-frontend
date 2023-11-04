@@ -53,7 +53,7 @@ export class AuthService {
       }
     ).pipe(
       catchError(err => {
-        return throwError(() => err)
+        return throwError(() => err.error.message)
       }),
       tap(resData => {
         console.log(resData);
@@ -175,9 +175,15 @@ export class AuthService {
     if (profImage != null)
       formData.append('profImage', profImage);
 
-    this.http.post(
+    return this.http.post(
       this.baseUrl + 'auth/register', formData
-    ).subscribe(resData => console.log(resData));
+    ).pipe(
+      catchError(err => {
+        return throwError(() => {
+          return err.error.message;
+        })
+      })
+    )
 
   }
 
