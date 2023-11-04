@@ -14,8 +14,8 @@ export class NavbarComponent implements OnInit, OnDestroy{
 
     userSubscription: Subscription = new Subscription();
     user?: User;
-    // todo image source create
     imageSrc!: SafeUrl[];
+    isAdministrator: boolean = false;
 
 
     constructor(private route: ActivatedRoute,
@@ -28,6 +28,9 @@ export class NavbarComponent implements OnInit, OnDestroy{
               if (user != null) {
                 this.user = user;
                 this.imageSrc = this.authService.getProfileImageLoggedUser();
+                if (this.user.role == 'ADMIN') {
+                  this.isAdministrator = true;
+                }
               }
             }
         )

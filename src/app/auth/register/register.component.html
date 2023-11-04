@@ -87,4 +87,14 @@
 
 
   <button class="btn btn-success mt-3" type="submit" [disabled]="registerForm.invalid">Register</button>
+
+
+  <div class="alert alert-danger d-flex justify-content-sm-between" role="alert" *ngIf="isError" (click)="onCloseError()">
+        <span >
+    {{errorMessages}}
+    </span>
+    <span style="cursor: pointer">
+    X
+    </span>
+  </div>
 </form>

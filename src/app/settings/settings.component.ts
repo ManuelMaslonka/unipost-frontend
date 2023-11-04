@@ -29,6 +29,8 @@ export class SettingsComponent implements OnInit {
     newPasswordRepeated: ['', [Validators.required, Validators.minLength(8)]],
   }, {validators: matchPasswordValidator()
   })
+  private selectedFile: File | null = null;
+  private isSelectedFile: boolean = false;
 
   ngOnInit(): void {
     this.authService.user.subscribe(user => {
@@ -57,5 +59,21 @@ export class SettingsComponent implements OnInit {
   onDeleteAccount() {
     this.authService.deleteAccount();
     this.router.navigate(['/auth']);
+  }
+
+  onFileSelected($event: Event) {
+    this.selectedFile = ($event.target as HTMLInputElement).files![0];
+    this.isSelectedFile = true;
+  }
+
+
+  onChangeProfilePicture() {
+    if (this.selectedFile != null) {
+      let formData = new FormData();
+      formData.append('profImage', this.selectedFile);
+      this.settingService.changeProfilePicture(formData);
+    }
+    this.isSelectedFile = false;
+    this.selectedFile = null;
   }
 }

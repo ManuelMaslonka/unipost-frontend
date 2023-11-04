@@ -15,6 +15,8 @@ export class RegisterComponent implements OnInit {
   router = inject(Router);
   authService = inject(AuthService);
   selectedFiles!: File | null;
+  isError: boolean = false;
+  errorMessages: string = '';
 
   registerForm = this.fb.group({
     nickName: ['', [Validators.required]],
@@ -71,13 +73,25 @@ export class RegisterComponent implements OnInit {
     if (this.selectedFiles != null) {
       const formData = new FormData();
       formData.append("profImage", this.selectedFiles)
-      this.authService.register(this.registerForm, this.selectedFiles);
     } else {
-      this.authService.register(this.registerForm, null);
+      this.selectedFiles = null;
     }
-    this.selectedFiles = null;
-    this.registerForm.reset();
-    this.router.navigate(['/auth/login']);
+
+    this.authService.register(this.registerForm, this.selectedFiles).subscribe({
+        next: () => {
+          this.selectedFiles = null;
+          this.registerForm.reset();
+          this.router.navigate(['/auth/login']);
+        },
+        error: (err) => {
+          this.isError = true;
+          this.errorMessages = err;
+        }
+      }
+    );
+
+
+
   }
 
   onReset() {
@@ -87,6 +101,11 @@ export class RegisterComponent implements OnInit {
   onFileSelected($event: Event) {
     this.selectedFiles = ($event.target as HTMLInputElement).files![0];
     console.log(this.selectedFiles)
+  }
+
+  onCloseError() {
+    this.isError = false;
+    this.errorMessages = '';
   }
 
 

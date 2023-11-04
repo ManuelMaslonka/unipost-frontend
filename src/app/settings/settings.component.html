@@ -98,6 +98,22 @@
           </button>
         </form>
 
+        <div class="form-control">
+
+          <label
+            class="form-label">Change Profile Picture</label>
+
+          <div class="d-flex justify-content-end w-95">
+            <input type="file"
+                   class="file-upload"
+                   (change)="onFileSelected($event)">
+          </div>
+
+          <button class="btn btn-success" (click)="onChangeProfilePicture()"> Change Profile Picture</button>
+
+        </div>
+
+
         <button class="btn btn-danger mt-4"
                 (click)="onDeleteAccount()">Delete Account
         </button>

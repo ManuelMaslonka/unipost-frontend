@@ -14,14 +14,14 @@ export class SettingsService {
   updateUser(settingFrom: FormGroup) {
     this.http.post(
       this.baseUrl + 'users/update', {
-      "nickName": settingFrom.value.nickName,
-      "firstName": settingFrom.value.firstName,
-      "lastName": settingFrom.value.lastName,
-      "email": settingFrom.value.email,
-      "faculty": settingFrom.value.faculty,
-      "oldPassword": settingFrom.value.oldPassword
+        "nickName": settingFrom.value.nickName,
+        "firstName": settingFrom.value.firstName,
+        "lastName": settingFrom.value.lastName,
+        "email": settingFrom.value.email,
+        "faculty": settingFrom.value.faculty,
+        "oldPassword": settingFrom.value.oldPassword
       }
-    ).subscribe( resData => console.log(resData))
+    ).subscribe(resData => console.log(resData))
   }
 
   updatePassword(passwordForm: FormGroup) {
@@ -32,7 +32,19 @@ export class SettingsService {
         "newPassword": passwordForm.value.newPassword,
         "newPasswordRepeated": passwordForm.value.newPasswordRepeated
       }
-    ).subscribe( resData => { console.log(resData)})
+    ).subscribe(resData => {
+      console.log(resData)
+    })
+  }
+
+
+  changeProfilePicture(formData: FormData) {
+    this.http.post(
+      this.baseUrl + 'users/update/profilePicture', formData
+    ).subscribe(resData => {
+      console.log(resData)
+    })
+
   }
 
 
