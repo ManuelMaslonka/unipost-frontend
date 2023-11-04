@@ -49,8 +49,8 @@
           <span class="text-danger">*required for save credentials</span>
           <input type="password"
                  class="form-control"
-                 name="password"
-                 formControlName="password"
+                 name="oldPassword"
+                 formControlName="oldPassword"
           >
 
 
@@ -97,6 +97,10 @@
                                                     Password
           </button>
         </form>
+
+        <button class="btn btn-danger mt-4"
+                (click)="onDeleteAccount()">Delete Account
+        </button>
 
       </div>
     </div>

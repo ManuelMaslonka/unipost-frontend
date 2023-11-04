@@ -35,11 +35,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.loginSub = this.authService.logIn(email, password).subscribe();
     }
 
-    onRegister() {
-        this.router.navigate(['./registration'])
-    }
-
-
     ngOnDestroy() {
         this.loginSub.unsubscribe();
     }

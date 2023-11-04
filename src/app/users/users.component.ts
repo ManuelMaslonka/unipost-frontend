@@ -5,6 +5,7 @@ import {UsersService} from "./users.service";
 import {AuthService} from "../auth/auth.service";
 import {Post} from "../home/posts/post/post.model";
 import {Subscription} from "rxjs";
+import {SafeUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-users',
@@ -21,6 +22,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   routeSub = new Subscription();
   postSub = new Subscription();
+  imageAuthor!: SafeUrl[];
 
   constructor(private route: ActivatedRoute,
               private usersService: UsersService,
@@ -33,6 +35,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.usersService.getUserByIdHttp(params['id']).subscribe(
           user => {
             this.user = user;
+            this.imageAuthor = this.authService.getProfileImageUser(this.user.userId);
             this.usersService.getUserPostByHttp(user.userId).subscribe(
               posts => {
                 this.posts = posts;

@@ -32,6 +32,7 @@ import { UsersComponent } from './users/users.component';
 import { UsersPostsComponent } from './users/users-posts/users-posts.component';
 import { ProfileCreateCommentComponent } from './profile/profile-create-comment/profile-create-comment.component';
 import { UsersCreateCommentsComponent } from './users/users-create-comments/users-create-comments.component';
+import { SearchItemComponent } from './search/search-item/search-item.component';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { UsersCreateCommentsComponent } from './users/users-create-comments/user
     UsersPostsComponent,
     ProfileCreateCommentComponent,
     UsersCreateCommentsComponent,
+    SearchItemComponent,
   ],
   imports: [
     BrowserModule,

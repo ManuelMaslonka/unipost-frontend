@@ -1,0 +1,15 @@
+<div class="border-radius mb-3">
+
+  <a [routerLink]="['../users/', user.userId]" style="text-decoration: unset; color: black">
+    <span *ngFor="let image of images">
+      <img
+        [src]="image"
+        priority="false"
+        height="50"
+        width="50">
+        </span>
+
+
+    {{user.firstName + ' ' + user.lastName}}
+  </a>
+</div>

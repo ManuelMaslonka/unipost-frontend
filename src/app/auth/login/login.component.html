@@ -1,4 +1,5 @@
-<form [formGroup]="LogInFrom" (ngSubmit)="onSubmit()">
+<form [formGroup]="LogInFrom"
+      (ngSubmit)="onSubmit()">
   <label
     for="email"
     class="form-label">Email</label>
@@ -17,9 +18,12 @@
     type="text"
     formControlName="password"
     class="form-control">
-  <button class="btn btn-success mt-3" type="submit">Log in</button>
+  <button class="btn btn-success mt-3"
+          type="submit">Log in
+  </button>
 </form>
-  <button class="btn btn-primary mt-3 text-end" type="button" (click)="onRegister()"> Register </button>
-    <a [routerLink]="['/auth/registration']" > Register</a>
+<button class="btn btn-primary mt-3 text-end"
+        type="button"><a [routerLink]="['/auth/registration']" style="color: white; text-decoration: unset"> Register</a></button>
+
 
 

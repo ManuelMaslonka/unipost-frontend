@@ -4,6 +4,7 @@ import {ProfileService} from "../profile.service";
 import {Subscription} from "rxjs";
 import {SafeUrl} from "@angular/platform-browser";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-profile-posts',
@@ -19,6 +20,7 @@ export class ProfilePostsComponent implements OnDestroy{
   isCollapsed: boolean = true;
   profSub = new Subscription();
   isLikedSub = new Subscription();
+  imageAuthor!: SafeUrl[];
 
   @Input()
   postId!: number;
@@ -26,7 +28,8 @@ export class ProfilePostsComponent implements OnDestroy{
   selectedImage!: SafeUrl;
 
   constructor(private profileService: ProfileService,
-              private modalService: NgbModal
+              private modalService: NgbModal,
+              private authService: AuthService
   ) {
   }
   ngOnInit(): void {
@@ -35,6 +38,7 @@ export class ProfilePostsComponent implements OnDestroy{
     if (images != undefined) {
       this.images = images;
     }
+    this.imageAuthor = this.authService.getProfileImageUser(this.post.authorId);
   }
 
   open(content: any) {

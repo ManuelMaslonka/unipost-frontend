@@ -4,6 +4,7 @@ import {AuthService} from "../auth/auth.service";
 import {Post} from "../home/posts/post/post.model";
 import {ProfileService} from "./profile.service";
 import {Subscription} from "rxjs";
+import {SafeUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-profile',
@@ -16,8 +17,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   posts: Post[] = [];
   following: number = 0;
   // todo create userImages
-  imageSrc: string = "assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg";
-
+  images!: SafeUrl[];
   userSub = new Subscription();
   profSub = new Subscription();
 
@@ -31,6 +31,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
         if (user && user.userId != null) {
           this.user = user;
           this.profileService.getUserPostByHttp().subscribe()
+          this.images = this.authService.getProfileImageLoggedUser();
           this.authService.getFollowingByHttp(user.userId).subscribe(
             following => {
               this.following = following.length;

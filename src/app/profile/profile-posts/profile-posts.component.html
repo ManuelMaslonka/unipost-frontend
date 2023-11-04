@@ -1,65 +1,74 @@
 <div class="col-lg-12">
-    <div class="desing-bar">
-        <div class="border-radius">
+  <div class="desing-bar">
+    <div class="border-radius">
 
 
-            <div class="d-flex justify-content-start align-items-center flex-flow">
-                <img ngSrc="./assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg"
+      <div class="d-flex justify-content-start align-items-center flex-flow">
+
+              <span *ngFor="let image of imageAuthor">
+
+                <img [src]="image"
                      width="42"
                      height="42"
                      alt="{{post.author}}_profile_picture"
                      class="profile-picture-post"
                 >
+              </span>
 
-                <p class="profile-name-post">{{post.author}}</p>
-                <p class="post-edit">...</p>
-            </div>
+        <p class="profile-name-post">{{post.author}}</p>
+        <p class="post-edit">...</p>
+      </div>
 
-            <p class="text-size">
-                {{post.description}}
-            </p>
+      <p class="text-size">
+        {{post.description}}
+      </p>
 
-          <div class="caption-top">
-            <div *ngFor="let url of images">
-              <button style="border: unset" class="ratio ratio-1x1 bg-white" (click)="selectImage(url); open(content)">
-                <img [src]="url" alt="{{url}}" >
-              </button>
-            </div>
-          </div>
-
-          <ng-template #content let-modal>
-            <div class="modal-body ratio ratio-1x1">
-              <img [src]="selectedImage" alt="Selected Image">
-            </div>
-          </ng-template>
-
-            <div class="d-flex justify-content-end align-items-end likes">
-                <button class="btn btn-like"
-                        (click)="onLikeUp()"
-                        [ngClass]="{'active-like':isLiked}"
-                >{{ post.likeCount }}</button>
-            </div>
-
-            <div>
-                <button
-                        type="button"
-                        class="btn-comment"
-                        (click)="collapse.toggle()"
-                        [attr.aria-expanded]="!isCollapsed"
-                        aria-controls="collapseExample"
-                >
-                    Show comments {{post.comments.length}}
-                </button>
-                <div #collapse="ngbCollapse"
-                     [(ngbCollapse)]="isCollapsed">
-                    <app-profile-create-comment [postId]="post.postId"></app-profile-create-comment>
-                    <app-comment *ngFor="let commentEl of post.comments; index as i"
-                                 [comment]="commentEl"
-                                 [index]="i"
-                                 [postId]="post.postId"></app-comment>
-                </div>
-            </div>
-
+      <div class="caption-top">
+        <div *ngFor="let url of images">
+          <button style="border: unset"
+                  class="ratio ratio-1x1 bg-white"
+                  (click)="selectImage(url); open(content)">
+            <img [src]="url"
+                 alt="{{url}}">
+          </button>
         </div>
+      </div>
+
+      <ng-template #content
+                   let-modal>
+        <div class="modal-body ratio ratio-1x1">
+          <img [src]="selectedImage"
+               alt="Selected Image">
+        </div>
+      </ng-template>
+
+      <div class="d-flex justify-content-end align-items-end likes">
+        <button class="btn btn-like"
+                (click)="onLikeUp()"
+                [ngClass]="{'active-like':isLiked}"
+        >{{ post.likeCount }}</button>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          class="btn-comment"
+          (click)="collapse.toggle()"
+          [attr.aria-expanded]="!isCollapsed"
+          aria-controls="collapseExample"
+        >
+          Show comments {{post.comments.length}}
+        </button>
+        <div #collapse="ngbCollapse"
+             [(ngbCollapse)]="isCollapsed">
+          <app-profile-create-comment [postId]="post.postId"></app-profile-create-comment>
+          <app-comment *ngFor="let commentEl of post.comments; index as i"
+                       [comment]="commentEl"
+                       [index]="i"
+                       [postId]="post.postId"></app-comment>
+        </div>
+      </div>
+
     </div>
+  </div>
 </div>

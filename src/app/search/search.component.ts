@@ -3,6 +3,8 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {SearchService} from "./search.service";
 import {User} from "../shared/user.model";
 import {Subscription} from "rxjs";
+import {SafeUrl} from "@angular/platform-browser";
+import {AuthService} from "../auth/auth.service";
 
 
 @Component({
@@ -18,9 +20,12 @@ export class SearchComponent implements OnInit, OnDestroy {
   searchedUsers: User[] = [];
   isSearched: boolean = false;
   searchSub: Subscription = new Subscription();
+  images: SafeUrl[] = [];
 
   constructor(private fb: FormBuilder,
-              private searchService: SearchService) {
+              private searchService: SearchService,
+              private authService: AuthService
+  ){
   }
 
   ngOnInit(): void {
@@ -36,6 +41,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       searchedUsers => {
         this.searchedUsers = searchedUsers;
         this.isSearched = true;
+        console.log(this.searchedUsers)
       })
   }
 

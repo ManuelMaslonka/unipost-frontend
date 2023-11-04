@@ -23,6 +23,7 @@ export class UsersPostsComponent implements OnDestroy {
   images: SafeUrl[] = [];
   selectedImage!: SafeUrl;
   isLikedSub = new Subscription();
+  imageAuthor!: SafeUrl[];
 
   constructor(private usersService: UsersService,
               private authService: AuthService,
@@ -37,6 +38,7 @@ export class UsersPostsComponent implements OnDestroy {
     if (images != undefined) {
       this.images = images;
     }
+    this.imageAuthor = this.authService.getProfileImageUser(this.post.authorId);
   }
 
   onLikeUp() {

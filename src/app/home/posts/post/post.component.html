@@ -3,33 +3,54 @@
     <div class="border-radius">
 
 
-      <div class="d-flex justify-content-start align-items-center flex-flow">
-        <img ngSrc="./assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg"
+      <a (click)="onGoProfile()" style="cursor: pointer">
+
+        <div class="d-flex justify-content-start align-items-center flex-flow">
+        <span *ngFor="let image of authorImage">
+        <img [src]="image"
              width="42"
              height="42"
              alt="{{post.author}}_profile_picture"
              class="profile-picture-post"
         >
+        </span>
 
-        <p class="profile-name-post">{{post.author}}</p>
-        <p class="post-edit">...</p>
-      </div>
+          <p class="profile-name-post">{{post.author}}</p>
+
+          <div ngbDropdown
+               class="post-edit"
+               *ngIf="isEditable">
+            <p ngbDropdownToggle></p>
+            <ul ngbDropdownMenu>
+              <li><a ngbDropdownItem
+                     class="dropdown-item"
+                     (click)="onDelete()">Delete</a></li>
+            </ul>
+          </div>
+
+
+        </div>
+      </a>
 
       <p class="text-size">
         {{post.description}}
       </p>
 
 
+      <div *ngFor="let url of images">
+        <button style="border: unset"
+                class="ratio ratio-1x1 bg-white"
+                (click)="selectImage(url); open(content)">
+          <img [src]="url"
+               alt="{{url}}">
+        </button>
+      </div>
 
-        <div *ngFor="let url of images">
-          <button style="border: unset" class="ratio ratio-1x1 bg-white" (click)="selectImage(url); open(content)">
-            <img [src]="url" alt="{{url}}" >
-          </button>
-        </div>
-
-      <ng-template #content let-modal>
+      <ng-template #content
+                   let-modal>
         <div class="modal-body ratio ratio-1x1">
-          <img [src]="selectedImage" alt="Selected Image">
+          <img [src]="selectedImage"
+               alt="Selected Image">
         </div>
       </ng-template>
 

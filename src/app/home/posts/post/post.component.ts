@@ -3,6 +3,8 @@ import {Post} from "./post.model";
 import {PostsService} from "../posts.service";
 import {SafeUrl} from "@angular/platform-browser";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {AuthService} from "../../../auth/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-post',
@@ -17,13 +19,17 @@ export class PostComponent implements OnInit, OnDestroy{
   isCollapsed: boolean = true;
   images!: SafeUrl[];
   selectedImage!: SafeUrl;
+  authorImage!: SafeUrl[];
+  isEditable: boolean = false;
 
   @Input()
   postId!: number;
 
 
   constructor(private postsService: PostsService,
-              private modalService: NgbModal
+              private modalService: NgbModal,
+              private authService: AuthService,
+              private router: Router
             ) {
   }
 
@@ -37,8 +43,15 @@ export class PostComponent implements OnInit, OnDestroy{
     let images = this.postsService.getImageFromBackend(this.post.imagesId);
     if (images != undefined) {
       this.images = images;
-      console.log(this.images)
     }
+    this.authorImage = this.authService.getProfileImageUser(this.post.authorId);
+    this.authService.user.subscribe(
+      user => {
+        if (user) {
+          this.isEditable = user.userId == this.post.authorId;
+        }
+      }
+    )
   }
 
 
@@ -64,4 +77,22 @@ export class PostComponent implements OnInit, OnDestroy{
     this.selectedImage = image;
   }
 
+  onDelete() {
+    this.postsService.deletePost(this.post.postId);
+
+  }
+
+  onGoProfile() {
+    this.authService.user.subscribe(
+      user => {
+        if (user) {
+          if (user.userId == this.post.authorId) {
+            this.router.navigate(['/profile'])
+          } else {
+            this.router.navigate(['/users', this.post.authorId])
+          }
+        }
+      }
+    )
+  }
 }

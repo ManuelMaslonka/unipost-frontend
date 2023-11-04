@@ -3,6 +3,8 @@ import {AuthService} from "../auth/auth.service";
 import {User} from "../shared/user.model";
 import {FormBuilder, Validators} from "@angular/forms";
 import {matchPasswordValidator} from "../shared/matchpassword.validator";
+import {SettingsService} from "./settings.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-settings',
@@ -15,8 +17,10 @@ export class SettingsComponent implements OnInit {
 
   user!: User;
   authService = inject(AuthService);
+  settingService = inject(SettingsService);
   category: string[] = ["FEIT", "FRI", "FBI"];
   fb = inject(FormBuilder);
+  router = inject(Router);
 
   settingFrom: any;
   passwordForm = this.fb.group({
@@ -36,17 +40,22 @@ export class SettingsComponent implements OnInit {
         lastName: [this.user.lastName, [Validators.required]],
         email: [this.user.email, [Validators.required, Validators.email]],
         faculty: [this.user.faculty, [Validators.required]],
-        password: ['', [Validators.required, Validators.minLength(8)]],
+        oldPassword: ['', [Validators.required, Validators.minLength(8)]],
       })
     })
 
   }
 
   onSaveSettings() {
-    console.log(this.settingFrom.value)
+    this.settingService.updateUser(this.settingFrom);
   }
 
   onSavePassword() {
-    console.log(this.passwordForm)
+    this.settingService.updatePassword(this.passwordForm);
+  }
+
+  onDeleteAccount() {
+    this.authService.deleteAccount();
+    this.router.navigate(['/auth']);
   }
 }

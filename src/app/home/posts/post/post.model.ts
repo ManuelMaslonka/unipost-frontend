@@ -13,6 +13,7 @@ export class Post {
       public comments: Comment[],
       public isPrivate: boolean,
       public author: string | User,
+      public authorId: number,
   ) {
   }
 

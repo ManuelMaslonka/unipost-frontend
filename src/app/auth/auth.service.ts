@@ -1,9 +1,11 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, catchError, tap, throwError} from "rxjs";
 import {User} from "../shared/user.model";
 import {Router} from "@angular/router";
 import {Followers} from "../shared/followers.model";
+import {FormGroup} from "@angular/forms";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 interface AuthenticationResponse {
   access_token: string,
@@ -25,10 +27,12 @@ export class AuthService {
   tokenExpirationTimer: any;
   refreshTokenExpirationTimer: any;
   user = new BehaviorSubject<User | null>(null);
-  userVariable: User | null  = null;
+  userVariable: User | null = null;
+  imageSrc!: SafeUrl;
 
   constructor(private http: HttpClient,
-              private router: Router) {
+              private router: Router,
+              private sanitizer: DomSanitizer) {
   }
 
   isAuthenticated() {
@@ -152,7 +156,84 @@ export class AuthService {
 
   getFollowingByHttp(userId: number) {
     return this.http.get<Followers[]>(
-      this.baseUrl + 'followers'
+      this.baseUrl + 'followers/' + userId
     )
+  }
+
+  register(registerForm: FormGroup, profImage: File | null) {
+
+    let formData = new FormData();
+    formData.append('nickName', registerForm.get('nickName')?.value);
+    formData.append('firstName', registerForm.get('firstName')?.value);
+    formData.append('lastName', registerForm.get('lastName')?.value);
+    formData.append('password', registerForm.get('password')?.value);
+    formData.append('email', registerForm.get('email')?.value);
+    formData.append('country', registerForm.get('country')?.value);
+    formData.append('faculty', registerForm.get('faculty')?.value);
+    formData.append('gender', registerForm.get('gender')?.value);
+
+    if (profImage != null)
+      formData.append('profImage', profImage);
+
+    this.http.post(
+      this.baseUrl + 'auth/register', formData
+    ).subscribe(resData => console.log(resData));
+
+  }
+
+  getProfileImageLoggedUser() {
+    let images: SafeUrl[] = [];
+    this.http.get<Blob>(
+      this.baseUrl + 'images', {
+        responseType: 'blob' as 'json'
+      }
+    ).subscribe(blob => {
+      let objectURL = URL.createObjectURL(blob);
+      this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+      images.push(this.imageSrc)
+    });
+    return images;
+  }
+  getProfileImageUser(userId: number) {
+    let images: SafeUrl[] = [];
+    this.http.get<Blob>(
+      this.baseUrl + 'images/postsAuthor/' + userId, {
+        responseType: 'blob' as 'json'
+      }
+    ).subscribe(blob => {
+      let objectURL = URL.createObjectURL(blob);
+      this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+      images.push(this.imageSrc)
+    });
+    return images;
+  }
+
+
+  deleteAccount() {
+    this.http.delete(
+      this.baseUrl + 'users/account'
+    ).subscribe(
+      resData => {
+        this.logout();
+      }
+    )
+  }
+
+  getProfileImagesUser(searchedUsers: User[]) {
+    let images: SafeUrl[] = [];
+    searchedUsers.forEach(
+      user => {
+        this.http.get<Blob>(
+          this.baseUrl + 'images/postsAuthor/' + user.userId, {
+            responseType: 'blob' as 'json'
+          }
+        ).subscribe(blob => {
+          let objectURL = URL.createObjectURL(blob);
+          this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+          images.push(this.imageSrc)
+        });
+      }
+    )
+    return images;
   }
 }

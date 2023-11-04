@@ -25,27 +25,13 @@
   </div>
 </div>
 
-<div class="col-lg-12 mt-3" *ngIf="isSearched">
+<div class="col-lg-12 mt-3"
+     *ngIf="isSearched">
   <div class="desing-bar">
     <div class="border-radius">
 
-      <div *ngFor="let user of searchedUsers"
-           class="border-radius">
-        <a [routerLink]="['../users/', user.userId]">
-
-
-          <a class="navbar-brand"
-             href="#"><img
-                           ngSrc="./assets/images/ExportLogoPng512-02.png"
-                           priority="false"
-                           height="50"
-                           width="50"></a>
-
-
-          {{user.firstName + ' ' + user.lastName}}
-
-        </a>
-      </div>
+      <app-search-item *ngFor="let userElement of searchedUsers" [user]="userElement" >
+      </app-search-item>
 
     </div>
   </div>

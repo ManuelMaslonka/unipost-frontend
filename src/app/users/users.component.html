@@ -12,12 +12,12 @@
             <div class="d-flex flex-row">
 
               <div>
-                Followers
+                Followings
                 <h4>{{user.followers.length}}</h4>
               </div>
 
               <div>
-                Following
+                Followers
                 <h4>{{following}}</h4>
               </div>
 
@@ -34,12 +34,14 @@
           </div>
         </div>
         <div class="w-50 text-end">
-          <img ngSrc="{{ imageSrc }}"
+          <span *ngFor="let image of imageAuthor">
+          <img [src]="image"
                height="192"
                width="192"
                alt="profile picture"
                style="border-radius: 100%"
           >
+          </span>
         </div>
       </div>
       <div class="border-radius" style="margin-top: 1rem">

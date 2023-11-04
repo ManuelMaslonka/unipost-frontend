@@ -4,12 +4,14 @@
 
 
       <div class="d-flex justify-content-start align-items-center flex-flow">
-        <img ngSrc="./assets/images/priscilla-du-preez-nF8xhLMmg0c-unsplash.jpg"
+        <span *ngFor="let image of imageAuthor">
+        <img [src]="image"
              width="42"
              height="42"
              alt="{{post.author}}_profile_picture"
              class="profile-picture-post"
         >
+        </span>
 
         <p class="profile-name-post">{{post.author}}</p>
         <p class="post-edit">...</p>

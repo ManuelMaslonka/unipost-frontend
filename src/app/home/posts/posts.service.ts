@@ -199,4 +199,14 @@ export class PostsService implements OnInit, OnDestroy {
     )
     return images;
   }
+
+  deletePost(postId: number) {
+    this.http.delete<boolean>(
+      this.baseUrl + "posts/delete/" + postId
+    ).subscribe(
+      resData => {
+        this.getPostByHttp()
+      }
+    )
+  }
 }

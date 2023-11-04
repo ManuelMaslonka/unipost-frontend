@@ -17,7 +17,7 @@ export class FriendBarComponent implements OnInit, OnDestroy {
   authService: AuthService = inject(AuthService)
 
   ngOnInit() {
-    this.authService.user.subscribe(
+    this.subscription = this.authService.user.subscribe(
       user => {
         if (user) {
           this.friendsService.getFriendsByHttp(user.userId)
