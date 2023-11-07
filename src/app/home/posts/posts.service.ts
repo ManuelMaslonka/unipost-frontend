@@ -23,6 +23,8 @@ export class PostsService implements OnInit, OnDestroy {
   private userSub2 = new Subscription();
   private userSub3 = new Subscription();
   private httpSub = new Subscription();
+  private delSub = new Subscription();
+  private getSub = new Subscription();
 
   constructor(private http: HttpClient,
               private authService: AuthService,
@@ -74,7 +76,7 @@ export class PostsService implements OnInit, OnDestroy {
     paramsHttp.append("page", page);
     paramsHttp.append("size", size);
     console.log(paramsHttp)
-    this.http.get<PostPagination>(
+    this.getSub = this.http.get<PostPagination>(
       this.baseUrl + "posts", {
         params: new HttpParams().set("page", page).set("size", size)
       }
@@ -167,6 +169,8 @@ export class PostsService implements OnInit, OnDestroy {
     this.userSub2.unsubscribe();
     this.userSub3.unsubscribe();
     this.httpSub.unsubscribe();
+    this.delSub.unsubscribe();
+    this.getSub.unsubscribe();
   }
 
   sendCommentToBackend(commentContent: string, postId: number) {
@@ -201,7 +205,7 @@ export class PostsService implements OnInit, OnDestroy {
   }
 
   deletePost(postId: number) {
-    this.http.delete<boolean>(
+    this.delSub = this.http.delete<boolean>(
       this.baseUrl + "posts/delete/" + postId
     ).subscribe(
       resData => {

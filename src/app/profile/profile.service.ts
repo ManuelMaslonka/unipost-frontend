@@ -19,6 +19,7 @@ export class ProfileService {
   private userSub1: Subscription = new Subscription();
   private userSub2: Subscription = new Subscription();
   private postSub: Subscription = new Subscription();
+  private delSub: Subscription = new Subscription();
 
 
   constructor(private http: HttpClient,
@@ -133,6 +134,7 @@ export class ProfileService {
     this.userSub1.unsubscribe();
     this.userSub2.unsubscribe();
     this.postSub.unsubscribe();
+    this.delSub.unsubscribe();
   }
 
 
@@ -170,4 +172,16 @@ export class ProfileService {
     )
     return images;
   }
+
+
+  deletePost(postId: number) {
+    this.delSub = this.http.delete<boolean>(
+      this.BASE_URL + "posts/delete/" + postId
+    ).subscribe(
+      resData => {
+        this.getUserPostByHttp().subscribe()
+      }
+    )
+  }
+
 }

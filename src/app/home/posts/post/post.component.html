@@ -3,7 +3,6 @@
     <div class="border-radius">
 
 
-      <a (click)="onGoProfile()" style="cursor: pointer">
 
         <div class="d-flex justify-content-start align-items-center flex-flow">
         <span *ngFor="let image of authorImage">
@@ -15,8 +14,10 @@
         >
         </span>
 
+      <a (click)="onGoProfile()" style="cursor: pointer">
           <p class="profile-name-post">{{post.author}}</p>
 
+      </a>
           <div ngbDropdown
                class="post-edit"
                *ngIf="isEditable">
@@ -30,7 +31,6 @@
 
 
         </div>
-      </a>
 
       <p class="text-size">
         {{post.description}}

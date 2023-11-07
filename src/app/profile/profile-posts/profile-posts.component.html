@@ -16,8 +16,18 @@
               </span>
 
         <p class="profile-name-post">{{post.author}}</p>
-        <p class="post-edit">...</p>
+        <div ngbDropdown
+             class="post-edit"
+             *ngIf="isEditable">
+          <p ngbDropdownToggle></p>
+          <ul ngbDropdownMenu>
+            <li><a ngbDropdownItem
+                   class="dropdown-item"
+                   (click)="onDelete()">Delete</a></li>
+          </ul>
+        </div>
       </div>
+
 
       <p class="text-size">
         {{post.description}}

@@ -26,6 +26,7 @@ export class ProfilePostsComponent implements OnDestroy{
   postId!: number;
   images: SafeUrl[] = [];
   selectedImage!: SafeUrl;
+  isEditable: boolean = true;
 
   constructor(private profileService: ProfileService,
               private modalService: NgbModal,
@@ -66,5 +67,7 @@ export class ProfilePostsComponent implements OnDestroy{
   }
 
 
-
+  onDelete() {
+    this.profileService.deletePost(this.post.postId);
+  }
 }
