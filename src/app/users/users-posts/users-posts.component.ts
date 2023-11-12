@@ -24,6 +24,7 @@ export class UsersPostsComponent implements OnDestroy {
   selectedImage!: SafeUrl;
   isLikedSub = new Subscription();
   imageAuthor!: SafeUrl[];
+  indexOfSelectedImage: number = 0;
 
   constructor(private usersService: UsersService,
               private authService: AuthService,
@@ -34,7 +35,8 @@ export class UsersPostsComponent implements OnDestroy {
   ngOnInit(): void {
     this.isLikedSub =
       this.usersService.isLiked(this.post.postId, this.post).subscribe(isLiked => this.isLiked = isLiked)
-    let images = this.usersService.getImageFromBackend(this.post.imagesId);
+    let idsOfImages = this.post.imageInfo.map(image => image.imageId);
+    let images = this.usersService.getImageFromBackend(idsOfImages);
     if (images != undefined) {
       this.images = images;
     }
@@ -56,8 +58,9 @@ export class UsersPostsComponent implements OnDestroy {
     this.modalService.open(content, {size: 'xl', scrollable: true});
   }
 
-  selectImage(image: SafeUrl) {
+  selectImage(image: SafeUrl, index: number) {
     this.selectedImage = image;
+    this.indexOfSelectedImage = index;
   }
 
 

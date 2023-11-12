@@ -27,6 +27,7 @@ export class ProfilePostsComponent implements OnDestroy{
   images: SafeUrl[] = [];
   selectedImage!: SafeUrl;
   isEditable: boolean = true;
+  indexOfSelectedImage: number = 0;
 
   constructor(private profileService: ProfileService,
               private modalService: NgbModal,
@@ -35,7 +36,8 @@ export class ProfilePostsComponent implements OnDestroy{
   }
   ngOnInit(): void {
     this.isLikedSub = this.profileService.isLiked(this.post.postId, this.post).subscribe( isLiked => this. isLiked= isLiked);
-    let images = this.profileService.getImageFromBackend(this.post.imagesId);
+    let idsOfImages = this.post.imageInfo.map(image => image.imageId);
+    let images = this.profileService.getImageFromBackend(idsOfImages);
     if (images != undefined) {
       this.images = images;
     }
@@ -46,8 +48,9 @@ export class ProfilePostsComponent implements OnDestroy{
     this.modalService.open(content, {size: 'xl', scrollable: true});
   }
 
-  selectImage(image: SafeUrl) {
+  selectImage(image: SafeUrl, index: number) {
     this.selectedImage = image;
+    this.indexOfSelectedImage = index;
   }
 
   onLikeUp() {

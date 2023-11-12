@@ -190,7 +190,7 @@ export class AuthService {
   getProfileImageLoggedUser() {
     let images: SafeUrl[] = [];
     this.http.get<Blob>(
-      this.baseUrl + 'images', {
+      this.baseUrl + 'images/profile', {
         responseType: 'blob' as 'json'
       }
     ).subscribe(blob => {

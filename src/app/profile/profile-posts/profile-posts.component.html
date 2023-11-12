@@ -33,31 +33,28 @@
         {{post.description}}
       </p>
 
-      <div class="caption-top">
-        <div *ngFor="let url of images">
-          <button style="border: unset"
-                  class="ratio ratio-1x1 bg-white"
-                  (click)="selectImage(url); open(content)">
-            <img [src]="url"
-                 alt="{{url}}">
-          </button>
-        </div>
+      <div *ngFor="let url of images; index as i">
+        <button style="border: unset"
+                class="ratio ratio-1x1 bg-white"
+                (click)="selectImage(url, i); open(content)">
+          <img *ngIf="post.imageInfo[i].imageType.match('image/*')"
+               [src]="url"
+               alt="{{url}}">
+
+          <video *ngIf="post.imageInfo[i].imageType.match('video/*')" [src]="url" controls></video>
+        </button>
       </div>
 
       <ng-template #content
                    let-modal>
         <div class="modal-body ratio ratio-1x1">
-          <img [src]="selectedImage"
+          <img *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('image/*')" [src]="selectedImage"
                alt="Selected Image">
+
+          <video *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('video/*')" [src]="selectedImage"
+                 controls></video>
         </div>
       </ng-template>
-
-      <div class="d-flex justify-content-end align-items-end likes">
-        <button class="btn btn-like"
-                (click)="onLikeUp()"
-                [ngClass]="{'active-like':isLiked}"
-        >{{ post.likeCount }}</button>
-      </div>
 
       <div>
         <button

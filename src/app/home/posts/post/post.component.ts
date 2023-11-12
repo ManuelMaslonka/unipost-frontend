@@ -21,6 +21,7 @@ export class PostComponent implements OnInit, OnDestroy{
   selectedImage!: SafeUrl;
   authorImage!: SafeUrl[];
   isEditable: boolean = false;
+  indexOfSelectedImage: number = 0;
 
   @Input()
   postId!: number;
@@ -40,9 +41,12 @@ export class PostComponent implements OnInit, OnDestroy{
         this.isLiked = isLiked;
       }
     );
-    let images = this.postsService.getImageFromBackend(this.post.imagesId);
+
+    let idsOfImages = this.post.imageInfo.map(image => image.imageId);
+    let images = this.postsService.getImageFromBackend(idsOfImages);
     if (images != undefined) {
       this.images = images;
+      console.log(this.images)
     }
     this.authorImage = this.authService.getProfileImageUser(this.post.authorId);
     this.authService.user.subscribe(
@@ -52,6 +56,7 @@ export class PostComponent implements OnInit, OnDestroy{
         }
       }
     )
+    console.log(this.post.imageInfo)
   }
 
 
@@ -73,8 +78,9 @@ export class PostComponent implements OnInit, OnDestroy{
     this.modalService.open(content, {size: 'xl', scrollable: true});
   }
 
-  selectImage(image: SafeUrl) {
+  selectImage(image: SafeUrl, index: number) {
     this.selectedImage = image;
+    this.indexOfSelectedImage = index;
   }
 
   onDelete() {

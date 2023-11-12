@@ -8,7 +8,7 @@ export class Post {
       public description: string,
       public likeCount: number,
       public createdDate: Date,
-      public imagesId: number[],
+      public imageInfo: ImageInfo[],
       public likes: Like[],
       public comments: Comment[],
       public isPrivate: boolean,
@@ -17,4 +17,9 @@ export class Post {
   ) {
   }
 
+}
+
+export interface ImageInfo {
+  imageId: number;
+  imageType: string;
 }
