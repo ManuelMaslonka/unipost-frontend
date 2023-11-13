@@ -1,0 +1,85 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">id</th>
+    <th scope="col">First</th>
+    <th scope="col">Last</th>
+    <th scope="col">Buttons</th>
+  </tr>
+  </thead>
+  <tbody>
+
+
+  <tr *ngFor="let user of users$ | async">
+    <td *ngIf="user.userId != loggedUser.userId" >{{user.userId}}</td>
+    <td *ngIf="user.userId != loggedUser.userId">{{user.firstName}}</td>
+    <td *ngIf="user.userId != loggedUser.userId">{{user.lastName}}</td>
+    <td *ngIf="user.userId != loggedUser.userId" >
+      <button (click)="onDelete(user.userId)"
+              class="btn btn-danger">Delete
+      </button>
+
+      <button (click)="onOpen(content); onEdit(user)"
+              class="btn btn-success">Edit
+      </button>
+
+      <button (click)="onPromote(user.userId)" *ngIf="user.role == 'USER'"
+              class="btn btn-primary">Promote to admin
+      </button>
+
+    </td>
+  </tr>
+
+  <tr>
+  </tr>
+
+
+  <ng-template #content
+               let-modal>
+    <div class="modal-body">
+      <form class="col-12 text-center"
+            [formGroup]="editForm"
+            (ngSubmit)="onSubmit()">
+        >
+        <label for="firstName">Firstname</label>
+        <input class="form-control"
+               id="firstName"
+               type="text"
+               formControlName="firstName"
+        >
+        <label for="lastName">Lastname</label>
+        <input class="form-control"
+               id="lastName"
+               type="text"
+               formControlName="lastName"
+        >
+        <label for="nickName">Nickname</label>
+        <input class="form-control"
+               id="nickName"
+               type="text"
+               formControlName="nickName"
+        >
+        <label for="faculty">faculty</label>
+        <input class="form-control"
+               id="faculty"
+               type="text"
+               formControlName="faculty"
+        >
+        <label for="email">Email</label>
+        <input class="form-control"
+               id="email"
+               type="text"
+               formControlName="email"
+        >
+        <div class="modal-footer">
+          <button class="btn btn-success"
+                  type="submit" (close)="onSubmit()">Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+
+  </tbody>
+</table>
