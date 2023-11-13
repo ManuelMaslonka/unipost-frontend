@@ -34,6 +34,8 @@ import { ProfileCreateCommentComponent } from './profile/profile-create-comment/
 import { UsersCreateCommentsComponent } from './users/users-create-comments/users-create-comments.component';
 import { SearchItemComponent } from './search/search-item/search-item.component';
 import { AdminComponent } from './admin/admin.component';
+import { UserTableComponent } from './admin/user-table/user-table.component';
+import { PostsTableComponent } from './admin/posts-table/posts-table.component';
 
 
 @NgModule({
@@ -62,6 +64,8 @@ import { AdminComponent } from './admin/admin.component';
     UsersCreateCommentsComponent,
     SearchItemComponent,
     AdminComponent,
+    UserTableComponent,
+    PostsTableComponent,
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,9 @@ import {RegisterComponent} from "./auth/register/register.component";
 import {authGuard} from "./auth/auth-guard";
 import {UsersComponent} from "./users/users.component";
 import {AdminComponent} from "./admin/admin.component";
+import {UserTableComponent} from "./admin/user-table/user-table.component";
+import {PostsTableComponent} from "./admin/posts-table/posts-table.component";
+import {adminGuard} from "./admin/admin-guard";
 
 const routes: Routes = [
   {
@@ -35,7 +38,10 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'admin', component: AdminComponent
+    path: 'admin', component: AdminComponent, canActivate: [adminGuard],children: [
+      {path: 'users', component: UserTableComponent},
+      {path: 'posts', component: PostsTableComponent},
+    ]
   }
 ];
 

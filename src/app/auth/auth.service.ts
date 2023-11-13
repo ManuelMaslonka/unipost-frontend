@@ -28,6 +28,7 @@ export class AuthService {
   refreshTokenExpirationTimer: any;
   user = new BehaviorSubject<User | null>(null);
   userVariable: User | null = null;
+  isRoleAdmin: boolean = false;
   imageSrc!: SafeUrl;
 
   constructor(private http: HttpClient,
@@ -38,6 +39,15 @@ export class AuthService {
   isAuthenticated() {
     return new Promise((resolve, reject) => {
       if (this.isAuthenticate) {
+        resolve(true)
+      }
+      resolve(false)
+    })
+  }
+
+  isAdmin() {
+    return new Promise((resolve, reject) => {
+      if (this.isRoleAdmin) {
         resolve(true)
       }
       resolve(false)
@@ -70,6 +80,7 @@ export class AuthService {
     this.autoLogoOut(((new Date(data.expiration_time).getTime() - new Date().getTime())))
     this.saveTokenToUser(data.user)
     this.setTrueAuthenticate();
+    this.isRoleAdmin = data.user.role === 'ADMIN';
     this.router.navigate(['/posts'])
   }
 
@@ -105,6 +116,7 @@ export class AuthService {
       if (loadedUser._tokenExpirationTime) {
         this.user.next(loadedUser);
         this.isAuthenticate = true;
+        this.isRoleAdmin = loadedUser.role === 'ADMIN';
         this.autoLogoOut((new Date(loadedUser._tokenExpirationTime).getTime() - new Date().getTime()));
       }
     }

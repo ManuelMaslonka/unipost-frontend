@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../shared/user.model";
 import {BehaviorSubject, Subscription} from "rxjs";
 import {FormGroup} from "@angular/forms";
+import {Post} from "../home/posts/post/post.model";
 
 @Injectable({providedIn: "root"})
 export class AdminService implements OnDestroy {
@@ -10,7 +11,9 @@ export class AdminService implements OnDestroy {
   http = inject(HttpClient);
   BASE_URL: string = 'http://localhost:8080/api/';
   users$ = new BehaviorSubject<User[]>([]);
+  posts$ = new BehaviorSubject<Post[]>([]);
   httpSub: Subscription = new Subscription();
+  httpSub1: Subscription = new Subscription();
 
   ngOnInit(): void {
 
@@ -23,6 +26,26 @@ export class AdminService implements OnDestroy {
       users => {
         console.log(users);
         this.users$.next(users);
+      }
+    )
+  }
+
+  getPostsFromBackend() {
+    this.httpSub1 = this.http.get<Post[]>(
+      this.BASE_URL + 'admins/posts'
+    ).subscribe(
+      users => {
+        this.posts$.next(users);
+      }
+    )
+  }
+
+  deletePostById(postId: number) {
+    this.http.delete<Post>(
+      this.BASE_URL + 'admins/posts/' + postId
+    ).subscribe(
+      () => {
+        this.getPostsFromBackend();
       }
     )
   }
@@ -43,6 +66,7 @@ export class AdminService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.httpSub.unsubscribe();
+    this.httpSub1.unsubscribe();
   }
 
 
@@ -69,4 +93,7 @@ export class AdminService implements OnDestroy {
       }
     )
   }
+
+
+
 }
