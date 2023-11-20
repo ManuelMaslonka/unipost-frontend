@@ -22,6 +22,7 @@ export class PostsComponent implements OnInit, OnDestroy {
   postsService: PostsService = inject(PostsService);
   page: number = 0;
   pageMax: number = 0;
+  isShowFollowed: boolean = false;
 
 
   ngOnInit() {
@@ -42,6 +43,18 @@ export class PostsComponent implements OnInit, OnDestroy {
   addPosts() {
     this.page++;
     this.postsService.getPostByHttpPagination(this.page);
+  }
+
+  onShowFollowedPosts() {
+    this.isShowFollowed = true;
+    this.postsService.getFollowedPostsFromBackend();
+    this.posts$ = this.postsService.postsChanged;
+  }
+
+  onShowAllPosts() {
+    this.isShowFollowed = false;
+    this.postsService.getPostByHttpPagination(0);
+    this.posts$ = this.postsService.postsChanged;
   }
 
 

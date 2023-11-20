@@ -25,6 +25,8 @@ export class PostsService implements OnInit, OnDestroy {
   private httpSub = new Subscription();
   private delSub = new Subscription();
   private getSub = new Subscription();
+  private getSub1 = new Subscription();
+  private getSub2 = new Subscription();
 
   constructor(private http: HttpClient,
               private authService: AuthService,
@@ -50,6 +52,19 @@ export class PostsService implements OnInit, OnDestroy {
     return this.postsList.slice();
   }
 
+  getFollowedPostsFromBackend() {
+    this.getSub1 = this.http.get<Post[]>(
+      this.baseUrl + "posts/followed"
+    ).subscribe(
+      resData => {
+        this.postsList = resData;
+        console.log(this.postsList)
+        this.updatePosts();
+      }
+    )
+
+  }
+
   addComment(postId: number, comment: Comment) {
     let post = this.postsList.find(post => post.postId === postId)
     if (post != undefined) {
@@ -62,7 +77,7 @@ export class PostsService implements OnInit, OnDestroy {
   }
 
   getPostByHttp() {
-    this.http.get<Post[]>(
+    this.getSub2 = this.http.get<Post[]>(
       this.baseUrl + "posts",
     ).subscribe(resData => {
       this.postsList = resData;
@@ -171,6 +186,8 @@ export class PostsService implements OnInit, OnDestroy {
     this.httpSub.unsubscribe();
     this.delSub.unsubscribe();
     this.getSub.unsubscribe();
+    this.getSub1.unsubscribe();
+    this.getSub2.unsubscribe();
   }
 
   sendCommentToBackend(commentContent: string, postId: number) {

@@ -3,11 +3,13 @@
   <div class="border-radius">
 
     <div class="d-flex justify-content-center" style="margin-top: 1em">
-      <button class="btn btn-primary button-switcher-l active">
+      <button class="btn btn-primary button-switcher-l" [ngClass]="{activeButton: isShowFollowed}"
+              (click)="onShowFollowedPosts()">
         Followed
       </button>
 
-      <button class="btn btn-primary button-switcher-r">
+      <button class="btn btn-primary button-switcher-r" (click)="onShowAllPosts()"
+             [ngClass]="{activeButton: !isShowFollowed}">
         All
       </button>
     </div>
