@@ -1,9 +1,9 @@
 <div class="col-lg-12">
-  <div class="desing-bar">
-    <div class="border-radius">
+    <div class="desing-bar">
+        <div class="border-radius">
 
 
-      <div class="d-flex justify-content-start align-items-center flex-flow">
+            <div class="d-flex justify-content-start align-items-center flex-flow">
         <span *ngFor="let image of imageAuthor">
         <img [src]="image"
              width="42"
@@ -13,64 +13,74 @@
         >
         </span>
 
-        <p class="profile-name-post">{{post.author}}</p>
-        <p class="post-edit">...</p>
-      </div>
+                <p class="profile-name-post">{{post.author}}</p>
+                <p class="post-edit">...</p>
+            </div>
 
-      <p class="text-size">
-        {{post.description}}
-      </p>
+            <p class="text-size">
+                {{post.description}}
+            </p>
 
-      <div *ngFor="let url of images; index as i">
-        <button style="border: unset"
-                class="ratio ratio-1x1 bg-white"
-                (click)="selectImage(url, i); open(content)">
-          <img *ngIf="post.imageInfo[i].imageType.match('image/*')"
-               [src]="url"
-               alt="{{url}}">
+            <div *ngFor="let url of images; index as i">
+                <button style="border: unset"
+                        class="ratio ratio-1x1 bg-white"
+                        (click)="selectImage(url, i); open(content)"
+                        *ngIf="!post.imageInfo[indexOfSelectedImage].imageType.match('application/pdf')">
+                    <img *ngIf="post.imageInfo[i].imageType.match('image/*')"
+                         [src]="url"
+                         alt="{{url}}">
 
-          <video *ngIf="post.imageInfo[i].imageType.match('video/*')" [src]="url" controls></video>
-        </button>
-      </div>
+                    <video *ngIf="post.imageInfo[i].imageType.match('video/*')"
+                           [src]="url"
+                           controls></video>
+                </button>
+                <a *ngIf="post.imageInfo[i].imageType.match('application/pdf')"
+                   [href]="url">PDF file
+                </a>
+            </div>
 
-      <ng-template #content
-                   let-modal>
-        <div class="modal-body ratio ratio-1x1">
-          <img *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('image/*')" [src]="selectedImage"
-               alt="Selected Image">
+            <ng-template #content
+                         let-modal>
+                <div class="modal-body ratio ratio-1x1">
+                    <img *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('image/*')"
+                         [src]="selectedImage"
+                         alt="Selected Image">
 
-          <video *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('video/*')" [src]="selectedImage"
-                 controls></video>
+                    <video *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('video/*')"
+                           [src]="selectedImage"
+                           controls></video>
+                </div>
+            </ng-template>
+
+            <div class="d-flex justify-content-end align-items-end likes">
+                <button class="btn btn-like"
+                        (click)="onLikeUp()"
+                        [ngClass]="{'active-like':isLiked}"
+                >{{ post.likeCount }}</button>
+            </div>
+
+            <div>
+                <button
+                        type="button"
+                        class="btn-comment"
+                        (click)="collapse.toggle()"
+                        [attr.aria-expanded]="!isCollapsed"
+                        aria-controls="collapseExample"
+                >
+                    Show comments {{post.comments.length}}
+                </button>
+                <div #collapse="ngbCollapse"
+                     [(ngbCollapse)]="isCollapsed">
+                    <app-users-create-comments [postId]="post.postId"></app-users-create-comments>
+                    <app-users-comments *ngFor="let commentEl of post.comments; index as i"
+                                        [comment]="commentEl"
+                                        [index]="i"
+                                        [post]="post"
+                                        [postId]="post.postId"></app-users-comments>
+                </div>
+            </div>
+
         </div>
-      </ng-template>
-
-      <div class="d-flex justify-content-end align-items-end likes">
-        <button class="btn btn-like"
-                (click)="onLikeUp()"
-                [ngClass]="{'active-like':isLiked}"
-        >{{ post.likeCount }}</button>
-      </div>
-
-      <div>
-        <button
-          type="button"
-          class="btn-comment"
-          (click)="collapse.toggle()"
-          [attr.aria-expanded]="!isCollapsed"
-          aria-controls="collapseExample"
-        >
-          Show comments {{post.comments.length}}
-        </button>
-        <div #collapse="ngbCollapse"
-             [(ngbCollapse)]="isCollapsed">
-          <app-users-create-comments [postId]="post.postId"></app-users-create-comments>
-          <app-comment *ngFor="let commentEl of post.comments; index as i"
-                       [comment]="commentEl"
-                       [index]="i"
-                       [postId]="post.postId"></app-comment>
-        </div>
-      </div>
-
     </div>
-  </div>
 </div>
+<hr>

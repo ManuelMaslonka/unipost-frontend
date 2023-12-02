@@ -1,0 +1,35 @@
+
+<hr>
+<div class="col-lg-12">
+    <div class="desing-bar">
+        <div class="border-radius">
+
+            <div class="d-flex justify-content-start align-items-center flex-flow"
+                 *ngFor="let image of authorImage">
+                <img [src]="image"
+                     width="34"
+                     height="34"
+                     alt="{{comment.author}}_profile_picture"
+                     class="profile-picture-post-comment"
+                >
+
+                <p class="profile-name-post-comment">{{comment.author}}</p>
+                <p class="post-edit">...</p>
+            </div>
+
+            <p class="text-size">
+                {{comment.description}}
+            </p>
+
+            <div class="d-flex justify-content-end align-items-end likes">
+                <button class="btn btn-like"
+                        (click)="onLikeUpComment()"
+                        [ngClass]="{'active-like':isLiked }"
+                >{{ comment.likeCount }}</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+

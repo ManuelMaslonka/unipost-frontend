@@ -1,20 +1,14 @@
-import {
-  Component,
-  inject,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
-import {Post} from "./post/post.model";
-import {PostsService} from "./posts.service";
-import {Observable, Subscription} from "rxjs";
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Post } from './post/post.model';
+import { PostsService } from './posts.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.sass']
+  styleUrls: ['./posts.component.sass'],
 })
 export class PostsComponent implements OnInit, OnDestroy {
-
   posts$: Observable<Post[]> = new Observable<Post[]>();
 
   postSubs: Subscription = new Subscription();
@@ -24,15 +18,13 @@ export class PostsComponent implements OnInit, OnDestroy {
   pageMax: number = 0;
   isShowFollowed: boolean = false;
 
-
   ngOnInit() {
     this.postsService.getPostByHttpPagination(0);
     this.posts$ = this.postsService.postsChanged;
-    this.pageSubs = this.postsService.pageMax.subscribe(
-      pageMax => {
-        this.pageMax = pageMax;
-      }
-    )
+    console.log(this.posts$.subscribe((data) => console.log(data)));
+    this.pageSubs = this.postsService.pageMax.subscribe((pageMax) => {
+      this.pageMax = pageMax;
+    });
   }
 
   ngOnDestroy() {
@@ -56,6 +48,4 @@ export class PostsComponent implements OnInit, OnDestroy {
     this.postsService.getPostByHttpPagination(0);
     this.posts$ = this.postsService.postsChanged;
   }
-
-
 }

@@ -1,12 +1,17 @@
-
-
 <div class="container-fluid row">
   <div class="col-lg-6 h-100">
-    <div class="responsive-image image-friends"></div>
+    <div class="responsive-image image-friends">
+      <img style="margin: 0.4em;"
+           src="../../assets/images/ExportLogoPng512-02.png"
+           height="50px"/>
+    </div>
   </div>
   <div class="col-lg-6">
-    <div class="container" style="display: grid; height: 100%; justify-items: center">
-      <router-outlet></router-outlet>
+    <div class="container"
+         style="display: grid; height: 100%">
+      <div style="margin: auto; width: 50%;">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
 </div>

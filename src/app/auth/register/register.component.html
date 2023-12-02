@@ -7,7 +7,7 @@
     name="nickName"
     type="text"
     formControlName="nickName"
-    class="form-control">
+    class="form-control input-register">
 <span class="form-text d-block" *ngIf="nickName?.invalid && nickName?.touched">This name need to be valid</span>
   <label
     for="firstName"
@@ -17,7 +17,7 @@
     name="firstName"
     type="text"
     formControlName="firstName"
-    class="form-control">
+    class="form-control input-register">
   <span class="form-text d-block" *ngIf="firstName?.invalid && firstName?.touched">This first Name need to be valid</span>
   <label
     for="lastName"
@@ -27,7 +27,7 @@
     name="lastName"
     type="text"
     formControlName="lastName"
-    class="form-control">
+    class="form-control input-register">
   <span class="form-text d-block" *ngIf="lastName?.invalid && lastName?.touched">This LastName need to be valid</span>
   <label
     for="password"
@@ -37,7 +37,7 @@
     name="username"
     type="password"
     formControlName="password"
-    class="form-control">
+    class="form-control input-register">
   <span class="form-text d-block" *ngIf="password?.invalid && password?.touched">This password need to be valid</span>
   <label
     for="email"
@@ -47,7 +47,7 @@
     name="email"
     type="email"
     formControlName="email"
-    class="form-control">
+    class="form-control input-register">
   <span class="form-text d-block" *ngIf="email?.invalid && email?.touched">This email need to be valid</span>
   <label
     for="country"
@@ -57,7 +57,7 @@
     name="country"
     type="text"
     formControlName="country"
-    class="form-control">
+    class="form-control input-register">
   <span class="form-text d-block" *ngIf="country?.invalid && country?.touched">This country need to be valid</span>
   <label
     for="faculty"
@@ -81,12 +81,15 @@
   </div>
   <span class="form-text d-block" *ngIf="gender?.invalid && gender?.touched">This LastName need to be valid</span>
 
-  <div class="d-flex justify-content-end w-95">
-    <input type="file" class="file-upload" (change)="onFileSelected($event)" >
+  <div class="pt-4">
+    <label for="file-upload" class="custom-file-upload">
+      <i class="fa fa-cloud-upload"></i> Upload Image
+    </label>
+    <input type="file" id="file-upload" class="file-upload" (change)="onFileSelected($event)" >
   </div>
 
 
-  <button class="btn btn-success mt-3" type="submit" [disabled]="registerForm.invalid">Register</button>
+  <button class="btn btn-success registration-button mt-3" type="submit" [disabled]="registerForm.invalid">Register</button>
 
 
   <div class="alert alert-danger d-flex justify-content-sm-between" role="alert" *ngIf="isError" (click)="onCloseError()">

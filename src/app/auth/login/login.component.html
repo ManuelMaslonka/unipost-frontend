@@ -18,7 +18,7 @@
     type="text"
     formControlName="password"
     class="form-control">
-  <button class="btn btn-success mt-3"
+  <button class="btn btn-success login-button mt-3"
           type="submit">Log in
   </button>
   <div class="alert alert-danger d-flex justify-content-sm-between" role="alert" *ngIf="isError" (click)="onClose()">
@@ -30,8 +30,9 @@
     </span>
   </div>
 </form>
-<button class="btn btn-primary mt-3 text-end"
-        type="button"><a [routerLink]="['/auth/registration']" style="color: white; text-decoration: unset"> Register</a></button>
+<button class="btn btn-primary register-button mt-3 text-end"
+        type="button"><a [routerLink]="['/auth/registration']" style="color: black; text-decoration: unset"> Register
+</a></button>
 
 
 

@@ -1,3 +1,5 @@
+
+
 <div class="col-lg-12">
   <div class="desing-bar">
     <div class="border-radius">
@@ -40,18 +42,22 @@
       <div *ngFor="let url of images; index as i">
         <button style="border: unset"
                 class="ratio ratio-1x1 bg-white"
-                (click)="selectImage(url, i); open(content)">
+                (click)="selectImage(url, i); open(content)"
+                *ngIf="!post.imageInfo[indexOfSelectedImage].imageType.match('application/pdf')">
           <img *ngIf="post.imageInfo[i].imageType.match('image/*')"
                [src]="url"
                alt="{{url}}">
 
           <video *ngIf="post.imageInfo[i].imageType.match('video/*')" [src]="url" controls></video>
         </button>
+        <a *ngIf="post.imageInfo[i].imageType.match('application/pdf')" [href]="url">
+          pdf
+        </a>
       </div>
 
       <ng-template #content
                    let-modal>
-        <div class="modal-body ratio ratio-1x1">
+        <div class="modal-body ratio ratio-1x1" >
           <img *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('image/*')" [src]="selectedImage"
                alt="Selected Image">
 
@@ -85,6 +91,7 @@
           <app-comment *ngFor="let commentEl of post.comments; index as i"
                        [comment]="commentEl"
                        [index]="i"
+                       [post]=post
                        [postId]="post.postId">
 
           </app-comment>
@@ -94,3 +101,4 @@
     </div>
   </div>
 </div>
+<hr>
