@@ -13,8 +13,16 @@
     </div>
 
     <div class="d-flex justify-content-end w-95">
-      <input type="file" class="file-upload" multiple (change)="onFileSelected($event)" >
-      <button class="btn btn-primary submit-button" (click)="onUpload(postContent.value)">
+
+      <label class="custom-file-upload">
+        <input type="file"
+               multiple
+               (change)="onFileSelected($event)"
+        />
+        Custom Upload
+      </label>
+      <button class="btn btn-primary submit-button"
+              (click)="onUpload(postContent.value)">
         Post
       </button>
     </div>
