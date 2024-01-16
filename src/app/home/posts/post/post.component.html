@@ -49,6 +49,7 @@
                alt="{{url}}">
 
           <video *ngIf="post.imageInfo[i].imageType.match('video/*')" [src]="url" controls></video>
+          <h1 *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('video/*')"> video</h1>
         </button>
         <a *ngIf="post.imageInfo[i].imageType.match('application/pdf')" [href]="url">
           pdf
@@ -61,10 +62,13 @@
           <img *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('image/*')" [src]="selectedImage"
                alt="Selected Image">
 
+
           <video *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('video/*')" [src]="selectedImage"
                  controls></video>
         </div>
       </ng-template>
+
+
 
 
       <div class="d-flex justify-content-end align-items-end likes">

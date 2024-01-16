@@ -85,7 +85,6 @@ export class PostsService implements OnInit, OnDestroy {
     let paramsHttp = new HttpParams();
     paramsHttp.append('page', page);
     paramsHttp.append('size', size);
-    console.log(paramsHttp);
     this.getSub = this.http
       .get<PostPagination>(this.baseUrl + 'posts', {
         params: new HttpParams().set('page', page).set('size', size),
