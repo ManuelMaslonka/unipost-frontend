@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { SettingsComponent } from './settings/settings.component';
-import { ProfileComponent } from './profile/profile.component';
-import { SearchComponent } from './search/search.component';
-import { AuthComponent } from './auth/auth.component';
-import { PostsComponent } from './home/posts/posts.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { authGuard } from './auth/auth-guard';
-import { UsersComponent } from './users/users.component';
-import { AdminComponent } from './admin/admin.component';
-import { UserTableComponent } from './admin/user-table/user-table.component';
-import { PostsTableComponent } from './admin/posts-table/posts-table.component';
-import { adminGuard } from './admin/admin-guard';
+import { SettingsComponent } from './features/home/settings/settings.component';
+import { ProfileComponent } from './features/home/profile/profile.component';
+import { SearchComponent } from './features/home/search/search.component';
+import { AuthComponent } from './features/auth/auth.component';
+import { LoginComponent } from './features/auth/login/login.component';
+import { RegisterComponent } from './features/auth/register/register.component';
+import { authGuard } from './features/auth/auth-guard';
+import { UsersComponent } from './features/home/users/users.component';
+import { AdminComponent } from './features/home/admin/admin.component';
+import { UserTableComponent } from './features/home/admin/user-table/user-table.component';
+import { PostsTableComponent } from './features/home/admin/posts-table/posts-table.component';
+import { adminGuard } from './features/home/admin/admin-guard';
+import { HomeComponent } from './features/home/home.component';
+import { PostsComponent } from './features/home/posts/posts.component';
 
 const routes: Routes = [
   {

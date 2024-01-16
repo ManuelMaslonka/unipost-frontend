@@ -1,0 +1,96 @@
+@import "../../../../../app/sass/variables"
+
+.desing-bar
+  margin: 0 $spaces-betwen-windows
+
+
+.border-radius
+  border-radius: 14px
+
+  box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+  -webkit-box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+  -moz-box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+
+  padding: $spaces-betwen-windows
+
+textarea
+  resize: none
+
+  width: 95%
+
+  border-radius: 14px
+  border: none
+  padding: 1.5rem 1.4rem 0.4rem
+  box-shadow: inset 0 0 14px 3px rgba(0, 0, 0, 0.25)
+  -webkit-box-shadow: inset 0 0 14px 3px rgba(0, 0, 0, 0.25)
+  -moz-box-shadow: inset  0 14px 3px rgba(0, 0, 0, 0.25)
+
+  //display: flex
+  //justify-content: center
+  //align-items: center
+
+textarea:focus
+  outline: unset
+  box-shadow: inset 0 0 14px 3px rgb(57, 109, 189)
+
+h3
+  text-align: left
+  margin: $spaces-betwen-windows - 0.25
+
+.registration-button
+  color: black
+  border: unset
+  background-color: white
+
+  padding: $spaces-betwen-windows - 0.5 $spaces-betwen-windows * 2 !important
+
+  box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+  -webkit-box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+  -moz-box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+
+  transition: 0.5s
+
+.registration-button:hover
+  scale: 105%
+  color: white
+  background-color: rgba(57, 109, 189)
+
+  transition: 0.5s
+
+.registration-button:active
+  scale: 95%
+  color: white
+  background-color: rgb(0, 0, 0)
+
+  transition: 0.2s
+
+
+.w-95
+  width: 95%
+  margin: $spaces-betwen-windows auto auto
+
+.show-button
+  text-align: center
+  color: black
+  border: unset
+  background-color: white
+
+  padding: $spaces-betwen-windows - 0.65 $spaces-betwen-windows * 1 !important
+  border-radius: 10px
+
+  box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+  -webkit-box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+  -moz-box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.25)
+  transition: 0.5s
+
+input[type="file"]
+  display: none
+
+.custom-file-upload
+  text-align: left
+
+  border: 1px solid #ccc
+  display: inline-block
+  padding: 6px 12px
+  cursor: pointer
+

@@ -1,9 +1,8 @@
-import {Post} from "../home/posts/post/post.model";
-import {Comment} from "../home/posts/post/comment/comment.model";
-import {Followers} from "./followers.model";
+import { Followers } from './followers.model';
+import { Post } from '../features/home/posts/post/post.model';
+import { Comment } from '../features/home/posts/post/comment/comment.model';
 
 export class User {
-
   constructor(
     public userId: number,
     public nickName: string,
@@ -23,8 +22,6 @@ export class User {
     public _token: string,
     public _refreshToken: string,
     public _tokenExpirationTime: string,
-    public _refreshTokenExpirationTime: string
-  ) {
-  }
-
+    public _refreshTokenExpirationTime: string,
+  ) {}
 }
