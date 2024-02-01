@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { Post } from './post/post.model';
 import { Comment } from './post/comment/comment.model';
-import { BehaviorSubject, map, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, map, Subject, Subscription, tap } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { User } from '../../../shared/user.model';
@@ -210,9 +210,12 @@ export class PostsService implements OnInit, OnDestroy {
   deletePost(postId: number) {
     this.delSub = this.http
       .delete<boolean>(this.baseUrl + 'posts/delete/' + postId)
-      .subscribe((resData) => {
-        this.getPostByHttp();
-      });
+      .pipe(
+        tap(() => {
+          this.getPostByHttp();
+        }),
+      )
+      .subscribe();
   }
 
   isLikedComment(comment: Comment, post: Post) {

@@ -39,12 +39,15 @@ export class UsersService {
   }
 
   getUserPostByHttp(userId: number) {
-    return this.http.get<Post[]>(this.BASE_URL + 'posts/user/' + userId).pipe(
-      tap((resData) => {
-        this.postsList = resData;
-        this.updatePosts();
-      }),
-    );
+    this.http
+      .get<Post[]>(this.BASE_URL + 'posts/user/' + userId)
+      .pipe(
+        tap((resData) => {
+          this.postsList = resData;
+          this.updatePosts();
+        }),
+      )
+      .subscribe();
   }
 
   updatePosts() {
@@ -102,16 +105,14 @@ export class UsersService {
     );
   }
 
-  addComment(comment: Comment, postId: number) {
-    console.log(this.postsList);
-
+  addComment(comment: Comment, postId: number, userId: number) {
     for (let i = 0; i < this.postsList.length; i++) {
       if (this.postsList[i].postId === postId) {
         this.postsList[i].comments.unshift(comment);
         console.log('comment added');
       }
     }
-    this.updatePosts();
+    this.getUserPostByHttp(userId);
     this.sendCommentToServer(comment.description, postId);
   }
 

@@ -1,5 +1,7 @@
 <form [formGroup]="LogInFrom"
-      (ngSubmit)="onSubmit()">
+      (ngSubmit)="onSubmit()"
+  class="clearfix w-75"
+>
   <label
     for="email"
     class="form-label">Email</label>
@@ -18,9 +20,14 @@
     type="text"
     formControlName="password"
     class="form-control">
+
   <button class="btn btn-success login-button mt-3"
           type="submit">Log in
   </button>
+  <button class="btn btn-primary register-button mt-3 float-end text-"
+          type="button"><a [routerLink]="['/auth/registration']" style="color: black; text-decoration: unset"> Register
+  </a></button>
+
   <div class="alert alert-danger d-flex justify-content-sm-between" role="alert" *ngIf="isError" (click)="onClose()">
         <span >
     {{errorMessages}}
@@ -30,9 +37,6 @@
     </span>
   </div>
 </form>
-<button class="btn btn-primary register-button mt-3 text-end"
-        type="button"><a [routerLink]="['/auth/registration']" style="color: black; text-decoration: unset"> Register
-</a></button>
 
 
 

@@ -21,7 +21,6 @@ export class PostsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.postsService.getPostByHttpPagination(0);
     this.posts$ = this.postsService.postsChanged;
-    console.log(this.posts$.subscribe((data) => console.log(data)));
     this.pageSubs = this.postsService.pageMax.subscribe((pageMax) => {
       this.pageMax = pageMax;
     });

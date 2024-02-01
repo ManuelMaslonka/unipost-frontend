@@ -50,7 +50,7 @@ export class UsersCreateCommentsComponent implements OnDestroy {
       this.postId,
       this.user.userId,
     );
-    this.usersService.addComment(comment, this.postId);
+    this.usersService.addComment(comment, this.postId, this.user.userId);
     this.commentContent.nativeElement.value = '';
   }
 

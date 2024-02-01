@@ -74,7 +74,7 @@ export class ProfileService {
   }
 
   getPostById(postId: number) {
-    return this.postsList[postId];
+    return this.postsList.find((post) => post.postId === postId);
   }
 
   commentLikeUp(postId: number, commentId: number) {
@@ -108,6 +108,7 @@ export class ProfileService {
     if (post != undefined) {
       this.postsList[this.postsList.indexOf(post)].comments.unshift(comment);
     }
+    console.log(comment);
     this.sendCommentToServer(comment.description, postId);
     this.getSub = this.getUserPostByHttp().subscribe();
   }

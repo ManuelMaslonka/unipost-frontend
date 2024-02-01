@@ -1,12 +1,9 @@
-
-
 <div class="col-lg-12">
   <div class="desing-bar">
     <div class="border-radius">
 
 
-
-        <div class="d-flex justify-content-start align-items-center flex-flow">
+      <div class="d-flex justify-content-start align-items-center flex-flow">
         <span *ngFor="let image of authorImage">
         <img [src]="image"
              width="42"
@@ -16,26 +13,28 @@
         >
         </span>
 
-      <a (click)="onGoProfile()" style="cursor: pointer">
-          <p class="profile-name-post">{{post.author}}</p>
+        <a (click)="onGoProfile()"
+           style="cursor: pointer">
+          <p class="profile-name-post">{{ post.author }}</p>
 
-      </a>
-          <div ngbDropdown
-               class="post-edit"
-               *ngIf="isEditable">
-            <p ngbDropdownToggle></p>
-            <ul ngbDropdownMenu>
-              <li><a ngbDropdownItem
-                     class="dropdown-item"
-                     (click)="onDelete()">Delete</a></li>
-            </ul>
-          </div>
+        </a>
 
-
+        <div ngbDropdown
+             class="post-edit"
+             *ngIf="isEditable">
+          <p ngbDropdownToggle></p>
+          <ul ngbDropdownMenu>
+            <li><a ngbDropdownItem
+                   class="dropdown-item"
+                   (click)="onDelete()">Delete</a></li>
+          </ul>
         </div>
 
+
+      </div>
+
       <p class="text-size">
-        {{post.description}}
+        {{ post.description }}
       </p>
 
 
@@ -48,34 +47,39 @@
                [src]="url"
                alt="{{url}}">
 
-          <video *ngIf="post.imageInfo[i].imageType.match('video/*')" [src]="url" controls></video>
-          <h1 *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('video/*')"> video</h1>
+          <video *ngIf="post.imageInfo[i].imageType.match('video/*')"
+                 [src]="url"
+                 controls></video>
+          <h1 *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('video/*')">
+            video</h1>
         </button>
-        <a *ngIf="post.imageInfo[i].imageType.match('application/pdf')" [href]="url">
+        <a *ngIf="post.imageInfo[i].imageType.match('application/pdf')"
+           [href]="url">
           pdf
         </a>
       </div>
 
       <ng-template #content
                    let-modal>
-        <div class="modal-body ratio ratio-1x1" >
-          <img *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('image/*')" [src]="selectedImage"
+        <div class="modal-body ratio ratio-1x1">
+          <img *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('image/*')"
+               [src]="selectedImage"
                alt="Selected Image">
 
 
-          <video *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('video/*')" [src]="selectedImage"
+          <video *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('video/*')"
+                 [src]="selectedImage"
                  controls></video>
         </div>
       </ng-template>
-
-
 
 
       <div class="d-flex justify-content-end align-items-end likes">
         <button class="btn btn-like"
                 (click)="onLikeUp()"
                 [ngClass]="{'active-like':isLiked }"
-        >{{ post.likeCount }}</button>
+        >{{ post.likeCount }}
+        </button>
       </div>
 
 
@@ -87,7 +91,7 @@
           [attr.aria-expanded]="!isCollapsed"
           aria-controls="collapseExample"
         >
-          Show comments {{post.comments.length}}
+          Show comments {{ post.comments.length }}
         </button>
         <div #collapse="ngbCollapse"
              [(ngbCollapse)]="isCollapsed">

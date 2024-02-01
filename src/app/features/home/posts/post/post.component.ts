@@ -5,6 +5,7 @@ import { SafeUrl } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post',
@@ -20,6 +21,9 @@ export class PostComponent implements OnInit, OnDestroy {
   authorImage!: SafeUrl[];
   isEditable: boolean = false;
   indexOfSelectedImage: number = 0;
+  postSubs!: Subscription;
+  userSubs!: Subscription;
+  userSubs1!: Subscription;
 
   @Input() postId!: number;
 
@@ -30,8 +34,10 @@ export class PostComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {}
 
+  ngOnDestroy(): void {}
+
   ngOnInit(): void {
-    this.postsService
+    this.postSubs = this.postsService
       .isLiked(this.post.postId, this.post)
       .subscribe((isLiked) => {
         this.isLiked = isLiked;
@@ -43,7 +49,7 @@ export class PostComponent implements OnInit, OnDestroy {
       this.images = images;
     }
     this.authorImage = this.authService.getProfileImageUser(this.post.authorId);
-    this.authService.user.subscribe((user) => {
+    this.userSubs1 = this.authService.user.subscribe((user) => {
       if (user) {
         this.isEditable = user.userId == this.post.authorId;
       }
@@ -60,8 +66,6 @@ export class PostComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {}
-
   open(content: any) {
     this.modalService.open(content, { size: 'xl', scrollable: true });
   }
@@ -76,7 +80,7 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   onGoProfile() {
-    this.authService.user.subscribe((user) => {
+    this.userSubs = this.authService.user.subscribe((user) => {
       if (user) {
         if (user.userId == this.post.authorId) {
           this.router.navigate(['/profile']);

@@ -11,8 +11,10 @@ export class AdminService implements OnDestroy {
   BASE_URL: string = 'http://localhost:8080/api/';
   users$ = new BehaviorSubject<User[]>([]);
   posts$ = new BehaviorSubject<Post[]>([]);
-  httpSub: Subscription = new Subscription();
-  httpSub1: Subscription = new Subscription();
+  private httpSub!: Subscription;
+  private httpSub1!: Subscription;
+  private httpSubDel!: Subscription;
+  private httpSubDel1!: Subscription;
 
   ngOnInit(): void {}
 
@@ -34,7 +36,7 @@ export class AdminService implements OnDestroy {
   }
 
   deletePostById(postId: number) {
-    this.http
+    this.httpSubDel = this.http
       .delete<Post>(this.BASE_URL + 'admins/posts/' + postId)
       .subscribe(() => {
         this.getPostsFromBackend();
@@ -46,7 +48,7 @@ export class AdminService implements OnDestroy {
   }
 
   deleteUserById(userId: number) {
-    this.http
+    this.httpSubDel1 = this.http
       .delete<User>(this.BASE_URL + 'admins/users/' + userId)
       .subscribe(() => {
         this.getUsersFromBackend();
@@ -56,6 +58,8 @@ export class AdminService implements OnDestroy {
   ngOnDestroy(): void {
     this.httpSub.unsubscribe();
     this.httpSub1.unsubscribe();
+    this.httpSubDel.unsubscribe();
+    this.httpSubDel1.unsubscribe();
   }
 
   updateUser(id: any, value: FormGroup) {

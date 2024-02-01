@@ -37,7 +37,8 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.imageAuthor = this.authService.getProfileImageUser(
           this.user.userId,
         );
-        this.usersService.getUserPostByHttp(user.userId).subscribe((posts) => {
+        this.usersService.getUserPostByHttp(user.userId);
+        this.usersService.postsChanged.subscribe((posts) => {
           this.posts = posts;
         });
         this.usersService

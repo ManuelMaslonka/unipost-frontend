@@ -1,23 +1,24 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {AuthService} from "../auth.service";
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.sass']
+  styleUrls: ['./register.component.sass'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
   genders: string[] = ['Male', 'Female', 'other'];
-
   fb = inject(FormBuilder);
+
   router = inject(Router);
   authService = inject(AuthService);
   selectedFiles!: File | null;
   isError: boolean = false;
   errorMessages: string = '';
-
+  authSubs!: Subscription;
   registerForm = this.fb.group({
     nickName: ['', [Validators.required]],
     firstName: ['', [Validators.required]],
@@ -26,72 +27,68 @@ export class RegisterComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     country: ['', [Validators.required]],
     faculty: ['', [Validators.required]],
-    gender: ['', [Validators.required]]
+    gender: ['', [Validators.required]],
+  });
 
-  })
+  ngOnInit() {}
 
-  ngOnInit() {
-
+  ngOnDestroy(): void {
+    this.authSubs.unsubscribe();
   }
 
   get nickName() {
-    return this.registerForm.get('nickName')
+    return this.registerForm.get('nickName');
   }
 
   get firstName() {
-    return this.registerForm.get('firstName')
+    return this.registerForm.get('firstName');
   }
 
   get lastName() {
-    return this.registerForm.get('lastName')
+    return this.registerForm.get('lastName');
   }
 
   get password() {
-    return this.registerForm.get('password')
+    return this.registerForm.get('password');
   }
 
   get email() {
-    return this.registerForm.get('email')
+    return this.registerForm.get('email');
   }
 
   get country() {
-    return this.registerForm.get('country')
+    return this.registerForm.get('country');
   }
 
   get faculty() {
-    return this.registerForm.get('faculty')
+    return this.registerForm.get('faculty');
   }
 
   get gender() {
-    return this.registerForm.get('gender')
+    return this.registerForm.get('gender');
   }
 
-
   onRegister() {
-
-
     if (this.selectedFiles != null) {
       const formData = new FormData();
-      formData.append("profImage", this.selectedFiles)
+      formData.append('profImage', this.selectedFiles);
     } else {
       this.selectedFiles = null;
     }
 
-    this.authService.register(this.registerForm, this.selectedFiles).subscribe({
+    this.authSubs = this.authService
+      .register(this.registerForm, this.selectedFiles)
+      .subscribe({
         next: () => {
           this.selectedFiles = null;
           this.registerForm.reset();
-          this.router.navigate(['/auth/login']);
+          this.router.navigate(['/auth/login']).then((r) => console.log(r));
         },
         error: (err) => {
           this.isError = true;
           this.errorMessages = err;
-        }
-      }
-    );
-
-
-
+        },
+      });
   }
 
   onReset() {
@@ -100,13 +97,11 @@ export class RegisterComponent implements OnInit {
 
   onFileSelected($event: Event) {
     this.selectedFiles = ($event.target as HTMLInputElement).files![0];
-    console.log(this.selectedFiles)
+    console.log(this.selectedFiles);
   }
 
   onCloseError() {
     this.isError = false;
     this.errorMessages = '';
   }
-
-
 }

@@ -38,7 +38,7 @@
       </div>
       <div class="border-radius" style="margin-top: 1rem">
         <app-profile-posts *ngFor="let postElement of posts; index as i"
-                  [postId]="i"
+                  [postId]="postElement.postId"
                   [post]="postElement"></app-profile-posts>
       </div>
     </div>

@@ -22,7 +22,7 @@
   </div>
 </div>
 
-<div style="margin: auto; padding: 1em; text-align: center">
+<div style="margin: auto; padding: 1em; text-align: center" *ngIf="pageMax != 1">
 <button (click)="addPosts()" class="show-button" *ngIf="pageMax != page" >Show More</button>
 </div>
 
