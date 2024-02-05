@@ -2,27 +2,35 @@
 <div class="desing-bar">
   <div class="border-radius">
 
-    <div class="d-flex justify-content-center" style="margin-top: 1em">
-      <button class="btn btn-primary button-switcher-l" [ngClass]="{activeButton: isShowFollowed}"
+    <div class="d-flex justify-content-center"
+         style="margin-top: 1em">
+      <button class="btn btn-primary button-switcher-l"
+              [ngClass]="{activeButton: isShowFollowed}"
               (click)="onShowFollowedPosts()">
         Followed
       </button>
 
-      <button class="btn btn-primary button-switcher-r" (click)="onShowAllPosts()"
-             [ngClass]="{activeButton: !isShowFollowed}">
+      <button class="btn btn-primary button-switcher-r"
+              (click)="onShowAllPosts()"
+              [ngClass]="{activeButton: !isShowFollowed}">
         All
       </button>
     </div>
 
     <div>
-      <app-post *ngFor="let postElement of posts$ | async; index as i" [postId]="i" [post]="postElement">
+      <app-post *ngFor="let postElement of posts$ | async; index as i"
+                [postId]="i"
+                [post]="postElement">
       </app-post>
     </div>
 
   </div>
 </div>
 
-<div style="margin: auto; padding: 1em; text-align: center" *ngIf="pageMax != 1">
-<button (click)="addPosts()" class="show-button" *ngIf="pageMax != page" >Show More</button>
+<div style="margin: auto; padding: 1em; text-align: center"
+     *ngIf="pageMax !=1 && pageMax != page">
+  <button (click)="addPosts()"
+          class="show-button">Show More
+  </button>
 </div>
 

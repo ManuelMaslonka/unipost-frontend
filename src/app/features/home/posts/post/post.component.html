@@ -1,9 +1,8 @@
 <div class="col-lg-12">
   <div class="desing-bar">
     <div class="border-radius">
-
-
       <div class="d-flex justify-content-start align-items-center flex-flow">
+
         <span *ngFor="let image of authorImage">
         <img [src]="image"
              width="42"
@@ -22,7 +21,7 @@
         <div ngbDropdown
              class="post-edit"
              *ngIf="isEditable">
-          <p ngbDropdownToggle></p>
+          <p ngbDropdownToggle>...</p>
           <ul ngbDropdownMenu>
             <li><a ngbDropdownItem
                    class="dropdown-item"
