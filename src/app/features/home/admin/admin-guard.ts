@@ -5,7 +5,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { inject } from '@angular/core';
 
@@ -20,14 +20,17 @@ export const adminGuard: CanActivateFn = (
   const authService: AuthService = inject(AuthService);
   const router: Router = inject(Router);
 
-  return authService
-    .isAdmin()
-    .then((authentication: boolean | unknown): boolean => {
-      if (authentication) {
+  return authService.isAdmin().pipe(
+    map((isAdmin: boolean): boolean => {
+      if (isAdmin) {
         return true;
-      } else {
+      } else if (authService.isAuthenticate) {
         router.navigate(['posts']).then((r) => console.log(r));
         return false;
+      } else {
+        router.navigate(['auth/login']).then((r) => console.log(r));
+        return false;
       }
-    });
+    }),
+  );
 };

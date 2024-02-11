@@ -13,6 +13,8 @@ export class CreatePostComponent implements OnInit {
   @ViewChild('postContent')
   postContent!: ElementRef;
   user!: User;
+  errorMessages: string = '';
+  error: boolean = false;
   userSub = new Subscription();
   selectedFiles!: FileList | null;
 
@@ -38,6 +40,12 @@ export class CreatePostComponent implements OnInit {
   }
 
   onUpload(content: string) {
+    if (content === '') {
+      this.error = true;
+      this.errorMessages = 'Content is required!';
+      return;
+    }
+
     if (this.selectedFiles != null) {
       const formData = new FormData();
       Array.from(this.selectedFiles).forEach((file) => {

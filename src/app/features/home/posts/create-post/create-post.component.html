@@ -3,29 +3,49 @@
     <h3>Create post!</h3>
 
     <div class="d-flex justify-content-center margin-top">
-      <textarea id="post"
-                name="post"
-                rows="7"
-                placeholder="Say what's on your mind, the UNIZA is not god knows what :>"
-                #postContent
+      <textarea
+        id="post"
+        name="post"
+        rows="7"
+        placeholder="Say what's on your mind, the UNIZA is not god knows what :>"
+        #postContent
       ></textarea>
+
 
     </div>
 
-    <div class="d-flex justify-content-end w-95">
-
-      <label class="custom-file-upload">
-        <input type="file"
-               multiple
-               (change)="onFileSelected($event)"
-        />
-        Custom Upload
-      </label>
-      <button class="btn btn-primary submit-button"
-              (click)="onUpload(postContent.value)">
-        Post
-      </button>
+    <div class="container-fluid row mt-4">
+      <div class="col">
+        <label class="custom-file-upload">
+          <input type="file"
+                 multiple
+                 (change)="onFileSelected($event)"
+          />
+          Custom Upload
+        </label>
+      </div>
+      <div class="col-auto pe-0">
+        <button class="btn btn-primary submit-button"
+                (click)="onUpload(postContent.value)">
+          Post
+        </button>
+      </div>
     </div>
 
   </div>
+  <div class="alert alert-danger"
+       *ngIf="error"
+       (click)="error = false"
+      style="cursor: pointer"
+  >
+    <div class="container row">
+      <div class="col">
+        {{ errorMessages }}
+      </div>
+      <div class="col-auto">
+        X
+      </div>
+    </div>
+  </div>
+
 </div>

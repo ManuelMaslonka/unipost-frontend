@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import {
+  BehaviorSubject,
+  catchError,
+  Observable,
+  of,
+  tap,
+  throwError,
+} from 'rxjs';
 import { User } from '../../shared/user.model';
 import { Router } from '@angular/router';
 import { Followers } from '../../shared/followers.model';
@@ -17,7 +24,7 @@ interface AuthenticationResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private baseUrl: string = 'http://localhost:8080/api/';
+  private readonly baseUrl: string = 'http://localhost:8080/api/';
 
   isAuthenticate: boolean = false;
   access_token: string = '';
@@ -36,22 +43,12 @@ export class AuthService {
     private sanitizer: DomSanitizer,
   ) {}
 
-  isAuthenticated() {
-    return new Promise((resolve, reject) => {
-      if (this.isAuthenticate) {
-        resolve(true);
-      }
-      resolve(false);
-    });
+  isAuthenticated(): Observable<boolean> {
+    return of(this.isAuthenticate);
   }
 
   isAdmin() {
-    return new Promise((resolve, reject) => {
-      if (this.isRoleAdmin) {
-        resolve(true);
-      }
-      resolve(false);
-    });
+    return of(this.isRoleAdmin);
   }
 
   logIn(email: string, password: string) {
@@ -173,9 +170,7 @@ export class AuthService {
   }
 
   getFollowingByHttp(userId: number) {
-    return this.http
-      .get<Followers[]>(this.baseUrl + 'followers/' + userId)
-      .pipe(tap((resData) => {}));
+    return this.http.get<Followers[]>(this.baseUrl + 'followers/' + userId);
   }
 
   register(registerForm: FormGroup, profImage: File | null) {
@@ -229,7 +224,7 @@ export class AuthService {
   }
 
   deleteAccount() {
-    this.http.delete(this.baseUrl + 'users/account').subscribe((resData) => {
+    this.http.delete(this.baseUrl + 'users/account').subscribe(() => {
       this.logout();
     });
   }

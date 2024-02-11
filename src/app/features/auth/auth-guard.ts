@@ -5,7 +5,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { inject } from '@angular/core';
 
@@ -20,14 +20,14 @@ export const authGuard: CanActivateFn = (
   const authService: AuthService = inject(AuthService);
   const router: Router = inject(Router);
 
-  return authService
-    .isAuthenticated()
-    .then((authentication: boolean | unknown): boolean => {
+  return authService.isAuthenticated().pipe(
+    map((authentication: boolean | unknown): boolean => {
       if (authentication) {
         return true;
       } else {
         router.navigate(['auth/login']).then((r) => console.log(r));
         return false;
       }
-    });
+    }),
+  );
 };
