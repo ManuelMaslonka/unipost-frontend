@@ -18,7 +18,7 @@
     </div>
 
     <div>
-      <app-post *ngFor="let postElement of posts$ | async; index as i"
+      <app-post *ngFor="let postElement of (posts$ | async)?.reverse(); index as i"
                 [postId]="i"
                 [post]="postElement">
       </app-post>

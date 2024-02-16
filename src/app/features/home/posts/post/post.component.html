@@ -21,7 +21,7 @@
         <div ngbDropdown
              class="post-edit"
              *ngIf="isEditable">
-          <p ngbDropdownToggle>...</p>
+          <p ngbDropdownToggle></p>
           <ul ngbDropdownMenu>
             <li><a ngbDropdownItem
                    class="dropdown-item"
@@ -39,15 +39,17 @@
 
       <div *ngFor="let url of images; index as i">
         <button style="border: unset"
-                class="ratio ratio-1x1 bg-white"
                 (click)="selectImage(url, i); open(content)"
                 *ngIf="!post.imageInfo[indexOfSelectedImage].imageType.match('application/pdf')">
           <img *ngIf="post.imageInfo[i].imageType.match('image/*')"
                [src]="url"
+               class="img-fluid"
                alt="{{url}}">
+
 
           <video *ngIf="post.imageInfo[i].imageType.match('video/*')"
                  [src]="url"
+                 class="ratio ratio-16x9"
                  controls></video>
           <h1 *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('video/*')">
             video</h1>
@@ -60,10 +62,12 @@
 
       <ng-template #content
                    let-modal>
-        <div class="modal-body ratio ratio-1x1">
+        <div class="modal-body">
           <img *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('image/*')"
                [src]="selectedImage"
-               alt="Selected Image">
+               alt="Selected Image"
+               class="img-fluid"
+          >
 
 
           <video *ngIf="post.imageInfo[indexOfSelectedImage].imageType.match('video/*')"

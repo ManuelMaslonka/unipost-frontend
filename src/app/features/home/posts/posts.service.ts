@@ -76,7 +76,6 @@ export class PostsService implements OnInit, OnDestroy {
       .get<Post[]>(this.baseUrl + 'posts')
       .subscribe((resData) => {
         this.postsList = resData;
-        console.log(this.postsList);
         this.updatePosts();
       });
   }
@@ -165,7 +164,7 @@ export class PostsService implements OnInit, OnDestroy {
       .post<boolean>(this.baseUrl + 'posts/create', formdata, {
         headers: new HttpHeaders('Content-Type: multipart/form-data'),
       })
-      .subscribe((resData) => {
+      .subscribe(() => {
         this.getPostByHttp();
       });
   }
