@@ -91,7 +91,6 @@ export class AuthService {
       user = JSON.parse(userData);
     }
     if (user._token != null) {
-      console.log('adsads');
       const loadedUser = new User(
         user.userId,
         user.nickName,
@@ -107,6 +106,7 @@ export class AuthService {
         user.imageUrl,
         user.comments,
         user.followers,
+        user.darkTheme,
         user.role,
         user._token,
         user._refreshToken,
@@ -126,7 +126,6 @@ export class AuthService {
   }
 
   saveTokenToUser(data: User) {
-    console.log(this.access_token);
     data._token = this.access_token;
     data._refreshToken = this.refresh_token;
     data._tokenExpirationTime = this.tokenExpirationTime;

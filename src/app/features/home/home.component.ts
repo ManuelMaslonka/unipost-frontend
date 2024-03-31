@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -6,10 +6,8 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.sass'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   authService: AuthService = inject(AuthService);
 
   isAuthenticate: boolean = false;
-
-  ngOnInit(): void {}
 }

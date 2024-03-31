@@ -51,10 +51,23 @@ export class CreatePostComponent implements OnInit {
       Array.from(this.selectedFiles).forEach((file) => {
         formData.append('files', file);
       });
-      this.postsService.addPost(content, formData);
+      this.postsService.addPost(content, formData).subscribe({
+        next: () => {},
+        error: (err) => {
+          this.error = true;
+          this.errorMessages = err;
+        },
+      });
     } else {
-      this.postsService.addPost(content, new FormData());
+      this.postsService.addPost(content, new FormData()).subscribe({
+        next: () => {},
+        error: (err) => {
+          this.error = true;
+          this.errorMessages = err.error.message;
+        },
+      });
     }
+    this.postsService.getPostByHttp();
     this.postContent.nativeElement.value = '';
     this.selectedFiles = null;
   }

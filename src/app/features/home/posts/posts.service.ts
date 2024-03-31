@@ -42,8 +42,7 @@ export class PostsService implements OnInit, OnDestroy {
   }
 
   addPost(content: string, formData: FormData) {
-    this.sendPostToBackend(content, formData);
-    this.getPostByHttp();
+    return this.sendPostToBackend(content, formData);
   }
 
   getPosts() {
@@ -159,14 +158,9 @@ export class PostsService implements OnInit, OnDestroy {
 
   private sendPostToBackend(content: string, formdata: FormData) {
     formdata.append('content', content);
-
-    this.httpSub = this.http
-      .post<boolean>(this.baseUrl + 'posts/create', formdata, {
-        headers: new HttpHeaders('Content-Type: multipart/form-data'),
-      })
-      .subscribe(() => {
-        this.getPostByHttp();
-      });
+    return this.http.post<boolean>(this.baseUrl + 'posts/create', formdata, {
+      headers: new HttpHeaders('Content-Type: multipart/form-data'),
+    });
   }
 
   ngOnDestroy() {

@@ -4,17 +4,17 @@
     <th scope="col">id</th>
     <th scope="col">First</th>
     <th scope="col">Last</th>
-    <th scope="col">Buttons</th>
+    <th scope="col">Action's</th>
   </tr>
   </thead>
   <tbody>
 
 
   <tr *ngFor="let user of users$ | async">
-    <td *ngIf="user.userId != loggedUser.userId" >{{user.userId}}</td>
-    <td *ngIf="user.userId != loggedUser.userId">{{user.firstName}}</td>
-    <td *ngIf="user.userId != loggedUser.userId">{{user.lastName}}</td>
-    <td *ngIf="user.userId != loggedUser.userId" >
+    <td *ngIf="user.userId != loggedUser.userId">{{ user.userId }}</td>
+    <td *ngIf="user.userId != loggedUser.userId">{{ user.firstName }}</td>
+    <td *ngIf="user.userId != loggedUser.userId">{{ user.lastName }}</td>
+    <td *ngIf="user.userId != loggedUser.userId">
       <button (click)="onDelete(user.userId)"
               class="btn btn-danger">Delete
       </button>
@@ -23,8 +23,21 @@
               class="btn btn-success">Edit
       </button>
 
-      <button (click)="onPromote(user.userId)" *ngIf="user.role == 'USER'"
+      <button (click)="onPromote(user.userId)"
+              *ngIf="user.role == 'USER'"
               class="btn btn-primary">Promote to admin
+      </button>
+      <button (click)="onBanForDay(user.userId)"
+              *ngIf="user.role == 'USER'"
+              class="btn btn-warning">Ban for a day
+      </button>
+      <button (click)="onBanForWeek(user.userId)"
+              *ngIf="user.role == 'USER'"
+              class="btn btn-warning">Ban for a week
+      </button>
+      <button (click)="onBanPermanently(user.userId)"
+              *ngIf="user.role == 'USER'"
+              class="btn btn-warning">Ban permanently
       </button>
 
     </td>
@@ -73,7 +86,8 @@
         >
         <div class="modal-footer">
           <button class="btn btn-success"
-                  type="submit" (close)="onSubmit()">Save
+                  type="submit"
+                  (close)="onSubmit()">Save
           </button>
         </div>
       </form>

@@ -18,6 +18,7 @@ export class User {
     public imageUrl: string,
     public comments: Comment[],
     public followers: Followers[],
+    public darkTheme: boolean,
     public role: String,
     public _token: string,
     public _refreshToken: string,

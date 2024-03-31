@@ -61,4 +61,16 @@ export class UserTableComponent implements OnInit {
   onSubmit() {
     this.adminService.updateUser(this.selectedUser.userId, this.editForm);
   }
+
+  onBanForDay(userId: number) {
+    this.adminService.banUserforDay(userId);
+  }
+
+  onBanForWeek(userId: number) {
+    this.adminService.banUserforWeek(userId);
+  }
+
+  onBanPermanently(userId: number) {
+    this.adminService.banUserPertamently(userId);
+  }
 }

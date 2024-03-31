@@ -99,6 +99,14 @@
         </form>
 
         <div class="form-control">
+          <label for="themeSwitch">
+            Dark Mode
+          </label>
+          <input type="checkbox" name="themeSwitch" id="themeSwitch" [checked]="isDarkMode"
+                 (click)="onSwitchTheme()">
+        </div>
+
+        <div class="form-control">
 
           <label
             class="form-label">Change Profile Picture</label>

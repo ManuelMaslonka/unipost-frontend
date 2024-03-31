@@ -1,41 +1,47 @@
 <form [formGroup]="LogInFrom"
-      (ngSubmit)="onSubmit()"
-  class="clearfix w-75"
+		(ngSubmit)="onSubmit()"
+		class="clearfix w-75"
 >
-  <label
-    for="email"
-    class="form-label">Email</label>
-  <input
-    id="email"
-    name="email"
-    type="email"
-    formControlName="email"
-    class="form-control">
-  <label
-    for="password"
-    class="form-label">Password</label>
-  <input
-    id="password"
-    name="password"
-    type="text"
-    formControlName="password"
-    class="form-control">
-
-  <button class="btn btn-success login-button mt-3"
-          type="submit">Log in
-  </button>
-  <button class="btn btn-primary register-button mt-3 float-end text-"
-          type="button"><a [routerLink]="['/auth/registration']" style="color: black; text-decoration: unset"> Register
-  </a></button>
-
-  <div class="alert alert-danger d-flex justify-content-sm-between" role="alert" *ngIf="isError" (click)="onClose()">
-        <span >
-    {{errorMessages}}
+	<label
+			for="email"
+			class="form-label">Email</label>
+	<input
+			id="email"
+			name="email"
+			type="email"
+			formControlName="email"
+			class="form-control">
+	<label
+			for="password"
+			class="form-label">Password</label>
+	<input
+			id="password"
+			name="password"
+			type="text"
+			formControlName="password"
+			class="form-control">
+	
+	<button class="btn btn-success login-button mt-3"
+			  type="submit">Log in
+	</button>
+	<a [routerLink]="['/auth/registration']"
+		style="color: black; text-decoration: unset">
+		<button class="btn btn-primary register-button mt-3 float-end text-"
+				  type="button"> Register
+		</button>
+	</a>
+	
+	<div class="alert alert-danger d-flex justify-content-sm-between"
+		  role="alert"
+		  *ngIf="isError"
+		  (click)="onClose()">
+        <span>
+    {{ errorMessages }}
     </span>
-    <span style="cursor: pointer">
+		<span style="cursor: pointer">
     X
     </span>
-  </div>
+	</div>
 </form>
 
 

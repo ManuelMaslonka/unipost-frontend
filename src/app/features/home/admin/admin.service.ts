@@ -18,6 +18,30 @@ export class AdminService implements OnDestroy {
 
   ngOnInit(): void {}
 
+  banUserforDay(userId: number) {
+    this.http
+      .put<boolean>(this.BASE_URL + 'admins/ban-day/' + userId, {})
+      .subscribe(() => {
+        this.getUsersFromBackend();
+      });
+  }
+
+  banUserforWeek(userId: number) {
+    this.http
+      .put<boolean>(this.BASE_URL + 'admins/ban-week/' + userId, {})
+      .subscribe(() => {
+        this.getUsersFromBackend();
+      });
+  }
+
+  banUserPertamently(userId: number) {
+    this.http
+      .put<boolean>(this.BASE_URL + 'admins/ban-permanent/' + userId, {})
+      .subscribe(() => {
+        this.getUsersFromBackend();
+      });
+  }
+
   getUsersFromBackend() {
     this.httpSub = this.http
       .get<User[]>(this.BASE_URL + 'admins/users')

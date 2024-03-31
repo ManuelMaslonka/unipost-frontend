@@ -5,6 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { matchPasswordValidator } from '../../../shared/matchpassword.validator';
 import { SettingsService } from './settings.service';
 import { Router } from '@angular/router';
+import { ThemeService } from '../../../theme.service';
 
 @Component({
   selector: 'app-settings',
@@ -17,6 +18,7 @@ export class SettingsComponent implements OnInit {
   user!: User;
   authService = inject(AuthService);
   settingService = inject(SettingsService);
+  themeService = inject(ThemeService);
   category: string[] = ['FEIT', 'FRI', 'FBI'];
   fb = inject(FormBuilder);
   router = inject(Router);
@@ -32,6 +34,7 @@ export class SettingsComponent implements OnInit {
   );
   private selectedFile: File | null = null;
   private isSelectedFile: boolean = false;
+  isDarkMode: boolean = false;
 
   ngOnInit(): void {
     this.authService.user.subscribe((user) => {
@@ -44,6 +47,7 @@ export class SettingsComponent implements OnInit {
         faculty: [this.user.faculty, [Validators.required]],
         oldPassword: ['', [Validators.required, Validators.minLength(8)]],
       });
+      this.isDarkMode = this.themeService.isDark.value;
     });
   }
 
@@ -73,5 +77,10 @@ export class SettingsComponent implements OnInit {
     }
     this.isSelectedFile = false;
     this.selectedFile = null;
+  }
+
+  onSwitchTheme() {
+    this.isDarkMode = !this.isDarkMode;
+    this.themeService.toggleTheme();
   }
 }

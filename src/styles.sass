@@ -1,13 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+
 .row>*
   padding: 0
 
 /* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap'
 
 .modal-content
   background-color: unset
   border: unset
   border-radius: unset
+
+$white: rgba(var(--bs-tertiary-bg-rgb))
+
+.dark-body
+  background-color: #2b3034
+
+.light-body
+  background-color: #fff
+
+
+
+@import "app/sass/variables"
+
+
+
 
